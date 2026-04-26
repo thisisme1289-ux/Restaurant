@@ -1,94 +1,1730 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Restaurant Menu</title>
+<title>Annamay Restaurant & Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #fff;
-}header { padding: 15px; background: #000; text-align: center; font-size: 20px; font-weight: bold; }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-.tabs { display: flex; overflow-x: auto; background: #1a1a1a; }
+:root{
+  --g1:#1f7a63;
+  --g2:#2bbf9b;
+  --g3:#0d5c48;
+  --cream:#faf8f4;
+  --warm:#f5f0e8;
+  --card:#ffffff;
+  --text:#1a1a1a;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --gold:#f59e0b;
+}
 
-.tab { padding: 10px 15px; cursor: pointer; white-space: nowrap; }
+html{scroll-behavior:smooth;}
 
-.tab.active { color: gold; border-bottom: 2px solid gold; }
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  overflow-x:hidden;
+}
 
-.container { padding: 10px; }
+/* ─── NAVBAR ─────────────────────── */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:999;
+  padding:0 24px;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(31,122,99,0.12);
+  transition:box-shadow 0.3s;
+}
+nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,0.1);}
 
-.item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding: 10px 0; }
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:-0.5px;
+}
 
-.item-info { max-width: 70%; }
+.nav-right{display:flex;gap:10px;align-items:center;}
 
-.item-name { font-size: 16px; font-weight: bold; }
+.btn-call{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;
+  border-radius:50px;
+  border:2px solid var(--g1);
+  background:transparent;
+  color:var(--g1);
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  cursor:pointer;
+  transition:all 0.25s;
+}
+.btn-call:hover{background:var(--g1);color:white;}
 
-.item-desc { font-size: 12px; color: #aaa; }
+.btn-cart{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 20px;
+  border-radius:50px;
+  border:none;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:white;
+  font-family:'Poppins',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+  box-shadow:0 4px 15px rgba(31,122,99,0.3);
+}
+.btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(31,122,99,0.4);}
 
-.item-price { margin-top: 5px; }
+.cart-pill{
+  background:rgba(255,255,255,0.3);
+  border-radius:50px;
+  padding:2px 8px;
+  font-size:11px;
+  font-weight:700;
+  min-width:24px;
+}
 
-.item img { width: 80px; height: 80px; border-radius: 10px; }
+/* ─── PAGE SYSTEM ─────────────────── */
+.page{display:none;}
+.page.active{display:block;}
 
-.add-btn { background: gold; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; }
+/* ─── HERO ────────────────────────── */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:#0a1a15;
+}
 
-.qty { display: flex; align-items: center; }
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(43,191,155,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(31,122,99,0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(43,191,155,0.15) 0%, transparent 40%);
+}
 
-.qty button { padding: 5px; }
+.hero-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(43,191,155,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,191,155,0.06) 1px, transparent 1px);
+  background-size:60px 60px;
+}
 
-.cart { position: fixed; bottom: 10px; right: 10px; background: gold; color: black; padding: 10px; border-radius: 10px; display: none; }
+.hero-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:120px 20px 60px;
+  max-width:800px;
+}
 
-@media(min-width:768px) { .container { max-width: 800px; margin: auto; } } </style>
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(43,191,155,0.15);
+  border:1px solid rgba(43,191,155,0.4);
+  color:var(--g2);
+  padding:8px 18px;
+  border-radius:50px;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:28px;
+  letter-spacing:0.5px;
+}
 
+.hero-badge span{
+  width:8px;height:8px;
+  background:var(--g2);
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(1.3);}
+}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(42px,8vw,90px);
+  font-weight:800;
+  line-height:1.05;
+  color:white;
+  margin-bottom:20px;
+}
+
+.hero h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--g2),#7eddc8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-sub{
+  font-size:18px;
+  color:rgba(255,255,255,0.65);
+  max-width:500px;
+  margin:0 auto 40px;
+  line-height:1.7;
+  font-weight:300;
+}
+
+.hero-cta-row{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.cta-primary{
+  padding:16px 36px;
+  border-radius:50px;
+  border:none;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:white;
+  font-family:'Poppins',sans-serif;
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 8px 30px rgba(43,191,155,0.4);
+}
+.cta-primary:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(43,191,155,0.5);}
+
+.cta-secondary{
+  padding:16px 36px;
+  border-radius:50px;
+  border:2px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.08);
+  color:white;
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+  transition:all 0.3s;
+  backdrop-filter:blur(10px);
+}
+.cta-secondary:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.5);}
+
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:48px;
+  margin-top:70px;
+  padding-top:40px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  flex-wrap:wrap;
+}
+
+.stat{text-align:center;}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:32px;
+  font-weight:800;
+  color:white;
+  line-height:1;
+}
+.stat-label{
+  font-size:12px;
+  color:rgba(255,255,255,0.5);
+  margin-top:4px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+/* ─── SECTION COMMONS ─────────────── */
+.section{padding:90px 24px;}
+
+.section-eyebrow{
+  display:inline-block;
+  color:var(--g2);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  margin-bottom:12px;
+}
+
+.section-heading{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,5vw,52px);
+  font-weight:800;
+  line-height:1.15;
+  color:var(--text);
+}
+
+.section-heading span{
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* ─── GALLERY / CAROUSEL ─────────── */
+.gallery-section{
+  background:var(--warm);
+  padding:90px 0;
+  overflow:hidden;
+}
+
+.gallery-inner{
+  max-width:1400px;
+  margin:0 auto;
+  padding:0 40px;
+}
+
+.gallery-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:48px;
+  flex-wrap:wrap;
+  gap:16px;
+}
+
+.carousel-wrap{
+  position:relative;
+}
+
+.carousel-track{
+  position:relative;
+  border-radius:24px;
+  overflow:hidden;
+  height:480px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.2);
+}
+
+@media(max-width:768px){
+  .carousel-track{height:280px;border-radius:16px;}
+}
+
+.c-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.c-slide.on{opacity:1;}
+
+.c-slide img{
+  width:100%;height:100%;
+  object-fit:cover;
+}
+
+.c-slide-caption{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:60px 40px 32px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.7));
+  color:white;
+}
+.c-slide-caption h3{
+  font-family:'Playfair Display',serif;
+  font-size:24px;
+  font-weight:700;
+}
+.c-slide-caption p{font-size:14px;opacity:0.8;margin-top:4px;}
+
+.carousel-nav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:24px;
+}
+
+.c-dot{
+  height:4px;
+  border-radius:2px;
+  background:rgba(31,122,99,0.25);
+  transition:all 0.4s;
+  cursor:pointer;
+  width:24px;
+}
+.c-dot.on{
+  background:var(--g1);
+  width:48px;
+}
+
+.carousel-arrows{
+  display:flex;gap:8px;
+  margin-left:auto;
+}
+
+.c-arrow{
+  width:44px;height:44px;
+  border-radius:50%;
+  border:2px solid var(--border);
+  background:white;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  transition:all 0.2s;
+  color:var(--g1);
+}
+.c-arrow:hover{background:var(--g1);color:white;border-color:var(--g1);}
+
+/* ─── FEATURED DISHES ─────────────── */
+.featured-section{background:var(--cream);}
+
+.featured-inner{max-width:1400px;margin:0 auto;}
+
+.dishes-scroll{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:12px 4px 24px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.dishes-scroll::-webkit-scrollbar{height:0;}
+
+.featured-card{
+  flex:0 0 260px;
+  scroll-snap-align:start;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,0.07);
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  border:1px solid rgba(0,0,0,0.05);
+}
+.featured-card:hover{
+  transform:translateY(-12px) scale(1.02);
+  box-shadow:0 20px 50px rgba(31,122,99,0.2);
+}
+
+.featured-img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  display:block;
+  background:#f0f0f0;
+  transition:transform 0.5s;
+}
+.featured-card:hover .featured-img{transform:scale(1.05);}
+
+.featured-body{
+  padding:18px 18px 20px;
+}
+
+.feat-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:linear-gradient(135deg,#fef3c7,#fde68a);
+  color:#92400e;
+  padding:3px 10px;
+  border-radius:50px;
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  margin-bottom:10px;
+}
+
+.featured-name{
+  font-family:'Playfair Display',serif;
+  font-size:17px;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.3;
+  margin-bottom:8px;
+}
+
+.featured-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.featured-price{
+  font-size:20px;
+  font-weight:800;
+  color:var(--g1);
+}
+
+.feat-arrow{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:white;
+  font-size:14px;
+  transition:transform 0.2s;
+}
+.featured-card:hover .feat-arrow{transform:translateX(3px);}
+
+/* ─── MENU PAGE ───────────────────── */
+.menu-page-wrap{
+  padding-top:68px;
+  min-height:100vh;
+  background:var(--cream);
+}
+
+.menu-hero{
+  background:linear-gradient(135deg,var(--g3) 0%,var(--g1) 50%,var(--g2) 100%);
+  padding:48px 24px 36px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.menu-hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+
+.menu-hero h2{
+  font-family:'Playfair Display',serif;
+  font-size:40px;
+  color:white;
+  font-weight:800;
+  position:relative;
+}
+
+.menu-hero p{
+  color:rgba(255,255,255,0.75);
+  margin-top:8px;
+  font-size:15px;
+  position:relative;
+}
+
+/* Category Tabs */
+.category-bar{
+  background:white;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:68px;
+  z-index:90;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+
+.category-bar-inner{
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  padding:12px 20px;
+  scroll-behavior:smooth;
+}
+.category-bar-inner::-webkit-scrollbar{height:0;}
+
+.cat-btn{
+  white-space:nowrap;
+  padding:9px 18px;
+  border-radius:50px;
+  border:1.5px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  font-family:'Poppins',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  flex-shrink:0;
+}
+.cat-btn:hover{border-color:var(--g2);color:var(--g2);}
+.cat-btn.on{
+  background:var(--g1);
+  color:white;
+  border-color:var(--g1);
+  box-shadow:0 4px 12px rgba(31,122,99,0.3);
+}
+
+/* Menu Grid */
+.menu-body{
+  max-width:1400px;
+  margin:0 auto;
+  padding:36px 20px 140px;
+}
+
+.cat-label{
+  font-family:'Playfair Display',serif;
+  font-size:24px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:24px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.cat-label::after{
+  content:'';
+  flex:1;
+  height:2px;
+  background:linear-gradient(90deg,var(--g2),transparent);
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  animation:fadeUp 0.4s ease;
+}
+
+@media(min-width:640px){.menu-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:1024px){.menu-grid{grid-template-columns:repeat(4,1fr);gap:20px;}}
+@media(min-width:1280px){.menu-grid{grid-template-columns:repeat(5,1fr);}}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.menu-card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  border:1px solid rgba(0,0,0,0.04);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;
+}
+.menu-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 16px 40px rgba(31,122,99,0.18);
+}
+.menu-card.highlighted{
+  border:2px solid var(--g2);
+  box-shadow:0 0 0 4px rgba(43,191,155,0.15);
+}
+
+.menu-card-img-wrap{
+  position:relative;
+  overflow:hidden;
+  height:150px;
+}
+
+.menu-card img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform 0.5s;
+  background:#f0f0f0;
+}
+.menu-card:hover img{transform:scale(1.08);}
+
+.add-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(31,122,99,0.85);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;
+  transition:opacity 0.25s;
+  font-weight:700;
+  color:white;
+  font-size:14px;
+  letter-spacing:0.5px;
+}
+.menu-card:hover .add-overlay{opacity:1;}
+
+.menu-card-body{padding:12px 14px 14px;}
+
+.menu-card-name{
+  font-family:'Playfair Display',serif;
+  font-size:14px;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.35;
+  margin-bottom:6px;
+}
+
+.menu-card-price{
+  font-size:16px;
+  font-weight:800;
+  color:var(--g1);
+}
+
+/* ─── MODAL ───────────────────────── */
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  z-index:800;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.overlay.on{display:flex;align-items:center;justify-content:center;}
+
+.modal{
+  background:white;
+  border-radius:24px;
+  width:90%;
+  max-width:440px;
+  overflow:hidden;
+  animation:modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 30px 80px rgba(0,0,0,0.3);
+}
+
+@keyframes modalIn{
+  from{transform:scale(0.85) translateY(30px);opacity:0;}
+  to{transform:scale(1) translateY(0);opacity:1;}
+}
+
+.modal-img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  background:#f0f0f0;
+  display:block;
+}
+
+.modal-body{padding:24px;}
+
+.modal-name{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:6px;
+}
+
+.modal-price{
+  font-size:22px;
+  font-weight:800;
+  color:var(--g1);
+  margin-bottom:24px;
+}
+
+.qty-row{
+  display:flex;
+  align-items:center;
+  gap:0;
+  background:var(--cream);
+  border-radius:14px;
+  padding:6px;
+  width:fit-content;
+  margin-bottom:20px;
+  border:1px solid var(--border);
+}
+
+.qty-btn{
+  width:40px;height:40px;
+  border:none;
+  background:white;
+  border-radius:10px;
+  color:var(--g1);
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s;
+  box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+.qty-btn:hover{background:var(--g1);color:white;}
+
+.qty-val{
+  width:52px;
+  text-align:center;
+  font-weight:700;
+  font-size:18px;
+  color:var(--text);
+}
+
+.modal-add-btn{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 100%);
+  color:white;
+  font-family:'Poppins',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 6px 20px rgba(31,122,99,0.35);
+}
+.modal-add-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(31,122,99,0.45);}
+
+/* ─── CART DRAWER ─────────────────── */
+.cart-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:700;
+  backdrop-filter:blur(4px);
+}
+.cart-backdrop.on{display:block;}
+
+.cart-drawer{
+  position:fixed;
+  top:0;right:0;bottom:0;
+  width:100%;
+  max-width:480px;
+  background:white;
+  z-index:800;
+  display:flex;
+  flex-direction:column;
+  transform:translateX(100%);
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:-10px 0 50px rgba(0,0,0,0.2);
+}
+.cart-drawer.open{transform:translateX(0);}
+
+.cart-head{
+  padding:20px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:white;
+}
+
+.cart-head h3{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+}
+
+.close-drawer{
+  width:36px;height:36px;
+  border:2px solid rgba(255,255,255,0.4);
+  background:transparent;
+  border-radius:50%;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.close-drawer:hover{background:rgba(255,255,255,0.2);}
+
+.cart-body{
+  flex:1;
+  overflow-y:auto;
+  padding:16px;
+}
+
+.cart-empty{
+  text-align:center;
+  padding:80px 20px;
+  color:var(--muted);
+}
+.cart-empty-icon{font-size:60px;margin-bottom:16px;opacity:0.4;}
+.cart-empty p{font-size:16px;font-weight:600;}
+.cart-empty small{font-size:13px;opacity:0.7;}
+
+.cart-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:14px;
+  background:var(--cream);
+  border-radius:14px;
+  margin-bottom:10px;
+  border:1px solid var(--border);
+}
+
+.cart-row-img{
+  width:60px;height:60px;
+  border-radius:10px;
+  object-fit:cover;
+  flex-shrink:0;
+  background:#f0f0f0;
+}
+
+.cart-row-info{flex:1;}
+.cart-row-name{font-weight:600;font-size:14px;color:var(--text);margin-bottom:3px;}
+.cart-row-price{font-size:13px;color:var(--muted);}
+
+.cart-row-controls{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:white;
+  border-radius:10px;
+  padding:4px;
+  border:1px solid var(--border);
+}
+
+.crc-btn{
+  width:26px;height:26px;
+  border:none;
+  background:transparent;
+  color:var(--g1);
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+  border-radius:6px;
+  transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.crc-btn:hover{background:var(--g1);color:white;}
+.crc-num{min-width:24px;text-align:center;font-weight:700;font-size:13px;}
+
+.cart-foot{
+  padding:20px 24px;
+  border-top:1px solid var(--border);
+  background:white;
+}
+
+.cart-total-row{
+  display:flex;justify-content:space-between;
+  margin-bottom:16px;
+}
+.cart-total-label{font-size:14px;color:var(--muted);font-weight:500;}
+.cart-total-val{font-size:22px;font-weight:800;color:var(--g1);}
+
+.checkout-btn{
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:white;
+  font-family:'Poppins',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 6px 20px rgba(31,122,99,0.35);
+}
+.checkout-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(31,122,99,0.45);}
+
+/* ─── CHECKOUT FORM ───────────────── */
+.checkout-view{display:none;padding:20px;}
+.checkout-view.on{display:block;}
+.checkout-title{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:20px;
+}
+.field{margin-bottom:16px;}
+.field label{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.field input,.field textarea{
+  width:100%;
+  padding:12px 14px;
+  border:2px solid var(--border);
+  border-radius:10px;
+  font-family:'Poppins',sans-serif;
+  font-size:14px;
+  color:var(--text);
+  transition:all 0.2s;
+  background:var(--cream);
+}
+.field input:focus,.field textarea:focus{
+  outline:none;
+  border-color:var(--g1);
+  background:white;
+  box-shadow:0 0 0 3px rgba(31,122,99,0.12);
+}
+.field textarea{resize:vertical;min-height:80px;}
+
+.order-btn{
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:white;
+  font-family:'Poppins',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 6px 20px rgba(31,122,99,0.35);
+  margin-bottom:10px;
+}
+.order-btn:hover{transform:translateY(-2px);}
+
+.back-btn{
+  width:100%;padding:12px;
+  border-radius:14px;
+  border:2px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  font-family:'Poppins',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.back-btn:hover{border-color:var(--g1);color:var(--g1);}
+
+/* ─── FLOATING CART ───────────────── */
+.float-cart{
+  position:fixed;
+  bottom:24px;right:24px;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:white;
+  padding:14px 22px;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 8px 30px rgba(31,122,99,0.45);
+  z-index:600;
+  display:none;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:14px;
+  transition:all 0.3s;
+  border:none;
+  font-family:'Poppins',sans-serif;
+}
+.float-cart.show{display:flex;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.float-cart:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(31,122,99,0.55);}
+
+@keyframes popIn{
+  from{transform:scale(0.6) translateY(20px);opacity:0;}
+  to{transform:scale(1) translateY(0);opacity:1;}
+}
+
+.float-icon{font-size:18px;}
+.float-badge{
+  background:rgba(255,255,255,0.25);
+  border-radius:50px;
+  padding:2px 10px;
+  font-size:12px;
+}
+
+/* ─── TOAST ───────────────────────── */
+.toast{
+  position:fixed;
+  bottom:90px;left:50%;
+  transform:translateX(-50%);
+  background:var(--g3);
+  color:white;
+  padding:12px 22px;
+  border-radius:50px;
+  font-size:14px;
+  font-weight:600;
+  z-index:900;
+  white-space:nowrap;
+  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+  animation:toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1),toastOut 0.3s 1.7s forwards;
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+@keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(10px);}}
+
+/* ─── FOOTER ──────────────────────── */
+.site-footer{
+  background:#0a1a15;
+  color:rgba(255,255,255,0.6);
+  padding:48px 24px;
+  text-align:center;
+}
+.footer-logo{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--g2),#7eddc8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:12px;
+}
+.footer-tag{font-size:14px;margin-bottom:20px;}
+.footer-info{font-size:13px;opacity:0.5;}
+
+@media(max-width:640px){
+  nav{padding:0 16px;}
+  .nav-logo{font-size:18px;}
+  .btn-call span{display:none;}
+  .hero-stats{gap:28px;}
+  .section{padding:60px 16px;}
+  .featured-card{flex:0 0 210px;}
+  .gallery-inner{padding:0 16px;}
+}
+</style>
 </head>
-<body><header>My Restaurant</header><div class="tabs">
-  <div class="tab active">South Indian</div>
-  <div class="tab">Burger</div>
-  <div class="tab">Pasta</div>
-</div><div class="container" id="menu">
-</div><div class="cart" id="cartBox">🛒 0 items</div><script>
-const menuData = [
-  {name:"Classic Masala Dosa", price:159, desc:"Crispy dosa with masala", img:"https://via.placeholder.com/80"},
-  {name:"Plain Dosa", price:139, desc:"Simple dosa", img:"https://via.placeholder.com/80"},
-  {name:"Aloo Tikki Burger", price:99, desc:"Crispy burger", img:"https://via.placeholder.com/80"}
+<body>
+
+<!-- ═══ NAVBAR ═══════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-logo">Annamay</div>
+  <div class="nav-right">
+    <button class="btn-call" onclick="openPhone()">
+      <span>Call Us</span>
+    </button>
+    <button class="btn-cart" onclick="openCart()">
+      <span class="float-icon">🛒</span>
+      <span id="navCartLabel">Cart</span>
+      <span class="cart-pill" id="navCartCount" style="display:none;">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HOME PAGE ═════════════════════════ -->
+<div class="page active" id="homePage">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span></span> Now Accepting Online Orders</div>
+      <h1>Where Every Bite<br>Tells a <em>Story</em></h1>
+      <p class="hero-sub">Fresh ingredients, authentic flavors, and a menu crafted with love — from South Indian classics to continental delights.</p>
+      <div class="hero-cta-row">
+        <button class="cta-primary" onclick="goToMenu()">Order Now</button>
+        <button class="cta-secondary" onclick="scrollToGallery()">See Our Place</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">14+</div><div class="stat-label">Categories</div></div>
+        <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Dishes</div></div>
+        <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Rated</div></div>
+        <div class="stat"><div class="stat-num">Fast</div><div class="stat-label">Delivery</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY CAROUSEL -->
+  <div class="gallery-section" id="gallerySection">
+    <div class="gallery-inner">
+      <div class="gallery-header">
+        <div>
+          <div class="section-eyebrow">Come Visit Us</div>
+          <h2 class="section-heading">Our <span>Restaurant</span></h2>
+        </div>
+      </div>
+
+      <div class="carousel-wrap">
+        <div class="carousel-track">
+          <div class="c-slide on">
+            <img src="/mnt/user-data/uploads/1000037146.png" alt="Annamay Restaurant Interior">
+            <div class="c-slide-caption">
+              <h3>Our Welcoming Space</h3>
+              <p>Modern interiors with a warm, comfortable ambiance</p>
+            </div>
+          </div>
+          <div class="c-slide">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&h=500&fit=crop&q=80" alt="Cafe Counter">
+            <div class="c-slide-caption">
+              <h3>Fresh Every Day</h3>
+              <p>Ingredients sourced daily for the best quality</p>
+            </div>
+          </div>
+          <div class="c-slide">
+            <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba53dba?w=1200&h=500&fit=crop&q=80" alt="Restaurant Seating">
+            <div class="c-slide-caption">
+              <h3>Dine in Style</h3>
+              <p>Comfortable seating for families and friends</p>
+            </div>
+          </div>
+          <div class="c-slide">
+            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=500&fit=crop&q=80" alt="Chef's Kitchen">
+            <div class="c-slide-caption">
+              <h3>Crafted with Passion</h3>
+              <p>Our chefs bring decades of culinary expertise</p>
+            </div>
+          </div>
+          <div class="c-slide">
+            <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=1200&h=500&fit=crop&q=80" alt="Food Presentation">
+            <div class="c-slide-caption">
+              <h3>Beautiful Presentation</h3>
+              <p>Every dish served with care and elegance</p>
+            </div>
+          </div>
+          <div class="c-slide">
+            <img src="https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?w=1200&h=500&fit=crop&q=80" alt="Bakery Display">
+            <div class="c-slide-caption">
+              <h3>Fresh Baked Goods</h3>
+              <p>Artisan breads and pastries baked daily</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-nav">
+          <div id="cDots"></div>
+          <div class="carousel-arrows" style="display:flex;gap:8px;margin-left:auto;">
+            <button class="c-arrow" onclick="shiftSlide(-1)">&#8592;</button>
+            <button class="c-arrow" onclick="shiftSlide(1)">&#8594;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED DISHES -->
+  <div class="featured-section section" id="featuredSection">
+    <div class="featured-inner">
+      <div style="margin-bottom:40px;">
+        <div class="section-eyebrow">Chef Recommends</div>
+        <h2 class="section-heading">Our <span>Specialities</span></h2>
+        <p style="color:var(--muted);margin-top:10px;font-size:15px;">Click any dish to go straight to it in our menu</p>
+      </div>
+      <div class="dishes-scroll" id="dishesScroll"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-logo">Annamay</div>
+    <div class="footer-tag">Restaurant & Bakery — Fresh Food, Best Taste</div>
+    <div class="footer-info">Call us to order &nbsp;|&nbsp; Fast Delivery &nbsp;|&nbsp; Open Daily</div>
+  </footer>
+</div>
+
+<!-- ═══ MENU PAGE ══════════════════════════ -->
+<div class="page" id="menuPage">
+  <div class="menu-page-wrap">
+    <div class="menu-hero">
+      <h2>Our Menu</h2>
+      <p>80+ dishes crafted with love &amp; fresh ingredients</p>
+    </div>
+
+    <div class="category-bar">
+      <div class="category-bar-inner" id="catBar"></div>
+    </div>
+
+    <div class="menu-body">
+      <div class="cat-label" id="catLabel">South Indian</div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ITEM MODAL ═════════════════════════ -->
+<div class="overlay" id="itemOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="qty-row">
+        <button class="qty-btn" onclick="adjQty(-1)">−</button>
+        <span class="qty-val" id="qtyVal">1</span>
+        <button class="qty-btn" onclick="adjQty(1)">+</button>
+      </div>
+      <button class="modal-add-btn" onclick="addToCart()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CART DRAWER ════════════════════════ -->
+<div class="cart-backdrop" id="cartBackdrop" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your Order</h3>
+    <button class="close-drawer" onclick="closeCart()">✕</button>
+  </div>
+
+  <!-- Items view -->
+  <div id="cartItemsView" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-foot">
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total Amount</span>
+        <span class="cart-total-val" id="cartTotal">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="showCheckout()">Proceed to Checkout →</button>
+    </div>
+  </div>
+
+  <!-- Checkout view -->
+  <div class="checkout-view" id="checkoutView">
+    <div class="checkout-title">Delivery Details</div>
+    <div class="field">
+      <label>Your Name</label>
+      <input type="text" id="oName" placeholder="Full name">
+    </div>
+    <div class="field">
+      <label>Phone Number</label>
+      <input type="tel" id="oPhone" placeholder="10-digit mobile number">
+    </div>
+    <div class="field">
+      <label>Delivery Address</label>
+      <textarea id="oAddress" placeholder="Full address with landmark"></textarea>
+    </div>
+    <button class="order-btn" onclick="placeOrder()">Place Order on WhatsApp</button>
+    <button class="back-btn" onclick="backToCart()">← Back to Cart</button>
+  </div>
+</div>
+
+<!-- ═══ FLOATING CART ══════════════════════ -->
+<button class="float-cart" id="floatCart" onclick="openCart()">
+  <span class="float-icon">🛒</span>
+  <span id="floatLabel">0 items</span>
+  <span class="float-badge" id="floatPrice">₹0</span>
+</button>
+
+<script>
+// ── DATA ──────────────────────────────────────────
+const MENU = {
+  'South Indian':[
+    {id:'si1',name:'Classic Masala Dosa',price:159},
+    {id:'si2',name:'Plain Dosa',price:139},
+    {id:'si3',name:'Paneer Dosa',price:189},
+    {id:'si4',name:'Onion Dosa',price:169},
+    {id:'si5',name:'Paneer Cheese Dosa',price:219},
+    {id:'si6',name:'Masala Cheese Dosa',price:209},
+    {id:'si7',name:'Idli (4 pcs) with Sambar',price:189},
+    {id:'si8',name:'Masala Idli with Sambar',price:199},
+    {id:'si9',name:'Only Sambar',price:99},
+    {id:'si10',name:'Idli (2 pcs)',price:79},
+    {id:'si11',name:'Double Roast Uthappa',price:179}
+  ],
+  'Burger':[
+    {id:'b1',name:'Aloo Tikki Burger',price:99},
+    {id:'b2',name:'Aloo Tikki Cheese Burger',price:109},
+    {id:'b3',name:'Veg Double Cheese Burger',price:129},
+    {id:'b4',name:'Grilled Paneer Burger',price:159},
+    {id:'b5',name:'Double Open Burger',price:179}
+  ],
+  'Sandwich':[
+    {id:'sa1',name:'Corn Cheese Grilled Sandwich',price:179},
+    {id:'sa2',name:'Paneer Tikka Grilled Sandwich',price:199},
+    {id:'sa3',name:'English Grilled Veg Sandwich',price:199},
+    {id:'sa4',name:'Veg Grilled Sandwich',price:189},
+    {id:'sa5',name:'Bombay Masala Grilled Sandwich',price:189},
+    {id:'sa6',name:'Grilled Mushroom Sandwich',price:189}
+  ],
+  'Sizzler':[
+    {id:'sz1',name:'Cottage Cheese Sizzler',price:359},
+    {id:'sz2',name:'Chinese Sizzler',price:359},
+    {id:'sz3',name:'Mexican Sizzler',price:359},
+    {id:'sz4',name:'Kebab Sizzler',price:379}
+  ],
+  'Platter':[
+    {id:'p1',name:'Tandoori Veg Platter (15 pcs)',price:499},
+    {id:'p2',name:'Chinese Platter',price:549}
+  ],
+  'Continental Munchies':[
+    {id:'cm1',name:'French Fries',price:129},
+    {id:'cm2',name:'Peri Peri French Fries',price:149},
+    {id:'cm3',name:'Plain Garlic Bread (4 pcs)',price:129},
+    {id:'cm4',name:'Cheese Garlic Bread (4 pcs)',price:179},
+    {id:'cm5',name:'Mexican Loaded Nachos',price:179},
+    {id:'cm6',name:'Corn Cheese Bruschetta',price:199},
+    {id:'cm7',name:'Mushroom Cheese Bruschetta',price:209},
+    {id:'cm8',name:'Corn & Bell Peppers Bruschetta',price:219},
+    {id:'cm9',name:'Mushroom & Bell Peppers Bruschetta',price:219}
+  ],
+  'Pasta':[
+    {id:'ps1',name:'Creamy Alfredo',price:249},
+    {id:'ps2',name:'Saucy Arrabiata',price:259},
+    {id:'ps3',name:'Mac & Cheese',price:259},
+    {id:'ps4',name:'Pesto Pasta',price:279},
+    {id:'ps5',name:'Pinky Penne',price:279},
+    {id:'ps6',name:'Aglio-e-Olio Linguine',price:299},
+    {id:'ps7',name:'Primavera Pasta',price:279}
+  ],
+  'Shakes':[
+    {id:'sh1',name:'Strawberry Shake',price:149},
+    {id:'sh2',name:'Vanilla Shake',price:149},
+    {id:'sh3',name:'Cold Coffee',price:149},
+    {id:'sh4',name:'Oreo Shake',price:169},
+    {id:'sh5',name:'KitKat Shake',price:169},
+    {id:'sh6',name:'Ferrero Shake',price:169},
+    {id:'sh7',name:'Brownie Shake',price:169},
+    {id:'sh8',name:'Banana Shake',price:149}
+  ],
+  'Smoothies':[
+    {id:'sm1',name:'Banana Smoothie',price:149},
+    {id:'sm2',name:'Blueberry Smoothie',price:149},
+    {id:'sm3',name:'Strawberry Smoothie',price:149},
+    {id:'sm4',name:'Kiwi Smoothie',price:149},
+    {id:'sm5',name:'Pineapple Smoothie',price:149}
+  ],
+  'Rice & Biryani':[
+    {id:'rb1',name:'Steamed Rice',price:149},
+    {id:'rb2',name:'Jeera Rice',price:159},
+    {id:'rb3',name:'Onion Jeera Rice',price:169},
+    {id:'rb4',name:'Peas Pulao',price:169},
+    {id:'rb5',name:'Corn Masala Pulao',price:179},
+    {id:'rb6',name:'Paneer Pulao',price:179},
+    {id:'rb7',name:'Navratan Pulao',price:199},
+    {id:'rb8',name:'Veg Dum Biryani',price:289},
+    {id:'rb9',name:'Hyderabadi Biryani',price:289},
+    {id:'rb10',name:'Paneer Tikka Biryani',price:299}
+  ],
+  'Hot Beverages':[
+    {id:'hb1',name:'Tea',price:49},
+    {id:'hb2',name:'Masal Tea',price:59},
+    {id:'hb3',name:'Hot Coffee',price:79},
+    {id:'hb4',name:'Black Coffee',price:69},
+    {id:'hb5',name:'Black Tea',price:49},
+    {id:'hb6',name:'Hot Chocolate Milk',price:99}
+  ],
+  'Soup':[
+    {id:'sp1',name:'Veg Manchow Soup',price:99},
+    {id:'sp2',name:'Hot & Sour Soup',price:119},
+    {id:'sp3',name:'Sweet Corn Soup',price:99},
+    {id:'sp4',name:'Lemon Coriander Soup',price:129},
+    {id:'sp5',name:'Cream of Mushroom Soup',price:149},
+    {id:'sp6',name:'Cream of Tomato Soup',price:139}
+  ],
+  'Crispy Papad':[
+    {id:'cp1',name:'Roasted Papad (4 pcs)',price:59},
+    {id:'cp2',name:'Fried Papad (4 pcs)',price:69},
+    {id:'cp3',name:'Masala Papad (3 pcs)',price:99}
+  ],
+  'Dal':[
+    {id:'d1',name:'Dal Fry',price:199},
+    {id:'d2',name:'Dal Tadka',price:209},
+    {id:'d3',name:'Dal Dhaba',price:209},
+    {id:'d4',name:'Dal Makhani',price:259}
+  ]
+};
+
+const FEATURED = [
+  {id:'si1',name:'Classic Masala Dosa',price:159,cat:'South Indian'},
+  {id:'rb8',name:'Veg Dum Biryani',price:289,cat:'Rice & Biryani'},
+  {id:'sz1',name:'Cottage Cheese Sizzler',price:359,cat:'Sizzler'},
+  {id:'ps1',name:'Creamy Alfredo',price:249,cat:'Pasta'},
+  {id:'b4',name:'Grilled Paneer Burger',price:159,cat:'Burger'},
+  {id:'sh4',name:'Oreo Shake',price:169,cat:'Shakes'}
 ];
 
-let cartCount = 0;
+const IMGS = {
+  'dosa':'https://images.unsplash.com/photo-1589080876435-b97d6b6a3fa4?w=500&h=400&fit=crop&q=80',
+  'idli':'https://images.unsplash.com/photo-1585968550019-fc9c87c0d586?w=500&h=400&fit=crop&q=80',
+  'uthappa':'https://images.unsplash.com/photo-1567695000156-c04606e3e1d3?w=500&h=400&fit=crop&q=80',
+  'sambar':'https://images.unsplash.com/photo-1567695000156-c04606e3e1d3?w=500&h=400&fit=crop&q=80',
+  'burger':'https://images.unsplash.com/photo-1568901346375-23c9450fc58e?w=500&h=400&fit=crop&q=80',
+  'sandwich':'https://images.unsplash.com/photo-1528132388455-87b90a336e4d?w=500&h=400&fit=crop&q=80',
+  'sizzler':'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=400&fit=crop&q=80',
+  'platter':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=400&fit=crop&q=80',
+  'fries':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&h=400&fit=crop&q=80',
+  'garlic bread':'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=500&h=400&fit=crop&q=80',
+  'nachos':'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=500&h=400&fit=crop&q=80',
+  'bruschetta':'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=500&h=400&fit=crop&q=80',
+  'pasta':'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500&h=400&fit=crop&q=80',
+  'alfredo':'https://images.unsplash.com/photo-1645112411341-6c4ee36b2e4d?w=500&h=400&fit=crop&q=80',
+  'linguine':'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=500&h=400&fit=crop&q=80',
+  'pesto':'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500&h=400&fit=crop&q=80',
+  'shake':'https://images.unsplash.com/photo-1571805529673-0f56b922b359?w=500&h=400&fit=crop&q=80',
+  'oreo':'https://images.unsplash.com/photo-1572490122747-3f7c2d08be83?w=500&h=400&fit=crop&q=80',
+  'coffee':'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&h=400&fit=crop&q=80',
+  'smoothie':'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=500&h=400&fit=crop&q=80',
+  'biryani':'https://images.unsplash.com/photo-1563379091339-03b21ab4a104?w=500&h=400&fit=crop&q=80',
+  'rice':'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&h=400&fit=crop&q=80',
+  'pulao':'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=500&h=400&fit=crop&q=80',
+  'tea':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&h=400&fit=crop&q=80',
+  'chocolate':'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=500&h=400&fit=crop&q=80',
+  'soup':'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&h=400&fit=crop&q=80',
+  'papad':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=400&fit=crop&q=80',
+  'dal':'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&h=400&fit=crop&q=80',
+  'makhani':'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&h=400&fit=crop&q=80'
+};
 
-function renderMenu() {
-  const menu = document.getElementById("menu");
-  menu.innerHTML = "";
+function img(name){
+  const n = name.toLowerCase();
+  for(const[k,v] of Object.entries(IMGS)) if(n.includes(k)) return v;
+  return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=400&fit=crop&q=80';
+}
 
-  menuData.forEach((item, index) => {
-    const div = document.createElement("div");
-    div.className = "item";
+// ── STATE ─────────────────────────────────────────
+let cart = JSON.parse(localStorage.getItem('annamay_v2')||'[]');
+let activeCat = 'South Indian';
+let selItem = null;
+let selQty = 1;
+let slideIdx = 0;
+const TOTAL_SLIDES = 6;
+let slideTimer;
 
-    div.innerHTML = `
-      <div class="item-info">
-        <div class="item-name">${item.name}</div>
-        <div class="item-desc">${item.desc}</div>
-        <div class="item-price">₹${item.price}</div>
-        <button class="add-btn" onclick="addItem(${index})">ADD</button>
+// ── NAV SCROLL ────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── CAROUSEL ──────────────────────────────────────
+function buildDots(){
+  const wrap = document.getElementById('cDots');
+  wrap.style.display='flex';wrap.style.gap='6px';
+  wrap.innerHTML='';
+  for(let i=0;i<TOTAL_SLIDES;i++){
+    const d=document.createElement('div');
+    d.className='c-dot'+(i===0?' on':'');
+    d.onclick=()=>goSlide(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goSlide(n){
+  document.querySelectorAll('.c-slide').forEach((s,i)=>s.classList.toggle('on',i===n));
+  document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===n));
+  slideIdx=n;
+}
+
+function shiftSlide(dir){
+  slideIdx=(slideIdx+dir+TOTAL_SLIDES)%TOTAL_SLIDES;
+  goSlide(slideIdx);
+  resetTimer();
+}
+
+function resetTimer(){
+  clearInterval(slideTimer);
+  slideTimer=setInterval(()=>shiftSlide(1),5000);
+}
+
+// ── FEATURED DISHES ───────────────────────────────
+function buildFeatured(){
+  const el=document.getElementById('dishesScroll');
+  el.innerHTML=FEATURED.map(d=>`
+    <div class="featured-card" onclick="jumpToDish('${d.id}','${d.cat}')">
+      <img src="${img(d.name)}" alt="${d.name}" class="featured-img">
+      <div class="featured-body">
+        <div class="feat-badge">★ Best Seller</div>
+        <div class="featured-name">${d.name}</div>
+        <div class="featured-bottom">
+          <div class="featured-price">₹${d.price}</div>
+          <div class="feat-arrow">→</div>
+        </div>
       </div>
-      <img src="${item.img}" />
-    `;
-
-    menu.appendChild(div);
-  });
+    </div>
+  `).join('');
 }
 
-function addItem(index) {
-  cartCount++;
-  updateCart();
+function jumpToDish(dishId, cat){
+  showPage('menuPage');
+  activeCat=cat;
+  buildCatBar();
+  buildMenuGrid();
+  setTimeout(()=>{
+    const el=document.querySelector(`[data-id="${dishId}"]`);
+    if(el){
+      el.classList.add('highlighted');
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>el.classList.remove('highlighted'),2500);
+    }
+  },200);
 }
 
-function updateCart() {
-  const cart = document.getElementById("cartBox");
-  cart.style.display = "block";
-  cart.innerText = `🛒 ${cartCount} items`;
+// ── PAGE NAVIGATION ───────────────────────────────
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
 }
 
-renderMenu();
-</script></body>
+function goToMenu(){
+  showPage('menuPage');
+  buildCatBar();
+  buildMenuGrid();
+}
+
+function scrollToGallery(){
+  document.getElementById('gallerySection').scrollIntoView({behavior:'smooth'});
+}
+
+// ── MENU ──────────────────────────────────────────
+function buildCatBar(){
+  const bar=document.getElementById('catBar');
+  bar.innerHTML=Object.keys(MENU).map(c=>`
+    <button class="cat-btn${c===activeCat?' on':''}" onclick="switchCat('${c}')">${c}</button>
+  `).join('');
+}
+
+function switchCat(c){
+  activeCat=c;
+  buildCatBar();
+  buildMenuGrid();
+  window.scrollTo({top:200,behavior:'smooth'});
+}
+
+function buildMenuGrid(){
+  document.getElementById('catLabel').textContent=activeCat;
+  const grid=document.getElementById('menuGrid');
+  grid.innerHTML=MENU[activeCat].map(item=>`
+    <div class="menu-card" data-id="${item.id}" onclick="openModal('${item.id}','${item.name}',${item.price})">
+      <div class="menu-card-img-wrap">
+        <img src="${img(item.name)}" alt="${item.name}" loading="lazy">
+        <div class="add-overlay">+ Add to Cart</div>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">${item.name}</div>
+        <div class="menu-card-price">₹${item.price}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── MODAL ──────────────────────────────────────────
+function openModal(id,name,price){
+  selItem={id,name,price};
+  selQty=1;
+  document.getElementById('modalImg').src=img(name);
+  document.getElementById('modalName').textContent=name;
+  document.getElementById('modalPrice').textContent='₹'+price;
+  document.getElementById('qtyVal').textContent='1';
+  document.getElementById('itemOverlay').classList.add('on');
+}
+
+function handleOverlayClick(e){
+  if(e.target.id==='itemOverlay') document.getElementById('itemOverlay').classList.remove('on');
+}
+
+function adjQty(d){
+  selQty=Math.max(1,selQty+d);
+  document.getElementById('qtyVal').textContent=selQty;
+}
+
+function addToCart(){
+  const ex=cart.find(c=>c.id===selItem.id);
+  if(ex) ex.qty+=selQty;
+  else cart.push({...selItem,qty:selQty});
+  save();
+  refreshCart();
+  document.getElementById('itemOverlay').classList.remove('on');
+  toast('Added to cart');
+}
+
+// ── CART ───────────────────────────────────────────
+function save(){localStorage.setItem('annamay_v2',JSON.stringify(cart));}
+
+function refreshCart(){
+  const total=cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const count=cart.reduce((s,c)=>s+c.qty,0);
+
+  // Float
+  const fc=document.getElementById('floatCart');
+  if(count>0){
+    fc.classList.add('show');
+    document.getElementById('floatLabel').textContent=count+' item'+(count>1?'s':'');
+    document.getElementById('floatPrice').textContent='₹'+total;
+  } else {
+    fc.classList.remove('show');
+  }
+
+  // Nav
+  const nc=document.getElementById('navCartCount');
+  if(count>0){
+    nc.textContent=count;nc.style.display='inline-block';
+    document.getElementById('navCartLabel').textContent='₹'+total;
+  } else {
+    nc.style.display='none';
+    document.getElementById('navCartLabel').textContent='Cart';
+  }
+
+  // Cart body
+  const body=document.getElementById('cartBody');
+  if(cart.length===0){
+    body.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty</p><small>Add items from our menu</small></div>`;
+  } else {
+    body.innerHTML=cart.map(c=>`
+      <div class="cart-row">
+        <img class="cart-row-img" src="${img(c.name)}" alt="${c.name}">
+        <div class="cart-row-info">
+          <div class="cart-row-name">${c.name}</div>
+          <div class="cart-row-price">₹${c.price} × ${c.qty} = ₹${c.price*c.qty}</div>
+        </div>
+        <div class="cart-row-controls">
+          <button class="crc-btn" onclick="chgQty('${c.id}',-1)">−</button>
+          <span class="crc-num">${c.qty}</span>
+          <button class="crc-btn" onclick="chgQty('${c.id}',1)">+</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('cartTotal').textContent='₹'+total;
+}
+
+function chgQty(id,d){
+  const c=cart.find(x=>x.id===id);
+  if(!c) return;
+  c.qty+=d;
+  if(c.qty<=0) cart=cart.filter(x=>x.id!==id);
+  save();refreshCart();
+}
+
+function openCart(){
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartBackdrop').classList.add('on');
+  document.getElementById('cartItemsView').style.display='flex';
+  document.getElementById('checkoutView').classList.remove('on');
+}
+
+function closeCart(){
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartBackdrop').classList.remove('on');
+}
+
+function showCheckout(){
+  document.getElementById('cartItemsView').style.display='none';
+  document.getElementById('checkoutView').classList.add('on');
+}
+
+function backToCart(){
+  document.getElementById('cartItemsView').style.display='flex';
+  document.getElementById('checkoutView').classList.remove('on');
+}
+
+function placeOrder(){
+  const name=document.getElementById('oName').value.trim();
+  const phone=document.getElementById('oPhone').value.trim();
+  const address=document.getElementById('oAddress').value.trim();
+  if(!name||!phone||!address){toast('Please fill all fields');return;}
+  if(phone.length<10){toast('Enter a valid phone number');return;}
+
+  const lines=cart.map(c=>`${c.name} x${c.qty} = Rs.${c.price*c.qty}`).join('%0A');
+  const total=cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const msg=`Hi Annamay Restaurant!%0A%0ANew Order:%0A%0A${lines}%0A%0ATotal: Rs.${total}%0A%0ACustomer:%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
+
+  window.open(`https://wa.me/919876543210?text=${msg}`,'_blank');
+
+  cart=[];save();refreshCart();
+  document.getElementById('oName').value='';
+  document.getElementById('oPhone').value='';
+  document.getElementById('oAddress').value='';
+  closeCart();
+  toast('Order placed successfully!');
+}
+
+// ── TOAST ──────────────────────────────────────────
+function toast(msg){
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2000);
+}
+
+// ── MISC ───────────────────────────────────────────
+function openPhone(){window.location.href='tel:+919876543210';}
+
+// ── INIT ───────────────────────────────────────────
+buildDots();
+resetTimer();
+buildFeatured();
+refreshCart();
+</script>
+</body>
 </html>
