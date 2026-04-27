@@ -5,1080 +5,670 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Annamay Restaurant & Bakery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
+
+/* ═══════════════════════════════════════════
    TOKENS
-═══════════════════════════════════════════════ */
-:root {
-  --p:       #1f7a63;
-  --p2:      #175e4c;
-  --a:       #2bbf9b;
-  --a2:      #22a886;
-  --cream:   #f5f3ee;
-  --warm:    #ede9e1;
-  --card:    #ffffff;
-  --ink:     #1a1916;
-  --muted:   #7a7570;
-  --border:  #e0dcd5;
-  --g-mesh:  radial-gradient(ellipse 80% 60% at 70% 40%, rgba(43,191,155,.13) 0%, transparent 60%),
-             radial-gradient(ellipse 60% 80% at 20% 80%, rgba(31,122,99,.10) 0%, transparent 55%);
-  --sh-sm:   0 1px 3px rgba(0,0,0,.06), 0 4px 10px rgba(0,0,0,.05);
-  --sh-md:   0 4px 16px rgba(0,0,0,.09), 0 10px 30px rgba(0,0,0,.06);
-  --sh-lg:   0 12px 40px rgba(0,0,0,.13), 0 30px 60px rgba(0,0,0,.08);
-  --sh-g:    0 6px 20px rgba(31,122,99,.28);
-  --r:       14px;
-  --nav-h:   64px;
-  --ease:    cubic-bezier(.4,0,.2,1);
-  --spring:  cubic-bezier(.34,1.56,.64,1);
+═══════════════════════════════════════════ */
+:root{
+  --p:#1f7a63; --p2:#165a48; --a:#2bbf9b;
+  --cream:#f5f3ee; --warm:#ede9e1;
+  --ink:#1a1916; --muted:#7a7570;
+  --border:#e0dcd5; --card:#fff;
+  --sh-sm:0 2px 8px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);
+  --sh-md:0 6px 20px rgba(0,0,0,.09),0 12px 36px rgba(0,0,0,.06);
+  --sh-lg:0 12px 40px rgba(0,0,0,.13),0 24px 60px rgba(0,0,0,.08);
+  --sh-g:0 8px 24px rgba(31,122,99,.3);
+  --r:14px; --nav:64px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
 }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;cursor:pointer;}
+img{display:block;max-width:100%;}
+.page{display:none;}
+.page.on{display:block;animation:pgIn .35s var(--ease);}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; -webkit-tap-highlight-color:transparent; }
-body {
-  font-family:'DM Sans',system-ui,sans-serif;
-  background:var(--cream);
-  color:var(--ink);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-button { font-family:inherit; cursor:pointer; }
-img { display:block; max-width:100%; }
-
-/* ═══════════════════════════════════════════════
-   PAGE SYSTEM
-═══════════════════════════════════════════════ */
-.page { display:none; }
-.page.on { display:block; animation:pgIn .38s var(--ease); }
-@keyframes pgIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    NAV
-═══════════════════════════════════════════════ */
-nav {
-  position:fixed; inset:0 0 auto 0;
-  height:var(--nav-h);
-  z-index:900;
-  display:flex; align-items:center; justify-content:space-between;
+═══════════════════════════════════════════ */
+nav{
+  position:fixed;inset:0 0 auto;height:var(--nav);z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
   padding:0 32px;
-  background:rgba(245,243,238,.88);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
+  background:rgba(245,243,238,.9);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
   border-bottom:1px solid rgba(224,220,213,.5);
   transition:box-shadow .3s var(--ease);
 }
-nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
-
-.nav-logo {
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px; font-weight:700; font-style:italic;
-  color:var(--p);
-  background:none; border:none;
-  letter-spacing:.3px; cursor:pointer;
-  transition:opacity .2s;
+nav.raised{box-shadow:var(--sh-md);}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;font-style:italic;
+  color:var(--p);background:none;border:none;cursor:pointer;transition:opacity .2s;
 }
-.nav-logo:hover { opacity:.72; }
+.nav-logo:hover{opacity:.72;}
+.nav-r{display:flex;align-items:center;gap:8px;}
 
-.nav-r { display:flex; align-items:center; gap:8px; }
-
-.nav-btn {
-  height:38px; padding:0 16px;
-  display:inline-flex; align-items:center; gap:7px;
-  border-radius:50px; font-size:13px; font-weight:600;
-  border:1.5px solid var(--border);
-  background:var(--card); color:var(--ink);
+.nbtn{
+  height:38px;padding:0 16px;
+  display:inline-flex;align-items:center;gap:7px;
+  border-radius:50px;font-size:13px;font-weight:600;
+  border:1.5px solid var(--border);background:var(--card);color:var(--ink);
   transition:all .22s var(--ease);
 }
-.nav-btn:hover {
-  border-color:var(--p); color:var(--p);
-  transform:translateY(-1px); box-shadow:var(--sh-sm);
-}
-.nav-btn:active { transform:scale(.96); }
+.nbtn:hover{border-color:var(--p);color:var(--p);transform:translateY(-1px);box-shadow:var(--sh-sm);}
+.nbtn:active{transform:scale(.96);}
+.nbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
 
-.nav-btn-cart {
-  background:var(--p); border-color:var(--p); color:#fff;
-  box-shadow:var(--sh-g);
-}
-.nav-btn-cart:hover {
-  background:var(--p2); border-color:var(--p2); color:#fff;
-  box-shadow:0 8px 24px rgba(31,122,99,.38);
-}
+.nbtn-cart{background:var(--p);border-color:var(--p);color:#fff;box-shadow:var(--sh-g);}
+.nbtn-cart:hover{background:var(--p2);border-color:var(--p2);color:#fff;box-shadow:0 8px 24px rgba(31,122,99,.38);}
 
-.cart-chip {
-  background:rgba(255,255,255,.22);
-  border-radius:50px; padding:1px 8px;
-  font-size:11px; font-weight:700; min-width:20px; text-align:center;
-  transition:transform .3s var(--spring);
+.chip{
+  background:rgba(255,255,255,.22);border-radius:50px;
+  padding:1px 8px;font-size:11px;font-weight:700;min-width:20px;text-align:center;
 }
-.cart-chip.pop { animation:chipPop .4s var(--spring); }
-@keyframes chipPop { 0%{transform:scale(1)} 50%{transform:scale(1.45)} 100%{transform:scale(1)} }
+.chip.pop{animation:chipPop .4s var(--spring);}
+@keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
 
-/* SVG icons shared */
-.ico { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0; }
-
-/* ═══════════════════════════════════════════════
-   HOME — HERO (split)
-═══════════════════════════════════════════════ */
-.hero {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  min-height:100vh;
-  padding-top:var(--nav-h);
+/* ═══════════════════════════════════════════
+   HOME — HERO (split layout)
+═══════════════════════════════════════════ */
+.hero{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:100vh;padding-top:var(--nav);
 }
-@media(max-width:860px){ .hero{grid-template-columns:1fr;} }
+@media(max-width:860px){.hero{grid-template-columns:1fr;}}
 
-/* Left */
-.hero-l {
-  display:flex; flex-direction:column; justify-content:center;
-  padding:64px 64px 64px 72px;
-  position:relative; overflow:hidden;
-  background:var(--cream);
+.hero-l{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:64px 64px 64px 72px;position:relative;overflow:hidden;
 }
-@media(max-width:1100px){ .hero-l{padding:48px 44px;} }
-@media(max-width:860px){ .hero-l{padding:48px 24px 36px; align-items:center; text-align:center;} }
+@media(max-width:1100px){.hero-l{padding:48px 44px;}}
+@media(max-width:860px){.hero-l{padding:48px 24px 36px;align-items:center;text-align:center;}}
 
-/* Mesh blob */
-.hero-l::before {
-  content:'';
-  position:absolute; top:-100px; left:-100px;
-  width:480px; height:480px;
-  background:radial-gradient(circle, rgba(43,191,155,.11) 0%, transparent 65%);
-  border-radius:50%; pointer-events:none;
+.hero-l::before{
+  content:'';position:absolute;top:-100px;left:-100px;
+  width:480px;height:480px;
+  background:radial-gradient(circle,rgba(43,191,155,.10) 0%,transparent 65%);
+  border-radius:50%;pointer-events:none;
 }
 
-.hero-eyebrow {
-  display:inline-flex; align-items:center; gap:8px;
-  background:rgba(43,191,155,.1);
-  border:1.5px solid rgba(43,191,155,.28);
-  color:var(--p); padding:6px 14px;
-  border-radius:50px; font-size:10px; font-weight:700;
-  text-transform:uppercase; letter-spacing:1.5px;
-  width:fit-content; margin-bottom:28px;
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(43,191,155,.1);border:1.5px solid rgba(43,191,155,.28);
+  color:var(--p);padding:6px 14px;border-radius:50px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  width:fit-content;margin-bottom:28px;
   animation:fadeUp .6s var(--ease) .1s backwards;
 }
-.blink {
-  width:7px; height:7px; background:var(--a); border-radius:50%;
-  animation:blink 2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(1.4)} }
+.blink{width:7px;height:7px;background:var(--a);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.4)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-.hero-h1 {
+.hero-h1{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(44px,5.5vw,78px);
-  font-weight:700; line-height:1.02;
-  color:var(--ink); margin-bottom:20px;
+  font-size:clamp(44px,5.5vw,74px);font-weight:700;line-height:1.06;
+  color:var(--ink);margin-bottom:20px;
   animation:fadeUp .6s var(--ease) .2s backwards;
 }
-.hero-h1 em {
+.hero-h1 em{
   font-style:italic;
-  background:linear-gradient(135deg, var(--p), var(--a));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  background:linear-gradient(135deg,var(--p),var(--a));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-
-.hero-sub {
-  font-size:16px; color:var(--muted); line-height:1.8;
-  max-width:400px; margin-bottom:40px;
+.hero-sub{
+  font-size:16px;color:var(--muted);line-height:1.8;
+  max-width:400px;margin-bottom:40px;
   animation:fadeUp .6s var(--ease) .3s backwards;
 }
-@media(max-width:860px){ .hero-sub{max-width:100%;} }
+@media(max-width:860px){.hero-sub{max-width:100%;}}
 
-.cta-row {
-  display:flex; gap:12px; flex-wrap:wrap;
-  animation:fadeUp .6s var(--ease) .4s backwards;
-}
-@media(max-width:860px){ .cta-row{justify-content:center;} }
+.ctas{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .6s var(--ease) .4s backwards;}
+@media(max-width:860px){.ctas{justify-content:center;}}
 
-.btn-p {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:13px 30px; border-radius:50px; border:none;
+.btn-p{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 30px;border-radius:50px;border:none;
   background:linear-gradient(135deg,var(--p),var(--a));
-  color:#fff; font-size:14px; font-weight:700;
+  color:#fff;font-size:14px;font-weight:700;
   box-shadow:var(--sh-g);
-  transition:transform .22s var(--spring), box-shadow .22s var(--ease), filter .2s;
+  transition:transform .22s var(--spring),box-shadow .22s var(--ease),filter .2s;
 }
-.btn-p:hover { transform:translateY(-2px) scale(1.03); box-shadow:0 12px 32px rgba(31,122,99,.42); }
-.btn-p:active { transform:scale(.97); filter:brightness(.94); }
+.btn-p:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 32px rgba(31,122,99,.42);}
+.btn-p:active{transform:scale(.97);filter:brightness(.94);}
+.btn-p svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5;}
 
-.btn-o {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:13px 26px; border-radius:50px;
-  border:1.5px solid var(--border); background:var(--card);
-  color:var(--ink); font-size:14px; font-weight:600;
-  transition:transform .22s var(--spring), border-color .2s, box-shadow .2s;
+.btn-o{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 26px;border-radius:50px;
+  border:1.5px solid var(--border);background:var(--card);
+  color:var(--ink);font-size:14px;font-weight:600;
+  transition:all .22s var(--spring);
 }
-.btn-o:hover { transform:translateY(-2px) scale(1.03); border-color:var(--p); box-shadow:var(--sh-sm); }
-.btn-o:active { transform:scale(.97); }
+.btn-o:hover{transform:translateY(-2px) scale(1.03);border-color:var(--p);box-shadow:var(--sh-sm);}
 
-.hero-stats {
-  display:flex; gap:40px; margin-top:56px;
-  padding-top:36px; border-top:1px solid var(--border);
-  flex-wrap:wrap;
+.hero-stats{
+  display:flex;gap:40px;margin-top:56px;padding-top:36px;
+  border-top:1px solid var(--border);flex-wrap:wrap;
   animation:fadeUp .6s var(--ease) .5s backwards;
 }
-@media(max-width:860px){ .hero-stats{justify-content:center; gap:28px;} }
-.stat-n { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:var(--p); }
-.stat-l { font-size:10px; color:var(--muted); margin-top:3px; text-transform:uppercase; letter-spacing:1.2px; font-weight:600; }
+@media(max-width:860px){.hero-stats{justify-content:center;gap:28px;}}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--p);}
+.stat-l{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1.2px;font-weight:600;}
 
-@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
-
-/* Right — chef image */
-.hero-r { position:relative; overflow:hidden; min-height:580px; }
-@media(max-width:860px){ .hero-r{min-height:320px; order:-1;} }
-
-.hero-r img {
-  width:100%; height:100%; object-fit:cover; object-position:center top;
-  transition:transform 10s ease;
+.hero-r{position:relative;overflow:hidden;min-height:580px;}
+@media(max-width:860px){.hero-r{min-height:320px;order:-1;}}
+.hero-r img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 10s ease;}
+.hero-r:hover img{transform:scale(1.04);}
+.hero-r::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to right,var(--cream) 0%,rgba(245,243,238,.18) 18%,transparent 40%);
 }
-.hero-r:hover img { transform:scale(1.04); }
-
-/* Left-edge cream fade */
-.hero-r::before {
-  content:''; position:absolute; inset:0; z-index:1;
-  background:linear-gradient(to right, var(--cream) 0%, rgba(245,243,238,.18) 18%, transparent 40%);
+.hero-r::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;z-index:1;
+  background:linear-gradient(to top,rgba(15,50,38,.58),transparent);
 }
-/* Bottom green cinematic overlay */
-.hero-r::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:42%; z-index:1;
-  background:linear-gradient(to top, rgba(15,50,38,.62), transparent);
-}
-
-.chef-card {
-  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
-  z-index:2; background:rgba(255,255,255,.92); backdrop-filter:blur(18px);
-  border-radius:16px; padding:12px 20px;
-  display:flex; align-items:center; gap:12px;
-  box-shadow:var(--sh-lg); white-space:nowrap;
-  border:1px solid rgba(255,255,255,.65);
+.chef-tag{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(18px);
+  border-radius:16px;padding:12px 20px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--sh-lg);white-space:nowrap;border:1px solid rgba(255,255,255,.65);
   animation:fadeUp .7s var(--ease) .65s backwards;
 }
-.chef-av {
-  width:40px; height:40px; border-radius:50%;
+.chef-av{
+  width:40px;height:40px;border-radius:50%;
   background:linear-gradient(135deg,var(--p),var(--a));
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.chef-av svg { width:18px; height:18px; stroke:#fff; fill:none; stroke-width:2; }
-.chef-nm { font-weight:700; font-size:13px; color:var(--ink); }
-.chef-rl { font-size:10px; color:var(--muted); margin-top:1px; }
+.chef-av svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;}
+.chef-nm{font-weight:700;font-size:13px;color:var(--ink);}
+.chef-rl{font-size:10px;color:var(--muted);margin-top:1px;}
 
-/* ═══════════════════════════════════════════════
-   HOME — GALLERY
-═══════════════════════════════════════════════ */
-.gallery-sec { background:var(--warm); padding:90px 0; overflow:hidden; }
-.sec-wrap { max-width:1280px; margin:0 auto; padding:0 48px; }
-@media(max-width:640px){ .sec-wrap{padding:0 20px;} }
+/* ═══════════════════════════════════════════
+   GALLERY CAROUSEL
+═══════════════════════════════════════════ */
+.gal-sec{background:var(--warm);padding:90px 0;overflow:hidden;}
+.sec-wrap{max-width:1280px;margin:0 auto;padding:0 48px;}
+@media(max-width:640px){.sec-wrap{padding:0 20px;}}
 
-.sec-kicker { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:3px; color:var(--a); margin-bottom:10px; }
-.sec-h2 {
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(30px,4vw,52px); font-weight:700;
-  color:var(--ink); margin-bottom:44px;
-}
-.sec-h2 span {
-  background:linear-gradient(135deg,var(--p),var(--a));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-}
+.kicker{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--a);margin-bottom:10px;}
+.sec-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,50px);font-weight:700;color:var(--ink);margin-bottom:44px;}
+.sec-h2 span{background:linear-gradient(135deg,var(--p),var(--a));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-.car-track { position:relative; border-radius:20px; overflow:hidden; height:460px; box-shadow:var(--sh-lg); }
-@media(max-width:768px){ .car-track{height:260px; border-radius:14px;} }
-
-.c-slide { position:absolute; inset:0; opacity:0; transition:opacity .9s var(--ease); }
-.c-slide.on { opacity:1; }
-.c-slide img { width:100%; height:100%; object-fit:cover; }
-.c-cap {
-  position:absolute; bottom:0; left:0; right:0;
+.car-track{position:relative;border-radius:20px;overflow:hidden;height:460px;box-shadow:var(--sh-lg);}
+@media(max-width:768px){.car-track{height:260px;border-radius:14px;}}
+.c-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease);}
+.c-slide.on{opacity:1;}
+.c-slide img{width:100%;height:100%;object-fit:cover;}
+.c-cap{
+  position:absolute;bottom:0;left:0;right:0;
   padding:60px 36px 28px;
-  background:linear-gradient(transparent,rgba(0,0,0,.65));
-  color:#fff;
+  background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;
 }
-.c-cap h3 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; }
-.c-cap p { font-size:13px; opacity:.72; margin-top:3px; }
+.c-cap h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;}
+.c-cap p{font-size:13px;opacity:.72;margin-top:3px;}
 
-.car-nav { display:flex; align-items:center; gap:8px; margin-top:20px; }
-.c-dot {
-  height:4px; border-radius:2px; cursor:pointer;
-  background:rgba(31,122,99,.2);
-  transition:width .4s var(--ease), background .4s;
-  width:20px;
-}
-.c-dot.on { background:var(--p); width:44px; }
-
-.c-arrows { display:flex; gap:8px; margin-left:auto; }
-.c-arrow {
-  width:42px; height:42px; border-radius:50%;
-  border:1.5px solid var(--border); background:var(--card);
-  color:var(--p); display:flex; align-items:center; justify-content:center;
+.car-nav{display:flex;align-items:center;gap:8px;margin-top:20px;}
+.c-dot{height:4px;border-radius:2px;cursor:pointer;background:rgba(31,122,99,.18);transition:width .4s var(--ease),background .4s;width:20px;}
+.c-dot.on{background:var(--p);width:44px;}
+.c-arrows{display:flex;gap:8px;margin-left:auto;}
+.c-arrow{
+  width:42px;height:42px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);
+  color:var(--p);display:flex;align-items:center;justify-content:center;
   transition:all .2s var(--ease);
 }
-.c-arrow svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; }
-.c-arrow:hover { background:var(--p); border-color:var(--p); color:#fff; transform:scale(1.06); }
-.c-arrow:active { transform:scale(.94); }
+.c-arrow svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
+.c-arrow:hover{background:var(--p);border-color:var(--p);color:#fff;transform:scale(1.06);}
+.c-arrow:active{transform:scale(.94);}
 
-/* ═══════════════════════════════════════════════
-   HOME — FEATURED
-═══════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════
-   WHEEL — SHARED
-   Architecture:
-   • .whl-stage  clips to top-half (overflow:hidden, height=R+nodeR)
-   • .whl-bg     big decorative teal circle behind dishes
-   • .whl-rotor  full circle; rotates via transform:rotate()
-   • .whl-node   placed at fixed angle positions on the rotor
-     — counter-rotated so image always stays upright
-   • Active slot is ALWAYS at 12-o'clock (top-center of rotor)
-   • .whl-card   fixed center info panel (not rotating)
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer{background:#0e1d17;color:rgba(255,255,255,.5);padding:52px 24px;text-align:center;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:700;color:var(--a);margin-bottom:10px;}
+.footer-sub{font-size:13px;margin-bottom:6px;}
+.footer-note{font-size:11px;opacity:.45;}
 
-/* ── Section wrapper ── */
-.whl-sec {
+/* ═══════════════════════════════════════════
+   ██████████████████████████████████████████
+   RADIAL WHEEL SYSTEM
+   
+   FIXED 7 SLOTS:
+   slot 0 = top center (ACTIVE) — angle: -90° (270°)
+   slot 1 = upper-right        — angle: -45° (315°)
+   slot 2 = right              — angle:   0° (360°)
+   slot 3 = lower-right        — angle:  45°  (partial)
+   slot 4 = upper-left         — angle: -135° (225°)
+   slot 5 = left               — angle: 180°
+   slot 6 = lower-left         — angle: 135°  (partial)
+   
+   Data rotates through slots.
+   Slots never move.
+   ██████████████████████████████████████████
+═══════════════════════════════════════════ */
+
+.whl-sec{
   padding:80px 0 0;
   background:linear-gradient(180deg,var(--cream) 0%,var(--warm) 70%,#fff 100%);
   overflow:hidden;
-  position:relative;
 }
-.whl-hdr { text-align:center; padding:0 24px 48px; }
+.whl-hdr{text-align:center;padding:0 24px 52px;}
 
-/* ── Stage: clips to top half only ── */
-.whl-stage {
+/* Container — clips to top half via overflow:hidden */
+.whl-container{
   position:relative;
-  overflow:hidden;       /* KEY: hides bottom half */
   margin:0 auto;
-  /* width & height set by JS per breakpoint */
+  /* width and height set by JS based on screen size */
+  overflow:hidden; /* KEY: hides bottom half of circle */
 }
 
-/* ── Decorative bg circle ── */
-.whl-bg {
+/* Big decorative background circle — same center as rotor */
+.whl-bg-ring{
   position:absolute;
   border-radius:50%;
+  /* Teal gradient like the diagram */
   background:radial-gradient(circle at 50% 50%,
-    rgba(43,191,155,.18) 0%,
-    rgba(43,191,155,.08) 45%,
-    transparent 72%);
-  /* centered at bottom-center of stage */
-  /* size & position set by JS */
+    rgba(43,191,155,.22) 0%,
+    rgba(43,191,155,.10) 40%,
+    rgba(43,191,155,.03) 65%,
+    transparent 75%
+  );
   pointer-events:none;
 }
 
-/* ── Rotor: invisible circle that spins ── */
-.whl-rotor {
+/* Rotor: the spinning element whose center is at the bottom-center of the container */
+.whl-rotor{
   position:absolute;
   border-radius:50%;
-  /* center anchored at bottom-center of stage */
-  /* size & position set by JS */
-  transition:transform .6s cubic-bezier(.4,0,.2,1);
+  /* transition drives the spin */
+  transition:transform .65s var(--ease);
+  /* size and position set by JS */
 }
 
-/* ── Dish node ── */
-.whl-node {
+/* Each dish slot node — position set by JS */
+.whl-node{
   position:absolute;
   border-radius:50%;
   cursor:pointer;
-  /* size & position set by JS */
+  /* pointer-events controlled per node */
 }
-.whl-node-img {
-  width:100%; height:100%;
-  border-radius:50%;
-  overflow:hidden;
-  border:3px solid rgba(255,255,255,.8);
-  box-shadow:0 4px 16px rgba(0,0,0,.14);
+
+/* Inner image circle */
+.whl-node-face{
+  width:100%;height:100%;
+  border-radius:50%;overflow:hidden;
+  border:3px solid rgba(255,255,255,.75);
+  box-shadow:0 4px 18px rgba(0,0,0,.15);
   background:#e8e4dc;
-  transition:border-color .4s, box-shadow .4s, transform .4s;
-  /* counter-rotation applied by JS inline */
+  transition:border-color .4s,box-shadow .4s,transform .4s;
+  /* counter-rotation applied inline by JS */
 }
-.whl-node-img img {
-  width:100%; height:100%; object-fit:cover; display:block;
+.whl-node-face img{
+  width:100%;height:100%;object-fit:cover;display:block;
   transition:transform .45s ease;
-  pointer-events:none;
 }
-/* active glow */
-.whl-node.on .whl-node-img {
+
+/* ACTIVE node — the glowing one at top center */
+.whl-node.active .whl-node-face{
   border-color:var(--a);
   box-shadow:
     0 0 0 5px rgba(43,191,155,.3),
     0 0 0 10px rgba(43,191,155,.1),
     0 8px 32px rgba(31,122,99,.5);
-  transform:scale(1.22);
+  transform:scale(1.18);
 }
-.whl-node.on .whl-node-img img { transform:scale(1.06); }
-.whl-node:not(.on) { opacity:.62; transition:opacity .3s; }
-.whl-node:not(.on):hover { opacity:1; }
-.whl-node:not(.on):hover .whl-node-img { transform:scale(1.1); }
+.whl-node.active .whl-node-face img{transform:scale(1.06);}
 
-/* label under each node */
-.whl-lbl {
-  position:absolute;
-  top:calc(100% + 8px);
-  left:50%; transform:translateX(-50%);
-  white-space:nowrap;
-  font-size:9px; font-weight:700;
-  background:rgba(255,255,255,.94);
-  color:var(--p);
-  padding:2px 8px; border-radius:50px;
-  box-shadow:var(--sh-sm);
-  opacity:0; pointer-events:none;
-  transition:opacity .2s;
-}
-.whl-node.on .whl-lbl,
-.whl-node:hover .whl-lbl { opacity:1; }
+/* Inactive nodes */
+.whl-node:not(.active){opacity:.6;transition:opacity .3s;}
+.whl-node:not(.active):hover{opacity:1;}
+.whl-node:not(.active):hover .whl-node-face{transform:scale(1.08);}
 
-/* ── Center info card (fixed, not rotating) ── */
-.whl-card {
+/* Partial nodes (edge slots 3 & 6) — clipped, less opacity */
+.whl-node.partial{opacity:.4;}
+.whl-node.partial:hover{opacity:.65;}
+
+/* Dish name label */
+.whl-node-label{
   position:absolute;
-  /* centered horizontally; vertically at bottom of stage */
-  left:50%; transform:translateX(-50%);
-  z-index:20; text-align:center;
-  /* vertical position set by JS */
+  top:calc(100% + 7px);left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-size:9px;font-weight:700;
+  background:rgba(255,255,255,.95);color:var(--p);
+  padding:2px 8px;border-radius:50px;box-shadow:var(--sh-sm);
+  opacity:0;pointer-events:none;transition:opacity .2s;
+  /* counter-rotation so label stays upright */
 }
-.whl-card-inner {
+.whl-node.active .whl-node-label{opacity:1;}
+.whl-node:not(.partial):hover .whl-node-label{opacity:1;}
+
+/* ── CENTER CARD ──
+   Fixed position inside container — NOT part of rotor.
+   Shows active dish: image thumbnail, name, price, add button.
+   Positioned at geometric center of the big circle.
+*/
+.whl-center{
+  position:absolute;
+  z-index:20;
+  /* center point set by JS — we place it at the circle center */
+  transform:translateX(-50%) translateY(-50%);
+  /* so top-left of this element is at the circle center */
+}
+
+.whl-card{
   background:rgba(255,255,255,.97);
-  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   border:1.5px solid rgba(255,255,255,.7);
-  border-radius:24px;
-  padding:16px 22px 20px;
-  box-shadow:0 16px 50px rgba(0,0,0,.13),0 3px 12px rgba(0,0,0,.07);
-  width:230px;
-  cursor:pointer;
-  transition:transform .2s var(--spring), box-shadow .2s;
+  border-radius:22px;
+  padding:16px 20px 18px;
+  box-shadow:0 16px 48px rgba(0,0,0,.14),0 3px 12px rgba(0,0,0,.07);
+  width:200px;
+  cursor:pointer;text-align:center;
+  transition:transform .22s var(--spring),box-shadow .22s;
 }
-.whl-card-inner:hover { transform:translateY(-4px); box-shadow:0 24px 64px rgba(0,0,0,.18); }
-.whl-card-inner:active { transform:scale(.97); }
+.whl-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.18);}
+.whl-card:active{transform:scale(.97);}
 
-.whl-ci { /* center image */
-  width:64px; height:64px; border-radius:50%; overflow:hidden;
+.whl-card-thumb{
+  width:60px;height:60px;border-radius:50%;overflow:hidden;
   margin:0 auto 10px;
   border:3px solid var(--a);
   box-shadow:0 0 0 4px rgba(43,191,155,.16);
 }
-.whl-ci img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
-.whl-card-inner:hover .whl-ci img { transform:scale(1.08); }
+.whl-card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.whl-card:hover .whl-card-thumb img{transform:scale(1.08);}
 
-.whl-cc  { font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:1.8px; color:var(--a); margin-bottom:3px; transition:opacity .2s,transform .25s; }
-.whl-cn  { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:700; color:var(--ink); line-height:1.25; margin-bottom:3px; transition:opacity .2s,transform .25s; }
-.whl-cp  { font-family:'DM Mono',monospace; font-size:15px; font-weight:500; color:var(--p); margin-bottom:12px; transition:opacity .2s,transform .25s; }
+.whl-card-cat{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--a);margin-bottom:4px;transition:opacity .2s,transform .22s;}
+.whl-card-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:4px;transition:opacity .2s,transform .22s;}
+.whl-card-price{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--p);margin-bottom:12px;transition:opacity .2s,transform .22s;}
 
-/* fade animation on card text swap */
-.whl-fading .whl-cc,
-.whl-fading .whl-cn,
-.whl-fading .whl-cp { opacity:0; transform:translateY(5px); }
+/* text swap fade */
+.whl-card-inner.fading .whl-card-cat,
+.whl-card-inner.fading .whl-card-name,
+.whl-card-inner.fading .whl-card-price{opacity:0;transform:translateY(5px);}
 
-.whl-cbtn {
-  display:inline-flex; align-items:center; gap:5px;
-  padding:8px 18px; border-radius:50px; border:none;
+.whl-add-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:8px 16px;border-radius:50px;border:none;
   background:linear-gradient(135deg,var(--p),var(--a));
-  color:#fff; font-size:11px; font-weight:700;
+  color:#fff;font-size:11px;font-weight:700;
   box-shadow:var(--sh-g);
-  transition:transform .2s var(--spring), box-shadow .2s;
+  transition:transform .2s var(--spring),box-shadow .2s;
 }
-.whl-cbtn:hover { transform:translateY(-2px) scale(1.05); box-shadow:0 10px 24px rgba(31,122,99,.42); }
-.whl-cbtn:active { transform:scale(.94); }
-.whl-cbtn svg { width:11px; height:11px; stroke:#fff; fill:none; stroke-width:2.5; }
+.whl-add-btn:hover{transform:translateY(-2px) scale(1.06);box-shadow:0 10px 24px rgba(31,122,99,.42);}
+.whl-add-btn:active{transform:scale(.94);}
+.whl-add-btn svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;}
 
-/* ── Arrow controls ── */
-.whl-arrows {
-  display:flex; justify-content:center; gap:14px;
-  padding:24px 0 52px;
-  position:relative; z-index:10;
+/* ── ARROW CONTROLS ── */
+.whl-arrows{
+  display:flex;justify-content:center;gap:14px;
+  padding:24px 0 52px;position:relative;z-index:10;
 }
-.whl-arr {
-  width:44px; height:44px; border-radius:50%;
-  border:1.5px solid var(--border); background:var(--card);
-  color:var(--p); display:flex; align-items:center; justify-content:center;
-  box-shadow:var(--sh-sm);
-  transition:all .2s var(--ease);
+.whl-arr{
+  width:44px;height:44px;border-radius:50%;
+  border:1.5px solid var(--border);background:var(--card);color:var(--p);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--sh-sm);transition:all .2s var(--ease);
 }
-.whl-arr svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; }
-.whl-arr:hover { background:var(--p); border-color:var(--p); color:#fff; box-shadow:var(--sh-g); transform:scale(1.1); }
-.whl-arr:active { transform:scale(.9); }
+.whl-arr svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+.whl-arr:hover{background:var(--p);border-color:var(--p);color:#fff;box-shadow:var(--sh-g);transform:scale(1.1);}
+.whl-arr:active{transform:scale(.9);}
 
-/* ── Menu page per-category wheel layout ── */
-.mcat-wheel-wrap {
-  margin-bottom:64px;
-}
-.mcat-wheel-hdr {
-  display:flex; align-items:center; gap:14px;
-  padding:0 0 20px;
-  margin:0 0 4px;
-}
-.mcat-wheel-name {
-  font-family:'Cormorant Garamond',serif;
-  font-size:28px; font-weight:700;
-  white-space:nowrap;
-}
-.mcat-wheel-line { flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
-.mcat-wheel-ct {
-  font-size:11px; color:var(--muted); font-weight:600;
-  background:var(--card); border-radius:50px;
-  padding:3px 12px; border:1px solid var(--border); white-space:nowrap;
-}
+/* ── MENU PAGE WHEEL WRAPPER ── */
+.mcat-wrap{margin-bottom:60px;}
+.mcat-hdr{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
+.mcat-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;white-space:nowrap;}
+.mcat-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+.mcat-count{font-size:11px;color:var(--muted);font-weight:600;background:var(--card);border-radius:50px;padding:3px 12px;border:1px solid var(--border);white-space:nowrap;}
 
-/* ═══════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════ */
-.site-footer { background:#0e1d17; color:rgba(255,255,255,.5); padding:52px 24px; text-align:center; }
-.footer-logo { font-family:'Cormorant Garamond',serif; font-size:28px; font-style:italic; font-weight:700; color:var(--a); margin-bottom:10px; }
-.footer-tag { font-size:13px; margin-bottom:6px; }
-.footer-note { font-size:11px; opacity:.45; }
-
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    MENU PAGE
-═══════════════════════════════════════════════ */
-.menu-pg { padding-top:var(--nav-h); min-height:100vh; background:#f0ede7; }
+═══════════════════════════════════════════ */
+.menu-pg{padding-top:var(--nav);min-height:100vh;background:#f0ede7;}
 
-/* Banner with bottom arch */
-.m-banner {
+.m-banner{
   background:linear-gradient(135deg,#0a3d2c 0%,var(--p) 55%,var(--a) 100%);
-  padding:52px 24px 112px; position:relative; overflow:hidden;
+  padding:52px 24px 110px;position:relative;overflow:hidden;
 }
-.m-banner::before {
-  content:''; position:absolute; inset:0;
+.m-banner::before{
+  content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 70% 60% at 80% 30%,rgba(43,191,155,.2) 0%,transparent 55%);
 }
-/* ARCH cut */
-.m-banner::after {
-  content:''; position:absolute;
-  bottom:-68px; left:50%; transform:translateX(-50%);
-  width:130%; height:136px;
-  background:#f0ede7;
-  border-radius:50% 50% 0 0 / 100% 100% 0 0;
+.m-banner::after{
+  content:'';position:absolute;
+  bottom:-66px;left:50%;transform:translateX(-50%);
+  width:130%;height:132px;background:#f0ede7;
+  border-radius:50% 50% 0 0/100% 100% 0 0;
 }
-.m-banner-in { position:relative; z-index:1; max-width:600px; margin:0 auto; text-align:center; }
-.m-banner h2 {
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(30px,6vw,56px); font-weight:700; color:#fff; margin-bottom:8px;
-}
-.m-banner h2 em { font-style:italic; opacity:.68; }
-.m-banner p { color:rgba(255,255,255,.62); font-size:14px; margin-bottom:28px; }
+.m-banner-in{position:relative;z-index:1;max-width:600px;margin:0 auto;text-align:center;}
+.m-banner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,52px);font-weight:700;color:#fff;margin-bottom:8px;}
+.m-banner h2 em{font-style:italic;opacity:.68;}
+.m-banner p{color:rgba(255,255,255,.62);font-size:14px;margin-bottom:28px;}
 
 /* Search */
-.s-wrap { position:relative; max-width:440px; margin:0 auto; }
-.s-input {
-  width:100%; padding:13px 18px 13px 44px;
-  border-radius:50px; border:none;
-  font-family:'DM Sans',sans-serif; font-size:14px;
-  background:rgba(255,255,255,.95); color:var(--ink);
-  box-shadow:0 8px 32px rgba(0,0,0,.22); outline:none;
-  transition:background .2s, box-shadow .2s;
+.s-wrap{position:relative;max-width:440px;margin:0 auto;}
+.s-ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;}
+.s-ico svg{width:15px;height:15px;stroke:var(--p);fill:none;stroke-width:2;}
+.s-input{
+  width:100%;padding:13px 18px 13px 44px;
+  border-radius:50px;border:none;
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  background:rgba(255,255,255,.95);color:var(--ink);
+  box-shadow:0 8px 32px rgba(0,0,0,.2);outline:none;
+  transition:background .2s,box-shadow .2s;
 }
-.s-input::placeholder { color:#a09a92; }
-.s-input:focus { background:#fff; box-shadow:0 12px 40px rgba(0,0,0,.28); }
-.s-ico { position:absolute; left:16px; top:50%; transform:translateY(-50%); pointer-events:none; }
-.s-ico svg { width:15px; height:15px; stroke:var(--p); fill:none; stroke-width:2; }
+.s-input::placeholder{color:#a09a92;}
+.s-input:focus{background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.26);}
 
-/* Layout */
-.m-layout { display:flex; max-width:1480px; margin:0 auto; padding:32px 24px 120px; gap:28px; align-items:flex-start; }
+/* layout */
+.m-layout{display:flex;max-width:1480px;margin:0 auto;padding:32px 24px 120px;gap:28px;align-items:flex-start;}
 
-/* Sidebar */
-.m-side {
-  width:210px; flex-shrink:0;
-  position:sticky; top:calc(var(--nav-h) + 16px);
-  background:var(--card); border-radius:var(--r);
-  padding:8px; box-shadow:var(--sh-sm);
-  border:1px solid rgba(0,0,0,.04); display:none;
-}
-@media(min-width:1024px){ .m-side{display:block;} }
-
-.sb-head { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--muted); padding:10px 12px 6px; }
-.sb-btn {
-  width:100%; text-align:left; padding:9px 13px;
-  border-radius:10px; border:none; background:transparent;
-  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--muted);
-  cursor:pointer; display:flex; align-items:center; justify-content:space-between;
-  position:relative; transition:all .18s var(--ease);
-}
-.sb-btn:hover { background:var(--cream); color:var(--p); }
-.sb-btn.on { background:linear-gradient(135deg,rgba(31,122,99,.09),rgba(43,191,155,.06)); color:var(--p); font-weight:600; }
-.sb-btn.on::before {
-  content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
-  width:3px; height:58%; background:linear-gradient(var(--p),var(--a)); border-radius:0 2px 2px 0;
-}
-.sb-ct { font-size:10px; font-weight:600; color:var(--muted); background:var(--cream); border-radius:50px; padding:1px 7px; }
-.sb-btn.on .sb-ct { background:rgba(31,122,99,.1); color:var(--p); }
-
-/* Right */
-.m-right { flex:1; min-width:0; }
-
-/* ── BOLD SLIDING TABS ─────────────── */
-.m-tabs {
-  position:relative; display:flex; overflow-x:auto;
-  background:var(--card); border-radius:12px;
-  padding:5px; gap:2px;
-  box-shadow:var(--sh-sm); margin-bottom:28px;
-}
-.m-tabs::-webkit-scrollbar { height:0; }
-@media(min-width:1024px){ .m-tabs{display:none;} }
-
-.tabs-slider {
-  position:absolute; top:5px; height:calc(100% - 10px);
-  background:linear-gradient(135deg,var(--p),var(--a));
-  border-radius:8px;
-  transition:left .32s var(--ease), width .32s var(--ease);
-  box-shadow:0 4px 14px rgba(31,122,99,.3);
-  pointer-events:none; z-index:0;
-}
-.tab-btn {
-  position:relative; z-index:1; flex-shrink:0;
-  padding:9px 16px; border:none; background:transparent;
-  font-family:'DM Sans',sans-serif; font-size:12px; font-weight:600;
-  color:var(--muted); cursor:pointer; border-radius:8px; white-space:nowrap;
-  transition:color .22s var(--ease);
-}
-.tab-btn:hover:not(.on) { color:var(--p); }
-.tab-btn.on { color:#fff; }
-
-/* Category header */
-.cat-hdr { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
-.cat-hdr-name { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; white-space:nowrap; }
-.cat-hdr-line { flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
-.cat-hdr-ct { font-size:11px; color:var(--muted); font-weight:600; background:var(--card); border-radius:50px; padding:3px 12px; border:1px solid var(--border); white-space:nowrap; }
-
-/* No results */
-.no-res { text-align:center; padding:64px 20px; color:var(--muted); }
-.no-res svg { width:44px; height:44px; stroke:var(--border); fill:none; stroke-width:1.5; margin:0 auto 14px; }
-.no-res p { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:6px; }
-
-.srch-lbl { font-size:13px; color:var(--muted); margin-bottom:18px; }
-.srch-lbl strong { color:var(--p); }
-
-/* ── MAGAZINE CARDS ────────────────── */
-/* Accent colors per category */
-:root {
-  --c-si:#d4622a; --c-bg:#d93d3d; --c-sw:#c98000;
-  --c-sz:#7c3aed; --c-pl:#c2185b; --c-cm:#1a7f3c;
-  --c-ps:#d4521a; --c-sh:#1a56db; --c-sm:#059669;
-  --c-rb:#b91c1c; --c-hb:#6b3a1f; --c-sp:#0369a1;
-  --c-cp:#c2410c; --c-dl:#78350f;
-}
-
-.m-grid {
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px; margin-bottom:40px;
-  animation:gridIn .38s var(--ease);
-}
-@media(min-width:560px){ .m-grid{ gap:16px; } }
-@media(min-width:768px){ .m-grid{ grid-template-columns:repeat(3,1fr); } }
-@media(min-width:1024px){ .m-grid{ grid-template-columns:repeat(3,1fr); } }
-@media(min-width:1280px){ .m-grid{ grid-template-columns:repeat(4,1fr); } }
-@keyframes gridIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-
-.mc {
-  background:var(--card); border-radius:16px; overflow:hidden;
-  cursor:pointer; position:relative;
-  box-shadow:var(--sh-sm); border:1.5px solid transparent;
-  display:flex; flex-direction:column;
-  transition:transform .3s var(--spring), box-shadow .3s var(--ease), border-color .22s;
-}
-.mc:hover { transform:translateY(-7px) scale(1.015); box-shadow:var(--sh-lg); }
-.mc:active { transform:scale(.97); }
-.mc.lit { border-color:var(--a); box-shadow:0 0 0 3px rgba(43,191,155,.15), var(--sh-md); }
-
-/* Left accent stripe */
-.mc::before {
-  content:''; position:absolute; left:0; top:0; bottom:0;
-  width:4px; background:var(--cat-c,var(--p)); z-index:2;
-  border-radius:16px 0 0 16px;
-  transition:width .22s var(--ease);
-}
-.mc:hover::before { width:5px; }
-
-/* Image */
-.mc-img { position:relative; overflow:hidden; height:156px; background:#ebe7df; }
-.mc-img img { width:100%; height:100%; object-fit:cover; transition:transform .55s var(--ease); }
-.mc:hover .mc-img img { transform:scale(1.1); }
-
-/* In-cart badge */
-.mc-badge {
-  position:absolute; top:9px; right:9px;
-  background:var(--p); color:#fff;
-  font-size:10px; font-weight:700;
-  padding:3px 9px; border-radius:50px;
-  display:none; align-items:center; gap:3px;
-  box-shadow:0 2px 8px rgba(0,0,0,.18); z-index:3;
-}
-.mc-badge.show { display:flex; animation:badgeIn .35s var(--spring); }
-@keyframes badgeIn { from{transform:scale(.4)} to{transform:scale(1)} }
-
-/* Quick add */
-.mc-qadd {
-  position:absolute; bottom:9px; right:9px;
-  width:34px; height:34px; border-radius:50%;
-  background:#fff; border:none; color:var(--p);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 4px 14px rgba(0,0,0,.18);
-  opacity:0; transform:scale(.6) translateY(6px);
-  transition:opacity .22s, transform .28s var(--spring);
-  z-index:3;
-}
-.mc-qadd svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2.5; }
-.mc:hover .mc-qadd { opacity:1; transform:scale(1) translateY(0); }
-.mc-qadd:hover { background:var(--p); color:#fff; transform:scale(1.14)!important; }
-.mc-qadd:active { transform:scale(.92)!important; }
-
-/* Body */
-.mc-body { padding:13px 15px 15px 17px; display:flex; flex-direction:column; flex:1; }
-.mc-tag { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1.3px; color:var(--cat-c,var(--p)); margin-bottom:5px; }
-.mc-name { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600; color:var(--ink); line-height:1.35; margin-bottom:12px; flex:1; }
-.mc-foot { display:flex; align-items:center; justify-content:space-between; }
-.mc-price { font-family:'DM Mono',monospace; font-size:16px; font-weight:500; color:var(--ink); }
-.mc-price sup { font-size:10px; vertical-align:super; margin-right:1px; color:var(--muted); }
-
-.mc-add {
-  width:32px; height:32px; border-radius:50%; border:none;
-  background:var(--cat-c,var(--p)); color:#fff;
-  display:flex; align-items:center; justify-content:center;
-  transition:transform .2s var(--spring), box-shadow .2s; flex-shrink:0;
-  box-shadow:0 3px 10px rgba(0,0,0,.14);
-}
-.mc-add svg { width:13px; height:13px; stroke:#fff; fill:none; stroke-width:2.5; }
-.mc-add:hover { transform:scale(1.18); box-shadow:0 6px 18px rgba(0,0,0,.2); }
-.mc-add:active { transform:scale(.88); }
-
-/* ═══════════════════════════════════════════════
-   ITEM MODAL
-═══════════════════════════════════════════════ */
-.overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(15,20,18,.6); z-index:980;
-  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-}
-.overlay.on { display:flex; align-items:center; justify-content:center; animation:fadeIn .22s var(--ease); }
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-
-.modal {
-  background:var(--card); border-radius:20px;
-  width:90%; max-width:430px; overflow:hidden;
-  box-shadow:0 30px 80px rgba(0,0,0,.3);
-  animation:modalIn .38s var(--spring);
-}
-@keyframes modalIn { from{transform:scale(.82) translateY(28px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
-
-.modal-img { width:100%; height:230px; object-fit:cover; background:#e8e4dc; display:block; }
-.modal-body { padding:22px 24px 26px; }
-.modal-cat { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1.8px; color:var(--a); margin-bottom:6px; }
-.modal-name { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:700; color:var(--ink); margin-bottom:6px; }
-.modal-price { font-family:'DM Mono',monospace; font-size:20px; font-weight:500; color:var(--p); margin-bottom:22px; }
-
-.qty-row {
-  display:inline-flex; align-items:center;
-  background:var(--cream); border-radius:12px; padding:5px;
-  margin-bottom:18px; border:1px solid var(--border);
-}
-.qty-b {
-  width:38px; height:38px; border-radius:8px; border:none;
-  background:var(--card); color:var(--p); font-size:20px; font-weight:600;
-  box-shadow:var(--sh-sm); display:flex; align-items:center; justify-content:center;
+/* sidebar */
+.m-side{width:210px;flex-shrink:0;position:sticky;top:calc(var(--nav)+16px);background:var(--card);border-radius:var(--r);padding:8px;box-shadow:var(--sh-sm);border:1px solid rgba(0,0,0,.04);display:none;}
+@media(min-width:1024px){.m-side{display:block;}}
+.sb-head{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);padding:10px 12px 6px;}
+.sb-btn{
+  width:100%;text-align:left;padding:9px 13px;border-radius:10px;border:none;background:transparent;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;position:relative;
   transition:all .18s var(--ease);
 }
-.qty-b:hover { background:var(--p); color:#fff; }
-.qty-b:active { transform:scale(.9); }
-.qty-v { width:52px; text-align:center; font-family:'DM Mono',monospace; font-size:18px; font-weight:500; color:var(--ink); }
+.sb-btn:hover{background:var(--cream);color:var(--p);}
+.sb-btn.on{background:linear-gradient(135deg,rgba(31,122,99,.09),rgba(43,191,155,.06));color:var(--p);font-weight:600;}
+.sb-btn.on::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:58%;background:linear-gradient(var(--p),var(--a));border-radius:0 2px 2px 0;}
+.sb-ct{font-size:10px;font-weight:600;color:var(--muted);background:var(--cream);border-radius:50px;padding:1px 7px;}
+.sb-btn.on .sb-ct{background:rgba(31,122,99,.1);color:var(--p);}
 
-.modal-cta {
-  width:100%; padding:14px; border-radius:12px; border:none;
-  background:linear-gradient(135deg,var(--p),var(--a));
-  color:#fff; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700;
-  box-shadow:var(--sh-g);
-  transition:transform .2s var(--spring), box-shadow .2s, filter .2s;
-}
-.modal-cta:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(31,122,99,.42); }
-.modal-cta:active { transform:scale(.97); filter:brightness(.94); }
+.m-right{flex:1;min-width:0;}
 
-/* ═══════════════════════════════════════════════
+/* BOLD SLIDING TABS */
+.m-tabs{position:relative;display:flex;overflow-x:auto;background:var(--card);border-radius:12px;padding:5px;gap:2px;box-shadow:var(--sh-sm);margin-bottom:28px;}
+.m-tabs::-webkit-scrollbar{height:0;}
+@media(min-width:1024px){.m-tabs{display:none;}}
+.tabs-pill{position:absolute;top:5px;height:calc(100% - 10px);background:linear-gradient(135deg,var(--p),var(--a));border-radius:8px;transition:left .32s var(--ease),width .32s var(--ease);box-shadow:0 4px 14px rgba(31,122,99,.3);pointer-events:none;z-index:0;}
+.tab-btn{position:relative;z-index:1;flex-shrink:0;padding:9px 16px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:8px;white-space:nowrap;transition:color .22s var(--ease);}
+.tab-btn:hover:not(.on){color:var(--p);}
+.tab-btn.on{color:#fff;}
+
+/* no results */
+.no-res{text-align:center;padding:60px 20px;color:var(--muted);}
+.no-res svg{width:44px;height:44px;stroke:var(--border);fill:none;stroke-width:1.5;margin:0 auto 14px;}
+
+/* ═══════════════════════════════════════════
+   ITEM MODAL
+═══════════════════════════════════════════ */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(15,20,18,.6);z-index:980;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.modal-ov.on{display:flex;align-items:center;justify-content:center;animation:fadeIn .22s var(--ease);}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--card);border-radius:20px;width:90%;max-width:430px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:modalIn .38s var(--spring);}
+@keyframes modalIn{from{transform:scale(.82) translateY(28px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.modal-img{width:100%;height:230px;object-fit:cover;background:#e8e4dc;display:block;}
+.modal-body{padding:22px 24px 26px;}
+.modal-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--a);margin-bottom:6px;}
+.modal-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.modal-price{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:var(--p);margin-bottom:22px;}
+.qty-row{display:inline-flex;align-items:center;background:var(--cream);border-radius:12px;padding:5px;margin-bottom:18px;border:1px solid var(--border);}
+.qty-b{width:38px;height:38px;border-radius:8px;border:none;background:var(--card);color:var(--p);font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-sm);transition:all .18s var(--ease);}
+.qty-b:hover{background:var(--p);color:#fff;}
+.qty-b:active{transform:scale(.9);}
+.qty-v{width:52px;text-align:center;font-family:'DM Mono',monospace;font-size:18px;font-weight:500;}
+.modal-cta{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;box-shadow:var(--sh-g);transition:transform .2s var(--spring),box-shadow .2s,filter .2s;}
+.modal-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(31,122,99,.42);}
+.modal-cta:active{transform:scale(.97);filter:brightness(.94);}
+
+/* ═══════════════════════════════════════════
    CART DRAWER
-═══════════════════════════════════════════════ */
-.cart-bd {
-  display:none; position:fixed; inset:0;
-  background:rgba(15,20,18,.45); z-index:860;
-  backdrop-filter:blur(4px); animation:fadeIn .22s var(--ease);
-}
-.cart-bd.on { display:block; }
+═══════════════════════════════════════════ */
+.cart-bd{display:none;position:fixed;inset:0;background:rgba(15,20,18,.45);z-index:860;backdrop-filter:blur(4px);animation:fadeIn .22s var(--ease);}
+.cart-bd.on{display:block;}
+.cart-dr{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:460px;background:var(--card);z-index:870;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-12px 0 60px rgba(0,0,0,.18);}
+.cart-dr.open{transform:translateX(0);}
+.cart-head{padding:18px 22px;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.cart-head-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;}
+.cart-x{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cart-x:hover{background:rgba(255,255,255,.18);}
+.cart-x svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5;}
+.cart-body{flex:1;overflow-y:auto;padding:14px;}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:var(--muted);text-align:center;}
+.cart-empty svg{width:52px;height:52px;stroke:var(--border);fill:none;stroke-width:1.5;margin-bottom:14px;}
+.cart-empty p{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.c-row{display:flex;gap:12px;align-items:center;padding:12px;background:var(--cream);border-radius:12px;margin-bottom:10px;border:1px solid var(--border);animation:rowIn .3s var(--spring);}
+@keyframes rowIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+.c-row-img{width:58px;height:58px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#e0dcd5;}
+.c-row-info{flex:1;min-width:0;}
+.c-row-nm{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.c-row-pr{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.c-ctrl{display:flex;align-items:center;gap:5px;background:var(--card);border-radius:8px;padding:3px;border:1px solid var(--border);flex-shrink:0;}
+.cc-b{width:26px;height:26px;border:none;background:transparent;color:var(--p);font-weight:700;font-size:16px;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.cc-b:hover{background:var(--p);color:#fff;}
+.cc-b:active{transform:scale(.88);}
+.cc-n{min-width:24px;text-align:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;}
+.cart-foot{padding:18px 20px;border-top:1px solid var(--border);background:var(--card);flex-shrink:0;}
+.cart-tot-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+.cart-tot-l{font-size:13px;color:var(--muted);}
+.cart-tot-v{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--p);}
+.cart-tot-v.bump{animation:bump .4s var(--spring);}
+@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.22)}100%{transform:scale(1)}}
+.cart-cta{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;box-shadow:var(--sh-g);transition:transform .2s var(--spring),box-shadow .2s,filter .2s;}
+.cart-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(31,122,99,.42);}
+.cart-cta:active{transform:scale(.97);filter:brightness(.94);}
 
-.cart-dr {
-  position:fixed; top:0; right:0; bottom:0;
-  width:100%; max-width:460px; background:var(--card);
-  z-index:870; display:flex; flex-direction:column;
-  transform:translateX(100%);
-  transition:transform .4s var(--ease);
-  box-shadow:-12px 0 60px rgba(0,0,0,.18);
-}
-.cart-dr.open { transform:translateX(0); }
+.co-view{display:none;padding:20px;overflow-y:auto;flex:1;}
+.co-view.on{display:block;}
+.co-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:20px;}
+.field{margin-bottom:15px;}
+.field label{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:6px;}
+.field input,.field textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--cream);transition:all .2s;}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--p);background:var(--card);box-shadow:0 0 0 3px rgba(31,122,99,.1);}
+.field textarea{resize:vertical;min-height:78px;}
+.co-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;box-shadow:var(--sh-g);margin-bottom:10px;transition:transform .2s var(--spring),box-shadow .2s,filter .2s;}
+.co-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(31,122,99,.42);}
+.co-btn:active{transform:scale(.97);filter:brightness(.94);}
+.co-back{width:100%;padding:11px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;transition:all .2s;}
+.co-back:hover{border-color:var(--p);color:var(--p);}
 
-.cart-head {
-  padding:18px 22px;
-  background:linear-gradient(135deg,var(--p),var(--a));
-  color:#fff; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;
-}
-.cart-head-t { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; }
-.cart-x {
-  width:34px; height:34px; border-radius:50%;
-  border:1.5px solid rgba(255,255,255,.35); background:transparent;
-  color:#fff; display:flex; align-items:center; justify-content:center;
-  transition:all .2s;
-}
-.cart-x:hover { background:rgba(255,255,255,.18); }
-.cart-x svg { width:15px; height:15px; stroke:#fff; fill:none; stroke-width:2.5; }
-
-.cart-body { flex:1; overflow-y:auto; padding:14px; }
-
-.cart-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 20px; color:var(--muted); text-align:center; }
-.cart-empty svg { width:52px; height:52px; stroke:var(--border); fill:none; stroke-width:1.5; margin-bottom:14px; }
-.cart-empty p { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:4px; }
-
-.c-row {
-  display:flex; gap:12px; align-items:center;
-  padding:12px; background:var(--cream); border-radius:12px;
-  margin-bottom:10px; border:1px solid var(--border);
-  animation:rowIn .3s var(--spring);
-}
-@keyframes rowIn { from{opacity:0;transform:translateX(16px)} to{opacity:1;transform:translateX(0)} }
-.c-row-img { width:58px; height:58px; border-radius:10px; object-fit:cover; flex-shrink:0; background:#e0dcd5; }
-.c-row-info { flex:1; min-width:0; }
-.c-row-nm { font-weight:600; font-size:13px; color:var(--ink); margin-bottom:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.c-row-pr { font-size:12px; color:var(--muted); font-family:'DM Mono',monospace; }
-
-.c-ctrl { display:flex; align-items:center; gap:5px; background:var(--card); border-radius:8px; padding:3px; border:1px solid var(--border); flex-shrink:0; }
-.cc-b {
-  width:26px; height:26px; border:none; background:transparent;
-  color:var(--p); font-weight:700; font-size:16px; border-radius:6px;
-  display:flex; align-items:center; justify-content:center; transition:all .15s;
-}
-.cc-b:hover { background:var(--p); color:#fff; }
-.cc-b:active { transform:scale(.88); }
-.cc-n { min-width:24px; text-align:center; font-family:'DM Mono',monospace; font-size:13px; font-weight:500; }
-
-.cart-foot { padding:18px 20px; border-top:1px solid var(--border); background:var(--card); flex-shrink:0; }
-.cart-tot-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
-.cart-tot-l { font-size:13px; color:var(--muted); }
-.cart-tot-v { font-family:'DM Mono',monospace; font-size:22px; font-weight:500; color:var(--p); transition:transform .3s var(--spring); }
-.cart-tot-v.bump { animation:bump .4s var(--spring); }
-@keyframes bump { 0%{transform:scale(1)} 50%{transform:scale(1.22)} 100%{transform:scale(1)} }
-
-.cart-cta {
-  width:100%; padding:14px; border-radius:12px; border:none;
-  background:linear-gradient(135deg,var(--p),var(--a)); color:#fff;
-  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700;
-  box-shadow:var(--sh-g);
-  transition:transform .2s var(--spring), box-shadow .2s, filter .2s;
-}
-.cart-cta:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(31,122,99,.42); }
-.cart-cta:active { transform:scale(.97); filter:brightness(.94); }
-
-/* Checkout form */
-.co-view { display:none; padding:20px; overflow-y:auto; flex:1; }
-.co-view.on { display:block; }
-.co-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:var(--ink); margin-bottom:20px; }
-
-.field { margin-bottom:15px; }
-.field label { display:block; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--muted); margin-bottom:6px; }
-.field input, .field textarea {
-  width:100%; padding:11px 14px;
-  border:1.5px solid var(--border); border-radius:10px;
-  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--ink);
-  background:var(--cream); transition:all .2s;
-}
-.field input:focus, .field textarea:focus {
-  outline:none; border-color:var(--p); background:var(--card);
-  box-shadow:0 0 0 3px rgba(31,122,99,.1);
-}
-.field textarea { resize:vertical; min-height:78px; }
-
-.co-btn {
-  width:100%; padding:14px; border-radius:12px; border:none;
-  background:linear-gradient(135deg,var(--p),var(--a)); color:#fff;
-  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700;
-  box-shadow:var(--sh-g); margin-bottom:10px;
-  transition:transform .2s var(--spring), box-shadow .2s, filter .2s;
-}
-.co-btn:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(31,122,99,.42); }
-.co-btn:active { transform:scale(.97); filter:brightness(.94); }
-
-.co-back {
-  width:100%; padding:11px; border-radius:12px;
-  border:1.5px solid var(--border); background:transparent;
-  color:var(--muted); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600;
-  transition:all .2s;
-}
-.co-back:hover { border-color:var(--p); color:var(--p); }
-
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    FLOATING CART BAR
-═══════════════════════════════════════════════ */
-.float-bar {
-  position:fixed; bottom:24px; left:50%;
-  transform:translateX(-50%) translateY(120px);
-  background:linear-gradient(135deg,var(--p),var(--a));
-  color:#fff; border-radius:50px; border:none;
-  padding:13px 26px;
-  display:flex; align-items:center; gap:14px;
-  box-shadow:0 12px 40px rgba(31,122,99,.45);
-  z-index:800; cursor:pointer; white-space:nowrap;
-  transition:transform .45s var(--spring), box-shadow .3s;
-}
-.float-bar.up { transform:translateX(-50%) translateY(0); }
-.float-bar:hover { box-shadow:0 18px 50px rgba(31,122,99,.55); }
-.float-bar:active { transform:translateX(-50%) scale(.97); }
+═══════════════════════════════════════════ */
+.fbar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:linear-gradient(135deg,var(--p),var(--a));color:#fff;border-radius:50px;border:none;padding:13px 26px;display:flex;align-items:center;gap:14px;box-shadow:0 12px 40px rgba(31,122,99,.45);z-index:800;cursor:pointer;white-space:nowrap;transition:transform .45s var(--spring),box-shadow .3s;}
+.fbar.up{transform:translateX(-50%) translateY(0);}
+.fbar:hover{box-shadow:0 18px 50px rgba(31,122,99,.55);}
+.fbar:active{transform:translateX(-50%) scale(.97);}
+.fb-l{font-size:13px;font-weight:500;}
+.fb-d{width:1px;height:18px;background:rgba(255,255,255,.3);}
+.fb-r{display:flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:14px;font-weight:500;}
+.fb-r svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;}
 
-.fb-l { font-size:13px; font-weight:500; }
-.fb-div { width:1px; height:18px; background:rgba(255,255,255,.3); }
-.fb-r { display:flex; align-items:center; gap:7px; font-family:'DM Mono',monospace; font-size:14px; font-weight:500; }
-.fb-r svg { width:15px; height:15px; stroke:#fff; fill:none; stroke-width:2; }
+/* TOAST */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:500;z-index:999;opacity:0;pointer-events:none;transition:all .35s var(--spring);white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* ═══════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════ */
-.toast {
-  position:fixed; bottom:88px; left:50%;
-  transform:translateX(-50%) translateY(16px);
-  background:var(--ink); color:#fff;
-  padding:10px 20px; border-radius:50px;
-  font-size:13px; font-weight:500;
-  z-index:999; opacity:0; pointer-events:none;
-  transition:all .35s var(--spring); white-space:nowrap;
-  box-shadow:0 8px 24px rgba(0,0,0,.32);
-}
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+/* ═══════════════════════════════════════════
+   KITCHEN
+═══════════════════════════════════════════ */
+.kitchen{display:none;min-height:100vh;background:#0c1910;padding-top:var(--nav);}
+.kitchen.on{display:block;}
+.k-head{background:linear-gradient(135deg,#092e1e,var(--p));padding:26px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.k-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;font-style:italic;}
+.k-live{display:flex;align-items:center;gap:8px;background:rgba(43,191,155,.15);border:1px solid rgba(43,191,155,.3);color:var(--a);padding:6px 14px;border-radius:50px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.k-live-dot{width:7px;height:7px;background:var(--a);border-radius:50%;animation:blink 1.5s infinite;}
+.k-body{padding:28px 24px;max-width:1400px;margin:0 auto;}
+.k-sec-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:rgba(255,255,255,.35);margin-bottom:16px;}
+.k-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin-bottom:44px;}
+.k-card{background:#162b20;border:1.5px solid #1e3d28;border-radius:16px;padding:20px;cursor:pointer;transition:all .24s var(--ease);position:relative;overflow:hidden;}
+.k-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--a);border-radius:16px 0 0 16px;}
+.k-card:hover{background:#1c3528;border-color:var(--a);transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.35);}
+.k-card-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.k-oid{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#fff;}
+.k-time{font-size:11px;color:rgba(255,255,255,.38);margin-top:3px;}
+.k-status{padding:3px 11px;border-radius:50px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.k-status.new{background:rgba(43,191,155,.15);color:var(--a);border:1px solid rgba(43,191,155,.28);}
+.k-status.done{background:rgba(255,255,255,.06);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.08);}
+.k-cust{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06);}
+.k-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--a));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
+.k-cname{font-weight:600;font-size:14px;color:#fff;}
+.k-cph{font-size:11px;color:rgba(255,255,255,.38);margin-top:1px;}
+.k-items{margin-bottom:14px;}
+.k-item{display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.65);padding:3px 0;}
+.k-item-n{flex:1;}
+.k-item-q{color:var(--a);font-weight:600;margin:0 8px;font-family:'DM Mono',monospace;}
+.k-item-p{color:rgba(255,255,255,.38);font-family:'DM Mono',monospace;}
+.k-total{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-weight:700;font-size:15px;color:#fff;}
+.k-total-a{color:var(--a);font-family:'DM Mono',monospace;}
+.k-acts{display:flex;gap:8px;margin-top:16px;}
+.k-btn-done{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;transition:all .2s var(--ease);}
+.k-btn-done:hover{transform:translateY(-2px);box-shadow:var(--sh-g);}
+.k-btn-done:active{transform:scale(.97);}
+.k-btn-done:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+.k-btn-view{padding:10px 15px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;transition:all .2s;}
+.k-btn-view:hover{border-color:rgba(255,255,255,.28);color:#fff;}
+.k-empty{text-align:center;padding:80px 20px;color:rgba(255,255,255,.28);grid-column:1/-1;}
+.k-empty svg{width:48px;height:48px;stroke:rgba(255,255,255,.1);fill:none;stroke-width:1.5;margin:0 auto 14px;}
+.k-empty p{font-size:16px;font-weight:600;color:rgba(255,255,255,.4);}
+.k-done-wrap{opacity:.5;}
+.k-det-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:995;backdrop-filter:blur(6px);}
+.k-det-ov.on{display:flex;align-items:center;justify-content:center;}
+.k-det{background:#162b20;border:1.5px solid #1e3d28;border-radius:20px;width:90%;max-width:500px;max-height:90vh;overflow-y:auto;padding:28px;animation:modalIn .35s var(--spring);box-shadow:0 30px 80px rgba(0,0,0,.55);}
+.k-det-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.k-det-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#fff;font-style:italic;}
+.k-det-x{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.55);font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.k-det-x:hover{background:rgba(255,255,255,.1);color:#fff;}
+.k-det-s{margin-bottom:18px;}
+.k-det-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.32);margin-bottom:7px;}
+.k-det-v{font-size:14px;color:rgba(255,255,255,.78);font-weight:400;line-height:1.65;}
 
-/* ═══════════════════════════════════════════════
-   KITCHEN DASHBOARD
-═══════════════════════════════════════════════ */
-.kitchen {
-  display:none; min-height:100vh;
-  background:#0c1910; padding-top:var(--nav-h);
-}
-.kitchen.on { display:block; }
-
-.k-head {
-  background:linear-gradient(135deg,#092e1e,var(--p));
-  padding:26px 32px;
-  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
-}
-.k-head-t { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:#fff; font-style:italic; }
-.k-live {
-  display:flex; align-items:center; gap:8px;
-  background:rgba(43,191,155,.15); border:1px solid rgba(43,191,155,.3);
-  color:var(--a); padding:6px 14px; border-radius:50px;
-  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px;
-}
-.k-live-dot { width:7px; height:7px; background:var(--a); border-radius:50%; animation:blink 1.5s infinite; }
-
-.k-body { padding:28px 24px; max-width:1400px; margin:0 auto; }
-.k-sec-t { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:2.5px; color:rgba(255,255,255,.35); margin-bottom:16px; }
-
-.k-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:16px; margin-bottom:44px; }
-
-.k-card {
-  background:#162b20; border:1.5px solid #1e3d28;
-  border-radius:16px; padding:20px; cursor:pointer;
-  transition:all .24s var(--ease); position:relative; overflow:hidden;
-}
-.k-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0;
-  width:4px; background:var(--a); border-radius:16px 0 0 16px;
-}
-.k-card:hover { background:#1c3528; border-color:var(--a); transform:translateY(-3px); box-shadow:0 10px 32px rgba(0,0,0,.35); }
-
-.k-card-h { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
-.k-oid { font-family:'DM Mono',monospace; font-size:13px; font-weight:500; color:#fff; }
-.k-time { font-size:11px; color:rgba(255,255,255,.38); margin-top:3px; }
-.k-status { padding:3px 11px; border-radius:50px; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
-.k-status.new { background:rgba(43,191,155,.15); color:var(--a); border:1px solid rgba(43,191,155,.28); }
-.k-status.done { background:rgba(255,255,255,.06); color:rgba(255,255,255,.3); border:1px solid rgba(255,255,255,.08); }
-
-.k-cust { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,.06); }
-.k-av {
-  width:36px; height:36px; border-radius:50%;
-  background:linear-gradient(135deg,var(--p),var(--a));
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:700; color:#fff; flex-shrink:0;
-}
-.k-cname { font-weight:600; font-size:14px; color:#fff; }
-.k-cph { font-size:11px; color:rgba(255,255,255,.38); margin-top:1px; }
-
-.k-items { margin-bottom:14px; }
-.k-item { display:flex; justify-content:space-between; font-size:13px; color:rgba(255,255,255,.65); padding:3px 0; }
-.k-item-n { flex:1; }
-.k-item-q { color:var(--a); font-weight:600; margin:0 8px; font-family:'DM Mono',monospace; }
-.k-item-p { color:rgba(255,255,255,.38); font-family:'DM Mono',monospace; }
-
-.k-total { display:flex; justify-content:space-between; padding-top:12px; border-top:1px solid rgba(255,255,255,.06); font-weight:700; font-size:15px; color:#fff; }
-.k-total-a { color:var(--a); font-family:'DM Mono',monospace; }
-
-.k-acts { display:flex; gap:8px; margin-top:16px; }
-.k-btn-done {
-  flex:1; padding:10px; border-radius:10px; border:none;
-  background:linear-gradient(135deg,var(--p),var(--a)); color:#fff;
-  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700;
-  transition:all .2s var(--ease);
-}
-.k-btn-done:hover { transform:translateY(-2px); box-shadow:var(--sh-g); }
-.k-btn-done:active { transform:scale(.97); }
-.k-btn-done:disabled { opacity:.35; cursor:not-allowed; transform:none; }
-
-.k-btn-view {
-  padding:10px 15px; border-radius:10px;
-  border:1px solid rgba(255,255,255,.1); background:transparent;
-  color:rgba(255,255,255,.5); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
-  transition:all .2s;
-}
-.k-btn-view:hover { border-color:rgba(255,255,255,.28); color:#fff; }
-
-.k-empty { text-align:center; padding:80px 20px; color:rgba(255,255,255,.28); grid-column:1/-1; }
-.k-empty svg { width:48px; height:48px; stroke:rgba(255,255,255,.1); fill:none; stroke-width:1.5; margin:0 auto 14px; }
-.k-empty p { font-size:16px; font-weight:600; color:rgba(255,255,255,.4); }
-.k-done-wrap { opacity:.5; }
-
-/* Order detail panel */
-.k-det-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:995; backdrop-filter:blur(6px); }
-.k-det-ov.on { display:flex; align-items:center; justify-content:center; }
-.k-det {
-  background:#162b20; border:1.5px solid #1e3d28;
-  border-radius:20px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto;
-  padding:28px; animation:modalIn .35s var(--spring);
-  box-shadow:0 30px 80px rgba(0,0,0,.55);
-}
-.k-det-h { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
-.k-det-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:#fff; font-style:italic; }
-.k-det-x {
-  width:32px; height:32px; border-radius:50%;
-  border:1px solid rgba(255,255,255,.15); background:transparent;
-  color:rgba(255,255,255,.55); font-size:18px;
-  display:flex; align-items:center; justify-content:center; transition:all .2s;
-}
-.k-det-x:hover { background:rgba(255,255,255,.1); color:#fff; }
-.k-det-s { margin-bottom:18px; }
-.k-det-l { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.32); margin-bottom:7px; }
-.k-det-v { font-size:14px; color:rgba(255,255,255,.78); font-weight:400; line-height:1.65; }
-
-/* Responsive */
+/* responsive */
 @media(max-width:640px){
-  nav { padding:0 16px; }
-  .nav-logo { font-size:19px; }
-  .btn-call-txt { display:none; }
-  .feat-card { flex:0 0 208px; }
-  .m-layout { padding:20px 12px 100px; }
-  .k-head { padding:18px 20px; }
+  nav{padding:0 16px;}
+  .nav-logo{font-size:19px;}
+  .whl-hdr{padding:0 16px 40px;}
+  .m-layout{padding:20px 12px 100px;}
 }
 </style>
 </head>
 <body>
 
-<!-- ══════════ NAV ══════════ -->
+<!-- NAV -->
 <nav id="nav">
   <button class="nav-logo" onclick="goHome()">Annamay</button>
   <div class="nav-r">
-    <button class="nav-btn" onclick="call()">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-      <span class="btn-call-txt">Call Us</span>
+    <button class="nbtn" onclick="call()">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      <span id="nav-call-txt">Call Us</span>
     </button>
-    <button class="nav-btn nav-btn-cart" onclick="openCart()">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+    <button class="nbtn nbtn-cart" onclick="openCart()">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
       <span id="nav-lbl">Cart</span>
-      <span class="cart-chip" id="nav-chip" style="display:none">0</span>
+      <span class="chip" id="nav-chip" style="display:none">0</span>
     </button>
   </div>
 </nav>
 
-<!-- ══════════ HOME PAGE ══════════ -->
+<!-- HOME PAGE -->
 <div class="page on" id="home">
 
   <!-- HERO -->
@@ -1087,12 +677,12 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
       <div class="hero-eyebrow"><span class="blink"></span> Now Open for Orders</div>
       <h1 class="hero-h1">Food That<br>Feels Like<br><em>Home.</em></h1>
       <p class="hero-sub">From crispy dosas to creamy pastas — every dish cooked fresh with love, ready in minutes.</p>
-      <div class="cta-row">
+      <div class="ctas">
         <button class="btn-p" onclick="goMenu()">
-          <svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
           Order Now
         </button>
-        <button class="btn-o" onclick="scrollGallery()">See Our Place</button>
+        <button class="btn-o" onclick="scrollGal()">See Our Place</button>
       </div>
       <div class="hero-stats">
         <div><div class="stat-n">14+</div><div class="stat-l">Categories</div></div>
@@ -1102,24 +692,21 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
       </div>
     </div>
     <div class="hero-r">
-      <img src="images/chef.jpg" alt="Annamay Head Chef">
-      <div class="chef-card">
+      <img src="images/chef.jpg" alt="Our Chef">
+      <div class="chef-tag">
         <div class="chef-av"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div>
-          <div class="chef-nm">Head Chef</div>
-          <div class="chef-rl">Annamay Restaurant & Bakery</div>
-        </div>
+        <div><div class="chef-nm">Head Chef</div><div class="chef-rl">Annamay Restaurant & Bakery</div></div>
       </div>
     </div>
   </div>
 
   <!-- GALLERY -->
-  <section class="gallery-sec" id="gallerySec">
+  <section class="gal-sec" id="galSec">
     <div class="sec-wrap">
-      <div class="sec-kicker">Come Visit Us</div>
+      <div class="kicker">Come Visit Us</div>
       <h2 class="sec-h2">Our <span>Restaurant</span></h2>
       <div class="car-track">
-        <div class="c-slide on"><img src="images/restaurant-1.jpg" alt="Our Restaurant Interior"><div class="c-cap"><h3>Our Welcoming Space</h3><p>Modern interiors, warm atmosphere</p></div></div>
+        <div class="c-slide on"><img src="images/restaurant-1.jpg" alt="Interior"><div class="c-cap"><h3>Our Welcoming Space</h3><p>Modern interiors, warm atmosphere</p></div></div>
         <div class="c-slide"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&h=480&fit=crop&q=80" alt="Counter"><div class="c-cap"><h3>Fresh Every Day</h3><p>Ingredients sourced daily for best quality</p></div></div>
         <div class="c-slide"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba53dba?w=1200&h=480&fit=crop&q=80" alt="Seating"><div class="c-cap"><h3>Dine in Comfort</h3><p>Perfect for families, friends, celebrations</p></div></div>
         <div class="c-slide"><img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=480&fit=crop&q=80" alt="Kitchen"><div class="c-cap"><h3>Crafted with Passion</h3><p>Decades of culinary expertise in every plate</p></div></div>
@@ -1137,29 +724,29 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
   </section>
 
   <!-- WHEEL SPECIALITIES -->
-  <section class="whl-sec" id="wheelSec">
+  <section class="whl-sec" id="whlSec">
     <div class="whl-hdr">
-      <div class="sec-kicker">Chef Recommends</div>
+      <div class="kicker">Chef Recommends</div>
       <h2 class="sec-h2">Our <span>Specialities</span></h2>
-      <p style="color:var(--muted);font-size:14px;margin-top:6px">Drag or tap arrows &mdash; active dish always at top center</p>
+      <p style="color:var(--muted);font-size:14px;margin-top:6px">Tap arrows or drag to rotate &mdash; click the active dish or center card to add</p>
     </div>
-    <div id="whl-feat"></div>
+    <div id="feat-whl-host"></div>
   </section>
 
-  <footer class="site-footer">
+  <footer class="footer">
     <div class="footer-logo">Annamay</div>
-    <div class="footer-tag">Restaurant & Bakery — Fresh Food, Best Taste</div>
+    <div class="footer-sub">Restaurant & Bakery — Fresh Food, Best Taste</div>
     <div class="footer-note">Open Daily &nbsp;·&nbsp; Fast Delivery &nbsp;·&nbsp; Call to Order</div>
   </footer>
 </div>
 
-<!-- ══════════ MENU PAGE ══════════ -->
+<!-- MENU PAGE -->
 <div class="page" id="menuPg">
   <div class="menu-pg">
     <div class="m-banner">
       <div class="m-banner-in">
         <h2>Our <em>Full</em> Menu</h2>
-        <p>80+ dishes made fresh daily — South Indian, Burgers, Pasta, Biryani and more</p>
+        <p>80+ dishes made fresh daily</p>
         <div class="s-wrap">
           <span class="s-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           <input class="s-input" id="sInput" type="text" placeholder="Search any dish..." oninput="doSearch(this.value)">
@@ -1169,17 +756,17 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
     <div class="m-layout">
       <div class="m-side" id="mSide"></div>
       <div class="m-right">
-        <div class="m-tabs" id="mTabs"><div class="tabs-slider" id="tSlider"></div></div>
+        <div class="m-tabs" id="mTabs"><div class="tabs-pill" id="tPill"></div></div>
         <div id="mContent"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════ KITCHEN ══════════ -->
-<div class="kitchen page" id="kitchenPg">
+<!-- KITCHEN PAGE -->
+<div class="page kitchen" id="kitchenPg">
   <div class="k-head">
-    <div class="k-head-t">Kitchen Monitor</div>
+    <div class="k-title">Kitchen Monitor</div>
     <div class="k-live"><span class="k-live-dot"></span> Live Orders</div>
   </div>
   <div class="k-body">
@@ -1190,13 +777,13 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
   </div>
 </div>
 
-<!-- Order detail -->
+<!-- Order detail panel -->
 <div class="k-det-ov" id="kDetOv" onclick="closeKDet(event)">
   <div class="k-det" onclick="event.stopPropagation()" id="kDetPanel"></div>
 </div>
 
 <!-- Item modal -->
-<div class="overlay" id="itemOv" onclick="closeModal(event)">
+<div class="modal-ov" id="itemOv" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <img class="modal-img" id="mImg" src="" alt="">
     <div class="modal-body">
@@ -1232,7 +819,7 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
   </div>
   <div class="co-view" id="coView">
     <div class="co-title">Delivery Details</div>
-    <div class="field"><label>Your Name</label><input type="text" id="oName" placeholder="Full name"></div>
+    <div class="field"><label>Name</label><input type="text" id="oName" placeholder="Full name"></div>
     <div class="field"><label>Phone</label><input type="tel" id="oPhone" placeholder="10-digit mobile number"></div>
     <div class="field"><label>Delivery Address</label><textarea id="oAddr" placeholder="Full address with landmark"></textarea></div>
     <button class="co-btn" onclick="placeOrder()">Place Order via WhatsApp</button>
@@ -1240,10 +827,10 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
   </div>
 </div>
 
-<!-- Floating bar -->
-<button class="float-bar" id="fBar" onclick="openCart()">
+<!-- Floating cart bar -->
+<button class="fbar" id="fbar" onclick="openCart()">
   <div class="fb-l"><span id="fbCount">0 items</span></div>
-  <div class="fb-div"></div>
+  <div class="fb-d"></div>
   <div class="fb-r">
     <span id="fbPrice">₹0</span>
     <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
@@ -1253,8 +840,10 @@ nav.raised { box-shadow:0 2px 20px rgba(0,0,0,.08); }
 <div class="toast" id="toast"></div>
 
 <script>
-/* ─── DATA ───────────────────────────────────── */
-const MENU = {
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
+const MENU={
   'South Indian':[
     {id:'si1',name:'Classic Masala Dosa',price:159},
     {id:'si2',name:'Plain Dosa',price:139},
@@ -1389,441 +978,531 @@ const CAT_COLORS={
 };
 
 const IMGS={
-  'dosa':'https://images.unsplash.com/photo-1589080876435-b97d6b6a3fa4?w=500&h=400&fit=crop&q=80',
-  'idli':'https://images.unsplash.com/photo-1585968550019-fc9c87c0d586?w=500&h=400&fit=crop&q=80',
-  'uthappa':'https://images.unsplash.com/photo-1567695000156-c04606e3e1d3?w=500&h=400&fit=crop&q=80',
-  'burger':'https://images.unsplash.com/photo-1568901346375-23c9450fc58e?w=500&h=400&fit=crop&q=80',
-  'sandwich':'https://images.unsplash.com/photo-1528132388455-87b90a336e4d?w=500&h=400&fit=crop&q=80',
-  'sizzler':'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=400&fit=crop&q=80',
-  'platter':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=400&fit=crop&q=80',
-  'fries':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&h=400&fit=crop&q=80',
-  'garlic bread':'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=500&h=400&fit=crop&q=80',
-  'nachos':'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=500&h=400&fit=crop&q=80',
-  'bruschetta':'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=500&h=400&fit=crop&q=80',
-  'pasta':'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500&h=400&fit=crop&q=80',
-  'alfredo':'https://images.unsplash.com/photo-1645112411341-6c4ee36b2e4d?w=500&h=400&fit=crop&q=80',
-  'shake':'https://images.unsplash.com/photo-1571805529673-0f56b922b359?w=500&h=400&fit=crop&q=80',
-  'smoothie':'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=500&h=400&fit=crop&q=80',
-  'coffee':'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&h=400&fit=crop&q=80',
-  'tea':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&h=400&fit=crop&q=80',
-  'chocolate':'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=500&h=400&fit=crop&q=80',
-  'biryani':'https://images.unsplash.com/photo-1563379091339-03b21ab4a104?w=500&h=400&fit=crop&q=80',
-  'rice':'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&h=400&fit=crop&q=80',
-  'pulao':'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=500&h=400&fit=crop&q=80',
-  'soup':'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&h=400&fit=crop&q=80',
-  'dal':'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&h=400&fit=crop&q=80',
-  'papad':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=400&fit=crop&q=80'
+  'dosa':'https://images.unsplash.com/photo-1589080876435-b97d6b6a3fa4?w=400&h=400&fit=crop&q=80',
+  'idli':'https://images.unsplash.com/photo-1585968550019-fc9c87c0d586?w=400&h=400&fit=crop&q=80',
+  'uthappa':'https://images.unsplash.com/photo-1567695000156-c04606e3e1d3?w=400&h=400&fit=crop&q=80',
+  'burger':'https://images.unsplash.com/photo-1568901346375-23c9450fc58e?w=400&h=400&fit=crop&q=80',
+  'sandwich':'https://images.unsplash.com/photo-1528132388455-87b90a336e4d?w=400&h=400&fit=crop&q=80',
+  'sizzler':'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&q=80',
+  'platter':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop&q=80',
+  'fries':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=400&fit=crop&q=80',
+  'garlic bread':'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=400&h=400&fit=crop&q=80',
+  'nachos':'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=400&h=400&fit=crop&q=80',
+  'bruschetta':'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=400&fit=crop&q=80',
+  'pasta':'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=400&fit=crop&q=80',
+  'alfredo':'https://images.unsplash.com/photo-1645112411341-6c4ee36b2e4d?w=400&h=400&fit=crop&q=80',
+  'shake':'https://images.unsplash.com/photo-1571805529673-0f56b922b359?w=400&h=400&fit=crop&q=80',
+  'smoothie':'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop&q=80',
+  'coffee':'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop&q=80',
+  'tea':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=400&fit=crop&q=80',
+  'chocolate':'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&h=400&fit=crop&q=80',
+  'biryani':'https://images.unsplash.com/photo-1563379091339-03b21ab4a104?w=400&h=400&fit=crop&q=80',
+  'rice':'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=400&fit=crop&q=80',
+  'pulao':'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&h=400&fit=crop&q=80',
+  'soup':'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop&q=80',
+  'dal':'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop&q=80',
+  'papad':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop&q=80'
 };
-
-function getImg(name){
-  const n=name.toLowerCase();
-  for(const[k,v] of Object.entries(IMGS)) if(n.includes(k)) return v;
-  return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=400&fit=crop&q=80';
+function getImg(n){
+  const l=n.toLowerCase();
+  for(const[k,v] of Object.entries(IMGS)) if(l.includes(k)) return v;
+  return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&q=80';
 }
 
-/* ─── STATE ──────────────────────────────────── */
-let cart=JSON.parse(localStorage.getItem('annamay4')||'[]');
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let cart=JSON.parse(localStorage.getItem('annamay5')||'[]');
 let activeCat='South Indian', selItem=null, selQty=1, searchMode=false;
 let slideIdx=0; const SLIDES=6; let slideTimer;
 let orders=JSON.parse(localStorage.getItem('annamay_orders')||'[]');
 
-/* ─── SCROLL RAISE ───────────────────────────── */
-window.addEventListener('scroll',()=>
-  document.getElementById('nav').classList.toggle('raised',scrollY>20),{passive:true});
+/* ═══════════════════════════════════════
+   ██████████████████████████████████
+   RADIAL WHEEL ENGINE
+   
+   FIXED 7 SLOTS — angles in standard math coords:
+   Slot 0 (ACTIVE) = top center    = 270° = -90°
+   Slot 1 = upper-right            = 315° = -45°
+   Slot 2 = right                  = 360° = 0°
+   Slot 3 = lower-right (partial)  = 405° = 45°
+   Slot 4 = upper-left             = 225°
+   Slot 5 = left                   = 180°
+   Slot 6 = lower-left (partial)   = 135°
+   
+   The rotor div's center sits at the BOTTOM-CENTER of the container.
+   Container height = R (radius) + node-radius + padding, overflow hidden.
+   This clips the bottom half of the rotor, showing only the top arc.
+   
+   dataOffset: which dish index maps to slot 0 (active).
+   When user rotates right: dataOffset increases by 1.
+   When user rotates left: dataOffset decreases by 1.
+   ██████████████████████████████████
+═══════════════════════════════════════ */
 
-/* ─── ROUTING ────────────────────────────────── */
-function initRoute(){
-  const p=new URLSearchParams(location.search);
-  if(p.get('view')==='kitchen'){
-    document.querySelectorAll('.page').forEach(x=>{x.classList.remove('on');});
-    const kp=document.getElementById('kitchenPg');
-    kp.classList.add('on'); renderKitchen();
-  }
-}
+/* 7 fixed slot angles in degrees (standard math, 0=right, CCW negative) */
+const SLOT_ANGLES = [270, 315, 360, 405, 225, 180, 135];
+/* Which slots are "partial" (half visible at edges) */
+const PARTIAL_SLOTS = new Set([3, 6]);
 
-/* ─── PAGES ──────────────────────────────────── */
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  scrollTo(0,0);
-}
-function goHome(){ showPage('home'); }
-function goMenu(){ showPage('menuPg'); buildMenuUI(); }
-function scrollGallery(){ document.getElementById('gallerySec').scrollIntoView({behavior:'smooth'}); }
-
-/* ─── CAROUSEL ───────────────────────────────── */
-function buildDots(){
-  const w=document.getElementById('cDots'); w.innerHTML='';
-  for(let i=0;i<SLIDES;i++){
-    const d=document.createElement('div');
-    d.className='c-dot'+(i===0?' on':'');
-    d.onclick=()=>goSlide(i);
-    w.appendChild(d);
-  }
-}
-function goSlide(n){
-  document.querySelectorAll('.c-slide').forEach((s,i)=>s.classList.toggle('on',i===n));
-  document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===n));
-  slideIdx=n;
-}
-function shiftSlide(d){ slideIdx=(slideIdx+d+SLIDES)%SLIDES; goSlide(slideIdx); resetTimer(); }
-function resetTimer(){ clearInterval(slideTimer); slideTimer=setInterval(()=>shiftSlide(1),5200); }
-
-/* ═══════════════════════════════════════════════
-   WHEEL ENGINE
-   buildWheel(containerId, dishes, cat, color)
-   — Builds a self-contained wheel inside containerId.
-   — Active slot is FIXED at 12-o'clock (top center).
-   — Rotor rotates; nodes counter-rotate to stay upright.
-   — Stage overflow:hidden clips bottom half of rotor.
-═══════════════════════════════════════════════ */
-
-function getWheelSizes() {
+function wheelSizes() {
   const W = window.innerWidth;
-  if (W < 480) return { R:160, ns:68, cardW:180 };
-  if (W < 768) return { R:210, ns:84, cardW:200 };
-  return              { R:290, ns:104, cardW:230 };
+  if (W < 480) return { R:170, ns:72,  cardW:170, padding:20 };
+  if (W < 768) return { R:230, ns:88,  cardW:185, padding:24 };
+  return              { R:320, ns:110, cardW:210, padding:32 };
 }
 
 /**
- * Builds a complete wheel into `container` (a DOM element).
- * dishes: array of {id, name, price, cat?}
- * catLabel: string shown in center card
- * color: accent hex string
+ * Build a self-contained wheel.
+ * @param {Element} host - container element
+ * @param {Array}   dishes - [{id,name,price,cat?}]
+ * @param {string}  catLabel
+ * @param {string}  accentColor
+ * @param {string}  uid - unique id prefix
  */
-function buildWheel(container, dishes, catLabel, color) {
-  const { R, ns, cardW } = getWheelSizes();
+function buildWheel(host, dishes, catLabel, accentColor, uid) {
   const N = dishes.length;
   if (!N) return;
 
-  let activeIdx = 0;   // which dish index is currently active (at top)
-  let totalRot  = 0;   // accumulated rotor rotation in degrees
+  const { R, ns, cardW, padding } = wheelSizes();
+  const nodeR = ns / 2;
 
-  // stepDeg: how many degrees to rotate per step so the next dish hits the top
-  // Items are placed at angles around the full circle: 360/N per item
-  // Active starts at top = 270° (i=0 placed at 270°)
-  const stepDeg = 360 / N;
+  /* Container height: from the top of the highest visible node to the rotor center.
+     Highest node is at slot 0 (270° = top), so its top edge = circleCenter.y - R - nodeR.
+     Container height = R + nodeR + padding (some breathing room above top node). */
+  const containerH = R + nodeR + padding;
 
-  // Stage height = R + half a node (so top of active node is fully visible)
-  const stageH = R + ns / 2 + 16;
+  /* The rotor center will be at (containerW/2, containerH) — bottom center of container.
+     Container width = 2*R + 2*nodeR + a little horizontal padding. */
+  const containerW = '100%';
 
-  // Unique IDs for this wheel's DOM elements
-  const uid = 'whl_' + Math.random().toString(36).slice(2, 7);
+  /* dataOffset: which dish index is currently in slot 0 (active) */
+  let dataOffset = 0;
+  /* Current accumulated rotor CSS rotation (for smooth transition) */
+  let rotorDeg = 0;
 
-  container.innerHTML = `
-    <div class="whl-stage" id="${uid}_stage"
-         style="width:100%;height:${stageH}px;max-width:${R*2+ns}px;margin:0 auto;">
-
-      <!-- decorative bg blob: same size as rotor, centered at bottom-center -->
-      <div class="whl-bg" id="${uid}_bg"
-           style="width:${R*2}px;height:${R*2}px;
-                  left:50%;margin-left:${-R}px;
-                  bottom:${-R}px;position:absolute;">
-      </div>
-
-      <!-- Rotor: centered at bottom-center of stage -->
-      <div class="whl-rotor" id="${uid}_rotor"
-           style="width:${R*2}px;height:${R*2}px;
-                  left:50%;margin-left:${-R}px;
-                  bottom:${-R}px;position:absolute;">
-      </div>
-
-      <!-- Center info card: fixed at bottom-center of stage -->
-      <div class="whl-card" id="${uid}_card"
-           style="bottom:${ns/2 - 10}px;">
-        <div class="whl-card-inner" onclick="whlAdd_${uid}()">
-          <div class="whl-ci"><img id="${uid}_ci" src="" alt="" loading="lazy"></div>
-          <div class="whl-cc" id="${uid}_cc"></div>
-          <div class="whl-cn" id="${uid}_cn"></div>
-          <div class="whl-cp" id="${uid}_cp"></div>
-          <button class="whl-cbtn" onclick="event.stopPropagation();whlAdd_${uid}()">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add to Cart
-          </button>
+  /* Build DOM */
+  host.innerHTML = `
+    <div style="position:relative;width:${containerW};height:${containerH}px;overflow:hidden;margin:0 auto;max-width:${R*2+ns*2+padding*2}px;" id="${uid}_stage">
+      <!-- decorative teal gradient blob behind the wheel (same center as rotor) -->
+      <div style="
+        position:absolute;
+        width:${R*2+ns*2}px;height:${R*2+ns*2}px;
+        left:50%;margin-left:${-(R+ns)}px;
+        bottom:${-(R+ns)+containerH}px;
+        border-radius:50%;
+        background:radial-gradient(circle at 50% 50%,rgba(43,191,155,.22) 0%,rgba(43,191,155,.09) 45%,transparent 68%);
+        pointer-events:none;z-index:0;
+      "></div>
+      <!-- rotor: invisible spinning circle, center at bottom-center of stage -->
+      <div id="${uid}_rotor" style="
+        position:absolute;
+        width:${R*2}px;height:${R*2}px;
+        left:50%;margin-left:${-R}px;
+        top:${containerH - R}px;
+        border-radius:50%;
+        z-index:1;
+      "></div>
+      <!-- center info card: fixed, centered at the rotor center point -->
+      <div id="${uid}_center" style="
+        position:absolute;
+        left:50%;top:${containerH}px;
+        transform:translateX(-50%) translateY(-50%);
+        z-index:30;
+      ">
+        <div class="whl-card" onclick="${uid}_doAdd()">
+          <div class="whl-card-inner" id="${uid}_ci">
+            <div class="whl-card-thumb"><img id="${uid}_cimg" src="" alt="" loading="lazy"></div>
+            <div class="whl-card-cat"  id="${uid}_ccat"></div>
+            <div class="whl-card-name" id="${uid}_cname"></div>
+            <div class="whl-card-price" id="${uid}_cprice"></div>
+            <button class="whl-add-btn" onclick="event.stopPropagation();${uid}_doAdd()">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Arrow controls -->
     <div class="whl-arrows">
-      <button class="whl-arr" onclick="whlRotate_${uid}(-1)">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <button class="whl-arr" onclick="whlRotate_${uid}(1)">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
+      <button class="whl-arr" onclick="${uid}_rotate(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="whl-arr" onclick="${uid}_rotate(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>`;
 
   const rotor = document.getElementById(`${uid}_rotor`);
 
-  // Place nodes on the rotor.
-  // Node i starts at angle: 270 + i * stepDeg  (270° = top of circle)
-  dishes.forEach((dish, i) => {
-    const angleDeg = 270 + i * stepDeg;
-    const angleRad = angleDeg * Math.PI / 180;
-    // Node top-left relative to rotor center (R, R)
-    const cx = R + R * Math.cos(angleRad) - ns / 2;
-    const cy = R + R * Math.sin(angleRad) - ns / 2;
+  /* Build exactly 7 node elements (or fewer if dish count < 7) */
+  const VISIBLE_SLOTS = Math.min(7, N);
+  const slotAngles = SLOT_ANGLES.slice(0, VISIBLE_SLOTS);
+
+  /* For each slot, compute its fixed (x,y) position on the rotor circle.
+     The rotor circle has its center at (R, R) within the rotor div.
+     x = R + R*cos(angle_rad) - nodeR
+     y = R + R*sin(angle_rad) - nodeR    (sin is positive downward in CSS) */
+  slotAngles.forEach((angleDeg, slotIdx) => {
+    const rad = angleDeg * Math.PI / 180;
+    const x = R + R * Math.cos(rad) - nodeR;
+    const y = R + R * Math.sin(rad) - nodeR;
+
+    const isPartial = PARTIAL_SLOTS.has(slotIdx) && slotIdx < VISIBLE_SLOTS;
 
     const node = document.createElement('div');
-    node.className = 'whl-node' + (i === 0 ? ' on' : '');
-    node.id = `${uid}_n${i}`;
-    node.style.cssText = `width:${ns}px;height:${ns}px;left:${cx}px;top:${cy}px;`;
+    node.className = 'whl-node' + (slotIdx === 0 ? ' active' : '') + (isPartial ? ' partial' : '');
+    node.id = `${uid}_slot${slotIdx}`;
+    node.style.cssText = `
+      width:${ns}px;height:${ns}px;
+      left:${x}px;top:${y}px;
+      ${isPartial ? 'pointer-events:none;' : ''}
+    `;
     node.innerHTML = `
-      <div class="whl-node-img" id="${uid}_ni${i}">
-        <img src="${getImg(dish.name)}" alt="${dish.name}" loading="lazy">
+      <div class="whl-node-face" id="${uid}_face${slotIdx}">
+        <img id="${uid}_img${slotIdx}" src="" alt="" loading="lazy">
       </div>
-      <div class="whl-lbl">${dish.name.split(' ').slice(0,2).join(' ')}</div>`;
-    node.addEventListener('click', () => whlClickNode(i));
+      <div class="whl-node-label" id="${uid}_lbl${slotIdx}"></div>`;
+
+    /* Clicking a non-partial, non-active slot rotates to bring it to center */
+    if (!isPartial && slotIdx !== 0) {
+      node.addEventListener('click', () => rotateToSlot(slotIdx));
+    }
+    /* Clicking active slot triggers add to cart */
+    if (slotIdx === 0) {
+      node.addEventListener('click', () => window[`${uid}_doAdd`]());
+    }
+
     rotor.appendChild(node);
   });
 
-  function applyRotation(deg, animated) {
-    rotor.style.transition = animated ? 'transform .6s cubic-bezier(.4,0,.2,1)' : 'none';
-    rotor.style.transform  = `rotate(${deg}deg)`;
-    // Counter-rotate each node inner so images stay upright
-    dishes.forEach((_, i) => {
-      const ni = document.getElementById(`${uid}_ni${i}`);
-      if (!ni) return;
-      ni.style.transition = animated
-        ? 'transform .6s cubic-bezier(.4,0,.2,1), border-color .4s, box-shadow .4s'
-        : 'none';
-      ni.style.transform = `rotate(${-deg}deg)`;
-    });
-  }
+  /* Render all nodes with correct dish data and counter-rotation */
+  function render(animated) {
+    rotor.style.transition = animated ? 'transform .65s cubic-bezier(.4,0,.2,1)' : 'none';
+    rotor.style.transform = `rotate(${rotorDeg}deg)`;
 
-  function markActive() {
-    dishes.forEach((_, i) => {
-      const n = document.getElementById(`${uid}_n${i}`);
-      if (n) n.classList.toggle('on', i === activeIdx);
+    slotAngles.forEach((_, slotIdx) => {
+      /* Which dish goes in this slot? */
+      const dishIdx = (dataOffset + slotIdx) % N;
+      const dish = dishes[dishIdx];
+
+      /* Update image and label */
+      const img = document.getElementById(`${uid}_img${slotIdx}`);
+      const lbl = document.getElementById(`${uid}_lbl${slotIdx}`);
+      if (img) { img.src = getImg(dish.name); img.alt = dish.name; }
+      if (lbl) lbl.textContent = dish.name.split(' ').slice(0,2).join(' ');
+
+      /* Counter-rotate the face so it stays upright */
+      const face = document.getElementById(`${uid}_face${slotIdx}`);
+      if (face) {
+        face.style.transition = animated
+          ? 'transform .65s cubic-bezier(.4,0,.2,1), border-color .4s, box-shadow .4s'
+          : 'none';
+        face.style.transform = `rotate(${-rotorDeg}deg)`;
+      }
     });
+
+    /* Update center card */
+    updateCard(animated);
   }
 
   function updateCard(animated) {
-    const dish = dishes[activeIdx];
-    const card = document.getElementById(`${uid}_card`);
-    const inner = card.querySelector('.whl-card-inner');
+    const dish = dishes[dataOffset % N];
+    const inner = document.getElementById(`${uid}_ci`);
+    if (!inner) return;
+
     if (animated) {
-      inner.classList.add('whl-fading');
+      inner.classList.add('fading');
       setTimeout(() => {
-        document.getElementById(`${uid}_ci`).src = getImg(dish.name);
-        document.getElementById(`${uid}_cc`).textContent = catLabel;
-        document.getElementById(`${uid}_cn`).textContent = dish.name;
-        document.getElementById(`${uid}_cp`).textContent = '₹' + dish.price;
-        inner.classList.remove('whl-fading');
+        setCardData(dish);
+        inner.classList.remove('fading');
       }, 200);
     } else {
-      document.getElementById(`${uid}_ci`).src = getImg(dish.name);
-      document.getElementById(`${uid}_cc`).textContent = catLabel;
-      document.getElementById(`${uid}_cn`).textContent = dish.name;
-      document.getElementById(`${uid}_cp`).textContent = '₹' + dish.price;
+      setCardData(dish);
     }
   }
 
-  // Rotate wheel by direction (-1=prev, +1=next)
-  window[`whlRotate_${uid}`] = function(dir) {
-    activeIdx = (activeIdx - dir + N) % N;
-    totalRot += dir * stepDeg;
-    applyRotation(totalRot, true);
-    markActive();
-    updateCard(true);
-  };
-
-  // Click a node: rotate the shortest way to bring it to top
-  function whlClickNode(i) {
-    if (i === activeIdx) { whlDoAdd(); return; }
-    // How many steps right to get from activeIdx to i
-    let stepsRight = ((i - activeIdx) + N) % N;
-    let stepsLeft  = N - stepsRight;
-    let dir, steps;
-    if (stepsRight <= stepsLeft) { dir = 1; steps = stepsRight; }
-    else                          { dir = -1; steps = stepsLeft; }
-    activeIdx = i;
-    totalRot += dir * steps * stepDeg;
-    applyRotation(totalRot, true);
-    markActive();
-    updateCard(true);
+  function setCardData(dish) {
+    const ci = document.getElementById(`${uid}_cimg`);
+    const cc = document.getElementById(`${uid}_ccat`);
+    const cn = document.getElementById(`${uid}_cname`);
+    const cp = document.getElementById(`${uid}_cprice`);
+    if (ci) ci.src = getImg(dish.name);
+    if (cc) cc.textContent = catLabel;
+    if (cn) cn.textContent = dish.name;
+    if (cp) cp.textContent = '₹' + dish.price;
   }
 
-  function whlDoAdd() {
-    const dish = dishes[activeIdx];
+  /* Rotate wheel: dir = 1 (clockwise, next) or -1 (counter-clockwise, prev)
+     Clockwise rotation visually moves dishes to the left across the arc.
+     To bring the NEXT dish into the active slot, we rotate rotor clockwise (+deg).
+     dataOffset decreases by 1 so slot 0 points to previous array index. */
+  function doRotate(dir) {
+    /* Step angle = 360 / N so exactly one dish index advances per step */
+    const step = 360 / N;
+    rotorDeg += dir * step;
+    /* Moving clockwise (dir=1): next dish comes into view.
+       dataOffset adjustment: slot 0 = dataOffset, after clockwise rotation
+       the dish that WAS in slot 1 is now in slot 0, so dataOffset += 1 */
+    dataOffset = ((dataOffset - dir) % N + N) % N;
+    render(true);
+  }
+  window[`${uid}_rotate`] = doRotate;
+
+  /* Click on slot slotIdx to rotate it into slot 0 (active) */
+  function rotateToSlot(slotIdx) {
+    /* slotIdx tells us how many steps to rotate.
+       Slots to the right (1,2,3) = clockwise = positive step.
+       Slots to the left (4,5,6) = counter-clockwise = negative step. */
+    const stepsRight = slotIdx <= 3 ? slotIdx : -(VISIBLE_SLOTS - slotIdx);
+    const step = 360 / N;
+    rotorDeg += stepsRight * step;
+    dataOffset = ((dataOffset - stepsRight) % N + N) % N;
+    render(true);
+  }
+
+  /* Add active dish to cart */
+  window[`${uid}_doAdd`] = function() {
+    const dish = dishes[dataOffset % N];
     const ex = cart.find(c => c.id === dish.id);
     if (ex) ex.qty++;
     else cart.push({ id: dish.id, name: dish.name, price: dish.price, cat: catLabel, qty: 1 });
     save(); refreshCart();
     toast('Added to cart');
-  }
-  window[`whlAdd_${uid}`] = whlDoAdd;
+  };
 
-  // Touch swipe
+  /* Touch swipe */
   let tx0 = 0;
   const stage = document.getElementById(`${uid}_stage`);
-  stage.addEventListener('touchstart', e => { tx0 = e.touches[0].clientX; }, { passive: true });
-  stage.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - tx0;
-    if (Math.abs(dx) > 38) window[`whlRotate_${uid}`](dx < 0 ? 1 : -1);
-  }, { passive: true });
+  if (stage) {
+    stage.addEventListener('touchstart', e => { tx0 = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tx0;
+      if (Math.abs(dx) > 40) doRotate(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
 
-  // Init
-  applyRotation(0, false);
-  updateCard(false);
+  /* Init — render without animation */
+  render(false);
 }
 
-/* ─── SPECIALITIES WHEEL ─────────────────────── */
-function initWheel() {
-  const container = document.getElementById('whl-feat');
-  if (!container) return;
-  buildWheel(container, FEATURED, 'Chef\'s Pick', 'var(--p)');
+/* ═══════════════════════════════════════
+   NAV SCROLL
+═══════════════════════════════════════ */
+window.addEventListener('scroll', () =>
+  document.getElementById('nav').classList.toggle('raised', scrollY > 20), { passive: true });
+
+/* ═══════════════════════════════════════
+   ROUTING
+═══════════════════════════════════════ */
+function initRoute() {
+  const p = new URLSearchParams(location.search);
+  if (p.get('view') === 'kitchen') {
+    document.querySelectorAll('.page').forEach(x => x.classList.remove('on'));
+    document.getElementById('kitchenPg').classList.add('on');
+    renderKitchen();
+  }
 }
 
-/* ─── MENU ───────────────────────────────────── */
-function buildMenuUI(){ buildSidebar(); buildTabs(); renderCat(); }
+/* ═══════════════════════════════════════
+   PAGE NAV
+═══════════════════════════════════════ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  scrollTo(0, 0);
+}
+function goHome() { showPage('home'); }
+function goMenu() { showPage('menuPg'); buildMenuUI(); }
+function scrollGal() { document.getElementById('galSec').scrollIntoView({ behavior: 'smooth' }); }
 
-function buildSidebar(){
-  document.getElementById('mSide').innerHTML=
-    `<div class="sb-head">Categories</div>`+
-    Object.keys(MENU).map(c=>`
+/* ═══════════════════════════════════════
+   CAROUSEL
+═══════════════════════════════════════ */
+function buildDots() {
+  const w = document.getElementById('cDots'); w.innerHTML = '';
+  for (let i = 0; i < SLIDES; i++) {
+    const d = document.createElement('div');
+    d.className = 'c-dot' + (i === 0 ? ' on' : '');
+    d.onclick = () => goSlide(i); w.appendChild(d);
+  }
+}
+function goSlide(n) {
+  document.querySelectorAll('.c-slide').forEach((s,i) => s.classList.toggle('on', i===n));
+  document.querySelectorAll('.c-dot').forEach((d,i) => d.classList.toggle('on', i===n));
+  slideIdx = n;
+}
+function shiftSlide(d) { slideIdx = (slideIdx + d + SLIDES) % SLIDES; goSlide(slideIdx); resetTimer(); }
+function resetTimer() { clearInterval(slideTimer); slideTimer = setInterval(() => shiftSlide(1), 5200); }
+
+/* ═══════════════════════════════════════
+   FEATURED WHEEL (Specialities)
+═══════════════════════════════════════ */
+function initFeatWheel() {
+  const host = document.getElementById('feat-whl-host');
+  if (!host) return;
+  buildWheel(host, FEATURED, "Chef's Pick", 'var(--p)', 'fw');
+}
+
+/* ═══════════════════════════════════════
+   MENU UI
+═══════════════════════════════════════ */
+function buildMenuUI() { buildSidebar(); buildTabs(); renderCat(); }
+
+function buildSidebar() {
+  document.getElementById('mSide').innerHTML =
+    `<div class="sb-head">Categories</div>` +
+    Object.keys(MENU).map(c => `
       <button class="sb-btn${c===activeCat?' on':''}" onclick="switchCat('${c}')">
         <span>${c}</span><span class="sb-ct">${MENU[c].length}</span>
       </button>`).join('');
 }
 
-function buildTabs(){
-  const wrap=document.getElementById('mTabs');
-  wrap.querySelectorAll('.tab-btn').forEach(b=>b.remove());
-  Object.keys(MENU).forEach(c=>{
-    const btn=document.createElement('button');
-    btn.className='tab-btn'+(c===activeCat?' on':'');
-    btn.textContent=c; btn.onclick=()=>switchCat(c);
+function buildTabs() {
+  const wrap = document.getElementById('mTabs');
+  wrap.querySelectorAll('.tab-btn').forEach(b => b.remove());
+  Object.keys(MENU).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (c === activeCat ? ' on' : '');
+    btn.textContent = c;
+    btn.onclick = () => switchCat(c);
     wrap.appendChild(btn);
   });
   requestAnimationFrame(slidePill);
 }
 
-function slidePill(){
-  const a=document.querySelector('.tab-btn.on');
-  const s=document.getElementById('tSlider');
-  if(a&&s){ s.style.left=a.offsetLeft+'px'; s.style.width=a.offsetWidth+'px'; }
+function slidePill() {
+  const a = document.querySelector('.tab-btn.on');
+  const s = document.getElementById('tPill');
+  if (a && s) { s.style.left = a.offsetLeft + 'px'; s.style.width = a.offsetWidth + 'px'; }
 }
 
-function switchCat(c){
-  activeCat=c; searchMode=false;
-  document.getElementById('sInput').value='';
+function switchCat(c) {
+  activeCat = c; searchMode = false;
+  document.getElementById('sInput').value = '';
   buildSidebar(); buildTabs(); renderCat();
-  const a=document.querySelector('.tab-btn.on');
-  if(a) a.scrollIntoView({inline:'center',behavior:'smooth'});
-  scrollTo({top:280,behavior:'smooth'});
+  const a = document.querySelector('.tab-btn.on');
+  if (a) a.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+  scrollTo({ top: 280, behavior: 'smooth' });
 }
 
-function renderCat(){
-  const items=MENU[activeCat];
-  const col=CAT_COLORS[activeCat]||'var(--p)';
-  const content=document.getElementById('mContent');
+let menuWheelCounter = 0;
+function renderCat() {
+  const items = MENU[activeCat];
+  const col = CAT_COLORS[activeCat] || 'var(--p)';
+  const content = document.getElementById('mContent');
+  const uid = 'mw' + (++menuWheelCounter);
 
-  content.innerHTML=`
-    <div class="mcat-wheel-wrap">
-      <div class="mcat-wheel-hdr">
-        <div class="mcat-wheel-name" style="color:${col}">${activeCat}</div>
-        <div class="mcat-wheel-line"></div>
-        <div class="mcat-wheel-ct">${items.length} dishes</div>
+  content.innerHTML = `
+    <div class="mcat-wrap">
+      <div class="mcat-hdr">
+        <div class="mcat-title" style="color:${col}">${activeCat}</div>
+        <div class="mcat-line"></div>
+        <div class="mcat-count">${items.length} dishes</div>
       </div>
-      <div id="mcat_whl"></div>
+      <div id="${uid}_host"></div>
     </div>`;
 
-  // Build the per-category wheel
-  const whlDiv = document.getElementById('mcat_whl');
-  buildWheel(whlDiv, items, activeCat, col);
+  const whlHost = document.getElementById(`${uid}_host`);
+  buildWheel(whlHost, items, activeCat, col, uid);
 }
 
-/* ─── SEARCH ─────────────────────────────────── */
-function doSearch(q){
-  const query=q.trim().toLowerCase();
-  if(!query){ searchMode=false; renderCat(); return; }
-  searchMode=true;
-  const res=[];
-  Object.entries(MENU).forEach(([cat,items])=>
-    items.forEach(item=>{ if(item.name.toLowerCase().includes(query)) res.push({...item,cat}); })
+/* ─── SEARCH ─────────────────────── */
+function doSearch(q) {
+  const query = q.trim().toLowerCase();
+  if (!query) { searchMode = false; renderCat(); return; }
+  searchMode = true;
+  const res = [];
+  Object.entries(MENU).forEach(([cat, items]) =>
+    items.forEach(item => { if (item.name.toLowerCase().includes(query)) res.push({...item, cat}); })
   );
-  const c=document.getElementById('mContent');
-  if(!res.length){
-    c.innerHTML=`<div class="no-res">
+  const content = document.getElementById('mContent');
+  if (!res.length) {
+    content.innerHTML = `<div class="no-res">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <p>No results for "${q}"</p><span>Try a different keyword</span></div>`;
+      <p>No results for "${q}"</p></div>`;
     return;
   }
-  c.innerHTML=`
-    <div class="mcat-wheel-wrap">
-      <div class="mcat-wheel-hdr">
-        <div class="mcat-wheel-name" style="color:var(--p)">Search Results</div>
-        <div class="mcat-wheel-line"></div>
-        <div class="mcat-wheel-ct">${res.length} found</div>
+  const uid = 'sw' + (++menuWheelCounter);
+  content.innerHTML = `
+    <div class="mcat-wrap">
+      <div class="mcat-hdr">
+        <div class="mcat-title">Search: <em>${q}</em></div>
+        <div class="mcat-line"></div>
+        <div class="mcat-count">${res.length} found</div>
       </div>
-      <div id="mcat_whl"></div>
+      <div id="${uid}_host"></div>
     </div>`;
-  buildWheel(document.getElementById('mcat_whl'), res, 'Search Result', 'var(--p)');
+  buildWheel(document.getElementById(`${uid}_host`), res, 'Search Result', 'var(--p)', uid);
 }
 
-/* ─── MODAL ──────────────────────────────────── */
-function openModal(id,name,price,cat){
-  selItem={id,name,price,cat}; selQty=1;
-  document.getElementById('mImg').src=getImg(name);
-  document.getElementById('mCat').textContent=cat||activeCat;
-  document.getElementById('mName').textContent=name;
-  document.getElementById('mPrice').textContent='₹'+price;
-  document.getElementById('qVal').textContent='1';
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+function openModal(id, name, price, cat) {
+  selItem = {id, name, price, cat}; selQty = 1;
+  document.getElementById('mImg').src = getImg(name);
+  document.getElementById('mCat').textContent = cat || activeCat;
+  document.getElementById('mName').textContent = name;
+  document.getElementById('mPrice').textContent = '₹' + price;
+  document.getElementById('qVal').textContent = '1';
   document.getElementById('itemOv').classList.add('on');
 }
-function closeModal(e){ if(e.target.id==='itemOv') document.getElementById('itemOv').classList.remove('on'); }
-function adjQty(d){ selQty=Math.max(1,selQty+d); document.getElementById('qVal').textContent=selQty; }
-
-function addToCart(){
-  const ex=cart.find(c=>c.id===selItem.id);
-  if(ex) ex.qty+=selQty; else cart.push({...selItem,qty:selQty});
+function closeModal(e) { if (e.target.id === 'itemOv') document.getElementById('itemOv').classList.remove('on'); }
+function adjQty(d) { selQty = Math.max(1, selQty + d); document.getElementById('qVal').textContent = selQty; }
+function addToCart() {
+  const ex = cart.find(c => c.id === selItem.id);
+  if (ex) ex.qty += selQty; else cart.push({...selItem, qty: selQty});
   save(); refreshCart();
   document.getElementById('itemOv').classList.remove('on');
-  if(document.getElementById('menuPg').classList.contains('on')){
-    if(searchMode) doSearch(document.getElementById('sInput').value);
-    else renderCat();
-  }
   toast('Added to cart');
 }
 
-/* ─── CART ───────────────────────────────────── */
-function save(){ localStorage.setItem('annamay4',JSON.stringify(cart)); }
+/* ═══════════════════════════════════════
+   CART
+═══════════════════════════════════════ */
+function save() { localStorage.setItem('annamay5', JSON.stringify(cart)); }
 
-function refreshCart(){
-  const total=cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const count=cart.reduce((s,c)=>s+c.qty,0);
+function refreshCart() {
+  const total = cart.reduce((s,c) => s+c.price*c.qty, 0);
+  const count = cart.reduce((s,c) => s+c.qty, 0);
 
-  // Float bar
-  const fb=document.getElementById('fBar');
-  if(count){ fb.classList.add('up'); document.getElementById('fbCount').textContent=count+' item'+(count>1?'s':''); document.getElementById('fbPrice').textContent='₹'+total; }
-  else fb.classList.remove('up');
+  /* Float bar */
+  const fb = document.getElementById('fbar');
+  if (count) {
+    fb.classList.add('up');
+    document.getElementById('fbCount').textContent = count + ' item' + (count>1?'s':'');
+    document.getElementById('fbPrice').textContent = '₹' + total;
+  } else fb.classList.remove('up');
 
-  // Nav
-  const chip=document.getElementById('nav-chip');
-  if(count){ chip.textContent=count; chip.style.display='inline-block'; chip.classList.add('pop'); setTimeout(()=>chip.classList.remove('pop'),400); document.getElementById('nav-lbl').textContent='₹'+total; }
-  else{ chip.style.display='none'; document.getElementById('nav-lbl').textContent='Cart'; }
+  /* Nav chip */
+  const chip = document.getElementById('nav-chip');
+  if (count) {
+    chip.textContent = count; chip.style.display = 'inline-block';
+    chip.classList.add('pop'); setTimeout(() => chip.classList.remove('pop'), 400);
+    document.getElementById('nav-lbl').textContent = '₹' + total;
+  } else {
+    chip.style.display = 'none';
+    document.getElementById('nav-lbl').textContent = 'Cart';
+  }
 
-  // Total bump
-  const tv=document.getElementById('cTotal'); tv.textContent='₹'+total; tv.classList.add('bump'); setTimeout(()=>tv.classList.remove('bump'),400);
+  /* Total */
+  const tv = document.getElementById('cTotal');
+  tv.textContent = '₹' + total;
+  tv.classList.add('bump'); setTimeout(() => tv.classList.remove('bump'), 400);
 
-  // Body
-  const body=document.getElementById('cBody');
-  if(!cart.length){
-    body.innerHTML=`<div class="cart-empty">
+  /* Body */
+  const body = document.getElementById('cBody');
+  if (!cart.length) {
+    body.innerHTML = `<div class="cart-empty">
       <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
       <p>Your cart is empty</p><small>Add something delicious</small></div>`;
   } else {
-    body.innerHTML=cart.map(c=>`
+    body.innerHTML = cart.map(c => `
       <div class="c-row">
         <img class="c-row-img" src="${getImg(c.name)}" alt="${c.name}">
         <div class="c-row-info">
           <div class="c-row-nm">${c.name}</div>
-          <div class="c-row-pr">&#8377;${c.price} &times; ${c.qty} = &#8377;${c.price*c.qty}</div>
+          <div class="c-row-pr">₹${c.price} × ${c.qty} = ₹${c.price*c.qty}</div>
         </div>
         <div class="c-ctrl">
-          <button class="cc-b" onclick="chgQty('${c.id}',-1)">&#8722;</button>
+          <button class="cc-b" onclick="chgQty('${c.id}',-1)">−</button>
           <span class="cc-n">${c.qty}</span>
           <button class="cc-b" onclick="chgQty('${c.id}',1)">+</button>
         </div>
@@ -1831,60 +1510,74 @@ function refreshCart(){
   }
 }
 
-function chgQty(id,d){
-  const c=cart.find(x=>x.id===id); if(!c) return;
-  c.qty+=d; if(c.qty<=0) cart=cart.filter(x=>x.id!==id);
+function chgQty(id, d) {
+  const c = cart.find(x => x.id===id); if (!c) return;
+  c.qty += d; if (c.qty <= 0) cart = cart.filter(x => x.id!==id);
   save(); refreshCart();
-  if(document.getElementById('menuPg').classList.contains('on')){
-    if(searchMode) doSearch(document.getElementById('sInput').value);
-    else renderCat();
-  }
 }
 
-function openCart(){ document.getElementById('cDr').classList.add('open'); document.getElementById('cBd').classList.add('on'); document.getElementById('cItemsV').style.display='flex'; document.getElementById('coView').classList.remove('on'); }
-function closeCart(){ document.getElementById('cDr').classList.remove('open'); document.getElementById('cBd').classList.remove('on'); }
-function showCo(){ document.getElementById('cItemsV').style.display='none'; document.getElementById('coView').classList.add('on'); }
-function backCart(){ document.getElementById('cItemsV').style.display='flex'; document.getElementById('coView').classList.remove('on'); }
-
-/* ─── ORDER ──────────────────────────────────── */
-function placeOrder(){
-  const name=document.getElementById('oName').value.trim();
-  const phone=document.getElementById('oPhone').value.trim();
-  const addr=document.getElementById('oAddr').value.trim();
-  if(!name||!phone||!addr){ toast('Please fill all fields'); return; }
-  if(!/^\d{10}$/.test(phone)){ toast('Enter a valid 10-digit phone number'); return; }
-
-  const id='ORD-'+Date.now().toString(36).toUpperCase();
-  const total=cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const now=new Date();
-  const order={ id, customer:{name,phone,address:addr}, items:cart.map(c=>({...c})), total, status:'new', placedAt:now.toISOString(), time:now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) };
-  orders.push(order); localStorage.setItem('annamay_orders',JSON.stringify(orders));
-
-  const lines=cart.map(c=>`${c.name} x${c.qty} = Rs.${c.price*c.qty}`).join('%0A');
-  const msg=`*New Order — ${id}*%0A%0A${lines}%0A%0A*Total: Rs.${total}*%0A%0ACustomer: ${name}%0APhone: ${phone}%0AAddress: ${addr}`;
-  window.open(`https://wa.me/919876543210?text=${msg}`,'_blank');
-
-  cart=[]; save(); refreshCart();
-  ['oName','oPhone','oAddr'].forEach(i=>document.getElementById(i).value='');
-  closeCart(); toast('Order placed — '+id);
+function openCart() {
+  document.getElementById('cDr').classList.add('open');
+  document.getElementById('cBd').classList.add('on');
+  document.getElementById('cItemsV').style.display = 'flex';
+  document.getElementById('coView').classList.remove('on');
+}
+function closeCart() {
+  document.getElementById('cDr').classList.remove('open');
+  document.getElementById('cBd').classList.remove('on');
+}
+function showCo() {
+  document.getElementById('cItemsV').style.display = 'none';
+  document.getElementById('coView').classList.add('on');
+}
+function backCart() {
+  document.getElementById('cItemsV').style.display = 'flex';
+  document.getElementById('coView').classList.remove('on');
 }
 
-/* ─── KITCHEN ────────────────────────────────── */
-function renderKitchen(){
-  const act=orders.filter(o=>o.status==='new');
-  const done=orders.filter(o=>o.status==='done');
-  const ag=document.getElementById('kActive');
-  const dg=document.getElementById('kDone');
-  ag.innerHTML=!act.length
-    ?`<div class="k-empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><p>No active orders</p><small>Waiting for new orders...</small></div>`
-    :act.map(o=>kCard(o,'new')).join('');
-  dg.innerHTML=!done.length
-    ?`<p style="color:rgba(255,255,255,.18);font-size:13px;padding:4px">No completed orders yet.</p>`
-    :done.map(o=>kCard(o,'done')).join('');
+/* ═══════════════════════════════════════
+   ORDER
+═══════════════════════════════════════ */
+function placeOrder() {
+  const name = document.getElementById('oName').value.trim();
+  const phone = document.getElementById('oPhone').value.trim();
+  const addr = document.getElementById('oAddr').value.trim();
+  if (!name||!phone||!addr) { toast('Please fill all fields'); return; }
+  if (!/^\d{10}$/.test(phone)) { toast('Enter a valid 10-digit number'); return; }
+
+  const id = 'ORD-' + Date.now().toString(36).toUpperCase();
+  const total = cart.reduce((s,c) => s+c.price*c.qty, 0);
+  const now = new Date();
+  const order = { id, customer:{name,phone,address:addr}, items:cart.map(c=>({...c})), total, status:'new', placedAt:now.toISOString(), time:now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) };
+  orders.push(order); localStorage.setItem('annamay_orders', JSON.stringify(orders));
+
+  const lines = cart.map(c => `${c.name} x${c.qty} = Rs.${c.price*c.qty}`).join('%0A');
+  const msg = `*New Order — ${id}*%0A%0A${lines}%0A%0A*Total: Rs.${total}*%0A%0ACustomer: ${name}%0APhone: ${phone}%0AAddress: ${addr}`;
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+
+  cart = []; save(); refreshCart();
+  ['oName','oPhone','oAddr'].forEach(i => document.getElementById(i).value = '');
+  closeCart(); toast('Order placed — ' + id);
 }
 
-function kCard(o,status){
-  const init=o.customer.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+/* ═══════════════════════════════════════
+   KITCHEN
+═══════════════════════════════════════ */
+function renderKitchen() {
+  const act = orders.filter(o => o.status==='new');
+  const done = orders.filter(o => o.status==='done');
+  const ag = document.getElementById('kActive');
+  const dg = document.getElementById('kDone');
+  ag.innerHTML = !act.length
+    ? `<div class="k-empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><p>No active orders</p></div>`
+    : act.map(o => kCard(o,'new')).join('');
+  dg.innerHTML = !done.length
+    ? `<p style="color:rgba(255,255,255,.18);font-size:13px;padding:4px">No completed orders yet.</p>`
+    : done.map(o => kCard(o,'done')).join('');
+}
+
+function kCard(o, status) {
+  const init = o.customer.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   return `<div class="k-card" onclick="viewOrder('${o.id}')">
     <div class="k-card-h">
       <div><div class="k-oid">${o.id}</div><div class="k-time">${o.time}</div></div>
@@ -1894,56 +1587,65 @@ function kCard(o,status){
       <div class="k-av">${init}</div>
       <div><div class="k-cname">${o.customer.name}</div><div class="k-cph">${o.customer.phone}</div></div>
     </div>
-    <div class="k-items">${o.items.map(i=>`<div class="k-item"><span class="k-item-n">${i.name}</span><span class="k-item-q">&#215;${i.qty}</span><span class="k-item-p">&#8377;${i.price*i.qty}</span></div>`).join('')}</div>
-    <div class="k-total"><span>Total</span><span class="k-total-a">&#8377;${o.total}</span></div>
+    <div class="k-items">${o.items.map(i=>`<div class="k-item"><span class="k-item-n">${i.name}</span><span class="k-item-q">×${i.qty}</span><span class="k-item-p">₹${i.price*i.qty}</span></div>`).join('')}</div>
+    <div class="k-total"><span>Total</span><span class="k-total-a">₹${o.total}</span></div>
     <div class="k-acts">
       ${status==='new'
-        ?`<button class="k-btn-done" onclick="event.stopPropagation();completeOrder('${o.id}')">Mark Complete</button>`
-        :`<button class="k-btn-done" disabled>Completed</button>`}
+        ? `<button class="k-btn-done" onclick="event.stopPropagation();completeOrder('${o.id}')">Mark Complete</button>`
+        : `<button class="k-btn-done" disabled>Completed</button>`}
       <button class="k-btn-view" onclick="event.stopPropagation();viewOrder('${o.id}')">Details</button>
     </div>
   </div>`;
 }
 
-function completeOrder(id){
-  const o=orders.find(x=>x.id===id);
-  if(o){ o.status='done'; localStorage.setItem('annamay_orders',JSON.stringify(orders)); renderKitchen(); }
+function completeOrder(id) {
+  const o = orders.find(x => x.id===id);
+  if (o) { o.status = 'done'; localStorage.setItem('annamay_orders', JSON.stringify(orders)); renderKitchen(); }
   toast('Marked complete');
 }
 
-function viewOrder(id){
-  const o=orders.find(x=>x.id===id); if(!o) return;
-  document.getElementById('kDetPanel').innerHTML=`
+function viewOrder(id) {
+  const o = orders.find(x => x.id===id); if (!o) return;
+  document.getElementById('kDetPanel').innerHTML = `
     <div class="k-det-h"><div class="k-det-title">${o.id}</div>
-      <button class="k-det-x" onclick="closeKDet()">&#215;</button></div>
+      <button class="k-det-x" onclick="closeKDet()">×</button></div>
     <div class="k-det-s"><div class="k-det-l">Customer</div>
       <div class="k-det-v">${o.customer.name}<br>${o.customer.phone}<br>${o.customer.address}</div></div>
     <div class="k-det-s"><div class="k-det-l">Order Items</div>
       <div class="k-det-v">
         ${o.items.map(i=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)">
-          <span>${i.name} &#215;${i.qty}</span><span style="color:var(--a);font-family:'DM Mono',monospace">&#8377;${i.price*i.qty}</span></div>`).join('')}
+          <span>${i.name} ×${i.qty}</span><span style="color:var(--a);font-family:'DM Mono',monospace">₹${i.price*i.qty}</span></div>`).join('')}
         <div style="display:flex;justify-content:space-between;padding:12px 0 0;font-weight:700;font-size:15px;color:#fff">
-          <span>Total</span><span>&#8377;${o.total}</span></div></div></div>
+          <span>Total</span><span>₹${o.total}</span></div>
+      </div></div>
     <div class="k-det-s"><div class="k-det-l">Placed At</div><div class="k-det-v">${o.time}</div></div>
-    ${o.status==='new'?`<button class="k-btn-done" style="width:100%;margin-top:8px" onclick="completeOrder('${o.id}');closeKDet()">Mark as Complete</button>`:''}`;
+    ${o.status==='new' ? `<button class="k-btn-done" style="width:100%;margin-top:8px" onclick="completeOrder('${o.id}');closeKDet()">Mark as Complete</button>` : ''}`;
   document.getElementById('kDetOv').classList.add('on');
 }
-
-function closeKDet(e){
-  if(!e||e.target.id==='kDetOv') document.getElementById('kDetOv').classList.remove('on');
+function closeKDet(e) {
+  if (!e || e.target.id==='kDetOv') document.getElementById('kDetOv').classList.remove('on');
 }
 
-/* ─── TOAST ──────────────────────────────────── */
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
 let tTimer;
-function toast(msg){
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(tTimer); tTimer=setTimeout(()=>t.classList.remove('show'),2200);
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(tTimer); tTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-function call(){ location.href='tel:+919876543210'; }
+function call() { location.href = 'tel:+919876543210'; }
 
-/* ─── INIT ───────────────────────────────────── */
-buildDots(); resetTimer(); initWheel(); refreshCart(); initRoute();
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+buildDots();
+resetTimer();
+initFeatWheel();
+refreshCart();
+initRoute();
 </script>
 </body>
-</html>
+                                                          </html>
