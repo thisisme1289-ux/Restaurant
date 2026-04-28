@@ -75,25 +75,32 @@ nav.raised{box-shadow:var(--sh-md);}
 @keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
 
 /* ═══════════════════════════════════════════
-   HOME — HERO (split layout)
+   HOME — HERO (full-width background image)
 ═══════════════════════════════════════════ */
 .hero{
-  display:grid;grid-template-columns:1fr 1fr;
-  min-height:100vh;padding-top:var(--nav);
+  position:relative;
+  min-height:48vh;padding-top:var(--nav);
+  display:flex;align-items:center;
+  background:url('images/restaurant-1.jpg') center center / cover no-repeat;
 }
-@media(max-width:860px){.hero{grid-template-columns:1fr;}}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(10,30,22,.78) 0%,rgba(10,30,22,.55) 50%,rgba(10,30,22,.38) 100%);
+  pointer-events:none;
+}
 
 .hero-l{
+  position:relative;z-index:1;
   display:flex;flex-direction:column;justify-content:center;
-  padding:64px 64px 64px 72px;position:relative;overflow:hidden;
+  padding:28px 80px 28px 88px;max-width:780px;
 }
-@media(max-width:1100px){.hero-l{padding:48px 44px;}}
-@media(max-width:860px){.hero-l{padding:48px 24px 36px;align-items:center;text-align:center;}}
+@media(max-width:1100px){.hero-l{padding:24px 52px;}}
+@media(max-width:860px){.hero-l{padding:24px 24px 20px;align-items:center;text-align:center;max-width:100%;}}
 
 .hero-l::before{
   content:'';position:absolute;top:-100px;left:-100px;
   width:480px;height:480px;
-  background:radial-gradient(circle,rgba(43,191,155,.10) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(43,191,155,.12) 0%,transparent 65%);
   border-radius:50%;pointer-events:none;
 }
 
@@ -102,7 +109,7 @@ nav.raised{box-shadow:var(--sh-md);}
   background:rgba(43,191,155,.1);border:1.5px solid rgba(43,191,155,.28);
   color:var(--p);padding:6px 14px;border-radius:50px;
   font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
-  width:fit-content;margin-bottom:28px;
+  width:fit-content;margin-bottom:16px;
   animation:fadeUp .6s var(--ease) .1s backwards;
 }
 .blink{width:7px;height:7px;background:var(--a);border-radius:50%;animation:blink 2s infinite;}
@@ -112,7 +119,7 @@ nav.raised{box-shadow:var(--sh-md);}
 .hero-h1{
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(44px,5.5vw,74px);font-weight:700;line-height:1.06;
-  color:var(--ink);margin-bottom:20px;
+  color:#fff;margin-bottom:12px;
   animation:fadeUp .6s var(--ease) .2s backwards;
 }
 .hero-h1 em{
@@ -121,8 +128,8 @@ nav.raised{box-shadow:var(--sh-md);}
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .hero-sub{
-  font-size:16px;color:var(--muted);line-height:1.8;
-  max-width:400px;margin-bottom:40px;
+  font-size:16px;color:rgba(255,255,255,.78);line-height:1.8;
+  max-width:460px;margin-bottom:24px;
   animation:fadeUp .6s var(--ease) .3s backwards;
 }
 @media(max-width:860px){.hero-sub{max-width:100%;}}
@@ -152,42 +159,13 @@ nav.raised{box-shadow:var(--sh-md);}
 .btn-o:hover{transform:translateY(-2px) scale(1.03);border-color:var(--p);box-shadow:var(--sh-sm);}
 
 .hero-stats{
-  display:flex;gap:40px;margin-top:56px;padding-top:36px;
-  border-top:1px solid var(--border);flex-wrap:wrap;
+  display:flex;gap:40px;margin-top:18px;padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.2);flex-wrap:wrap;
   animation:fadeUp .6s var(--ease) .5s backwards;
 }
 @media(max-width:860px){.hero-stats{justify-content:center;gap:28px;}}
-.stat-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--p);}
-.stat-l{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1.2px;font-weight:600;}
-
-.hero-r{position:relative;overflow:hidden;min-height:580px;}
-@media(max-width:860px){.hero-r{min-height:320px;order:-1;}}
-.hero-r img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 10s ease;}
-.hero-r:hover img{transform:scale(1.04);}
-.hero-r::before{
-  content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to right,var(--cream) 0%,rgba(245,243,238,.18) 18%,transparent 40%);
-}
-.hero-r::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;z-index:1;
-  background:linear-gradient(to top,rgba(15,50,38,.58),transparent);
-}
-.chef-tag{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(18px);
-  border-radius:16px;padding:12px 20px;
-  display:flex;align-items:center;gap:12px;
-  box-shadow:var(--sh-lg);white-space:nowrap;border:1px solid rgba(255,255,255,.65);
-  animation:fadeUp .7s var(--ease) .65s backwards;
-}
-.chef-av{
-  width:40px;height:40px;border-radius:50%;
-  background:linear-gradient(135deg,var(--p),var(--a));
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.chef-av svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;}
-.chef-nm{font-weight:700;font-size:13px;color:var(--ink);}
-.chef-rl{font-size:10px;color:var(--muted);margin-top:1px;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--a);}
+.stat-l{font-size:10px;color:rgba(255,255,255,.6);margin-top:3px;text-transform:uppercase;letter-spacing:1.2px;font-weight:600;}
 
 /* ═══════════════════════════════════════════
    GALLERY CAROUSEL
@@ -229,10 +207,81 @@ nav.raised{box-shadow:var(--sh-md);}
 /* ═══════════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════════ */
-.footer{background:#0e1d17;color:rgba(255,255,255,.5);padding:52px 24px;text-align:center;}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;font-weight:700;color:var(--a);margin-bottom:10px;}
-.footer-sub{font-size:13px;margin-bottom:6px;}
-.footer-note{font-size:11px;opacity:.45;}
+.footer{
+  background:#0b1d15;
+  color:rgba(255,255,255,.55);
+  padding:64px 24px 0;
+}
+.footer-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;
+  grid-template-columns:2fr 1.2fr 1.2fr 1.2fr;
+  gap:48px;padding-bottom:52px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:36px;}}
+@media(max-width:560px){.footer-grid{grid-template-columns:1fr;gap:32px;}}
+
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-style:italic;font-weight:700;
+  color:var(--a);margin-bottom:12px;display:block;
+}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:20px;max-width:240px;}
+.footer-socials{display:flex;gap:10px;}
+.fsoc{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;text-decoration:none;
+}
+.fsoc:hover{background:var(--p);border-color:var(--p);}
+.fsoc svg{width:15px;height:15px;stroke:rgba(255,255,255,.6);fill:none;stroke-width:2;}
+.fsoc:hover svg{stroke:#fff;}
+
+.footer-col-title{
+  font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:2.5px;color:rgba(255,255,255,.3);
+  margin-bottom:18px;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px;}
+.footer-col ul li a{
+  font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;
+  transition:color .18s;display:flex;align-items:center;gap:8px;
+}
+.footer-col ul li a:hover{color:var(--a);}
+.footer-col ul li a svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;opacity:.6;}
+
+.footer-contact-item{
+  display:flex;gap:10px;margin-bottom:14px;align-items:flex-start;
+}
+.footer-contact-item svg{
+  width:15px;height:15px;stroke:var(--a);fill:none;stroke-width:2;
+  flex-shrink:0;margin-top:2px;
+}
+.footer-contact-item span{font-size:13px;color:rgba(255,255,255,.55);line-height:1.55;}
+
+.footer-hours-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:9px;}
+.footer-hours-row .day{color:rgba(255,255,255,.38);}
+.footer-hours-row .time{color:rgba(255,255,255,.7);font-weight:500;}
+.footer-hours-row.today .day{color:var(--a);}
+.footer-hours-row.today .time{color:var(--a);}
+
+.footer-bottom{
+  max-width:1200px;margin:0 auto;
+  padding:20px 0;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-bottom-l{font-size:11px;color:rgba(255,255,255,.22);}
+.footer-wa{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#25d366;color:#fff;
+  padding:9px 18px;border-radius:50px;
+  font-size:12px;font-weight:700;text-decoration:none;
+  transition:all .2s;box-shadow:0 4px 16px rgba(37,211,102,.3);
+}
+.footer-wa:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.42);}
+.footer-wa svg{width:15px;height:15px;fill:#fff;}
 
 /* ═══════════════════════════════════════════
    ██████████████████████████████████████████
@@ -254,7 +303,7 @@ nav.raised{box-shadow:var(--sh-md);}
 
 .whl-sec{
   padding:80px 0 0;
-  background:linear-gradient(180deg,var(--cream) 0%,var(--warm) 60%,#e8f5f1 100%);
+  background:#e9f5f0;
 }
 .whl-hdr{text-align:center;padding:0 24px 48px;}
 
@@ -346,8 +395,8 @@ nav.raised{box-shadow:var(--sh-md);}
 .whl-node:not(.active):hover{opacity:.85;}
 .whl-node:not(.active):hover .whl-node-face{transform:scale(1.06);}
 
-/* Partial (edge) nodes — more dimmed, no pointer events */
-.whl-node.partial{opacity:.35;pointer-events:none;}
+/* Partial (edge) nodes — hidden so no half-cut dishes show */
+.whl-node.partial{opacity:0;pointer-events:none;}
 
 /* Dish name label — counter-rotated, shown on active + hover */
 .whl-node-label{
@@ -443,7 +492,7 @@ nav.raised{box-shadow:var(--sh-md);}
 /* ═══════════════════════════════════════════
    MENU PAGE
 ═══════════════════════════════════════════ */
-.menu-pg{padding-top:var(--nav);min-height:100vh;background:#f0ede7;}
+.menu-pg{padding-top:var(--nav);min-height:100vh;background:#e9f5f0;}
 
 .m-banner{
   background:linear-gradient(135deg,#0a3d2c 0%,var(--p) 55%,var(--a) 100%);
@@ -456,7 +505,7 @@ nav.raised{box-shadow:var(--sh-md);}
 .m-banner::after{
   content:'';position:absolute;
   bottom:-66px;left:50%;transform:translateX(-50%);
-  width:130%;height:132px;background:#f0ede7;
+  width:130%;height:132px;background:#e9f5f0;
   border-radius:50% 50% 0 0/100% 100% 0 0;
 }
 .m-banner-in{position:relative;z-index:1;max-width:600px;margin:0 auto;text-align:center;}
@@ -536,23 +585,88 @@ nav.raised{box-shadow:var(--sh-md);}
 .modal-cta:active{transform:scale(.97);filter:brightness(.94);}
 
 /* ═══════════════════════════════════════════
-   CART DRAWER
+   CART POPUP (Mac-style centered modal)
 ═══════════════════════════════════════════ */
-.cart-bd{display:none;position:fixed;inset:0;background:rgba(15,20,18,.45);z-index:860;backdrop-filter:blur(4px);animation:fadeIn .22s var(--ease);}
-.cart-bd.on{display:block;}
-.cart-dr{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:460px;background:var(--card);z-index:870;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-12px 0 60px rgba(0,0,0,.18);}
-.cart-dr.open{transform:translateX(0);}
-.cart-head{padding:18px 22px;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.cart-bd{
+  position:fixed;inset:0;
+  background:rgba(10,18,14,.55);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  z-index:860;
+  opacity:0;pointer-events:none;
+  transition:opacity .34s ease;
+}
+.cart-bd.on{opacity:1;pointer-events:auto;}
+
+.cart-dr{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.82);
+  width:92%;max-width:480px;
+  max-height:88vh;
+  background:var(--card);
+  z-index:870;
+  border-radius:24px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  opacity:0;pointer-events:none;
+  transition:
+    opacity .4s cubic-bezier(.34,1.56,.64,1),
+    transform .4s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 24px 60px rgba(0,0,0,.32),
+    0 8px 20px rgba(0,0,0,.18);
+}
+.cart-dr.open{
+  opacity:1;pointer-events:auto;
+  transform:translate(-50%,-50%) scale(1);
+}
+.cart-dr.closing{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(0.82);
+  transition:
+    opacity .28s cubic-bezier(.4,0,.2,1),
+    transform .28s cubic-bezier(.4,0,.2,1);
+}
+
+.cart-head{
+  padding:18px 22px;
+  background:linear-gradient(135deg,var(--p),var(--a));
+  color:#fff;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+  border-radius:24px 24px 0 0;
+}
 .cart-head-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;}
-.cart-x{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.cart-x:hover{background:rgba(255,255,255,.18);}
-.cart-x svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5;}
+.cart-x{
+  width:32px;height:32px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.12);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.cart-x:hover{background:rgba(255,255,255,.26);transform:scale(1.08);}
+.cart-x:active{transform:scale(.9);}
+.cart-x svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;}
+
 .cart-body{flex:1;overflow-y:auto;padding:14px;}
-.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:var(--muted);text-align:center;}
+.cart-body::-webkit-scrollbar{width:4px;}
+.cart-body::-webkit-scrollbar-track{background:transparent;}
+.cart-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--muted);text-align:center;}
 .cart-empty svg{width:52px;height:52px;stroke:var(--border);fill:none;stroke-width:1.5;margin-bottom:14px;}
 .cart-empty p{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
-.c-row{display:flex;gap:12px;align-items:center;padding:12px;background:var(--cream);border-radius:12px;margin-bottom:10px;border:1px solid var(--border);animation:rowIn .3s var(--spring);}
-@keyframes rowIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+
+.c-row{
+  display:flex;gap:12px;align-items:center;
+  padding:12px;background:var(--cream);
+  border-radius:12px;margin-bottom:10px;
+  border:1px solid var(--border);
+  animation:rowIn .32s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes rowIn{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
 .c-row-img{width:58px;height:58px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#e0dcd5;}
 .c-row-info{flex:1;min-width:0;}
 .c-row-nm{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -562,7 +676,8 @@ nav.raised{box-shadow:var(--sh-md);}
 .cc-b:hover{background:var(--p);color:#fff;}
 .cc-b:active{transform:scale(.88);}
 .cc-n{min-width:24px;text-align:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;}
-.cart-foot{padding:18px 20px;border-top:1px solid var(--border);background:var(--card);flex-shrink:0;}
+
+.cart-foot{padding:16px 18px;border-top:1px solid var(--border);background:var(--card);flex-shrink:0;}
 .cart-tot-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
 .cart-tot-l{font-size:13px;color:var(--muted);}
 .cart-tot-v{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--p);}
@@ -706,13 +821,6 @@ nav.raised{box-shadow:var(--sh-md);}
         <div><div class="stat-n">Fast</div><div class="stat-l">Delivery</div></div>
       </div>
     </div>
-    <div class="hero-r">
-      <img src="images/chef.jpg" alt="Our Chef">
-      <div class="chef-tag">
-        <div class="chef-av"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="chef-nm">Head Chef</div><div class="chef-rl">Annamay Restaurant & Bakery</div></div>
-      </div>
-    </div>
   </div>
 
   <!-- GALLERY -->
@@ -722,11 +830,11 @@ nav.raised{box-shadow:var(--sh-md);}
       <h2 class="sec-h2">Our <span>Restaurant</span></h2>
       <div class="car-track">
         <div class="c-slide on"><img src="images/restaurant-1.jpg" alt="Interior"><div class="c-cap"><h3>Our Welcoming Space</h3><p>Modern interiors, warm atmosphere</p></div></div>
-        <div class="c-slide"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&h=480&fit=crop&q=80" alt="Counter"><div class="c-cap"><h3>Fresh Every Day</h3><p>Ingredients sourced daily for best quality</p></div></div>
-        <div class="c-slide"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba53dba?w=1200&h=480&fit=crop&q=80" alt="Seating"><div class="c-cap"><h3>Dine in Comfort</h3><p>Perfect for families, friends, celebrations</p></div></div>
-        <div class="c-slide"><img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=480&fit=crop&q=80" alt="Kitchen"><div class="c-cap"><h3>Crafted with Passion</h3><p>Decades of culinary expertise in every plate</p></div></div>
-        <div class="c-slide"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=1200&h=480&fit=crop&q=80" alt="Food"><div class="c-cap"><h3>Beautiful Presentation</h3><p>Every dish plated with care and elegance</p></div></div>
-        <div class="c-slide"><img src="https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?w=1200&h=480&fit=crop&q=80" alt="Bakery"><div class="c-cap"><h3>Fresh Baked Daily</h3><p>Artisan breads and pastries every morning</p></div></div>
+        <div class="c-slide"><img src="images/restaurant-2.jpg" alt="Counter"><div class="c-cap"><h3>Fresh Every Day</h3><p>Ingredients sourced daily for best quality</p></div></div>
+        <div class="c-slide"><img src="images/restaurant-3.jpg" alt="Seating"><div class="c-cap"><h3>Dine in Comfort</h3><p>Perfect for families, friends, celebrations</p></div></div>
+        <div class="c-slide"><img src="images/restaurant-4.jpg" alt="Kitchen"><div class="c-cap"><h3>Crafted with Passion</h3><p>Decades of culinary expertise in every plate</p></div></div>
+        <div class="c-slide"><img src="images/restaurant-5.jpg" alt="Food"><div class="c-cap"><h3>Beautiful Presentation</h3><p>Every dish plated with care and elegance</p></div></div>
+        <div class="c-slide"><img src="images/restaurant-6.jpg" alt="Bakery"><div class="c-cap"><h3>Fresh Baked Daily</h3><p>Artisan breads and pastries every morning</p></div></div>
       </div>
       <div class="car-nav">
         <div id="cDots" style="display:flex;gap:6px"></div>
@@ -749,9 +857,94 @@ nav.raised{box-shadow:var(--sh-md);}
   </section>
 
   <footer class="footer">
-    <div class="footer-logo">Annamay</div>
-    <div class="footer-sub">Restaurant & Bakery — Fresh Food, Best Taste</div>
-    <div class="footer-note">Open Daily &nbsp;·&nbsp; Fast Delivery &nbsp;·&nbsp; Call to Order</div>
+    <div class="footer-grid">
+
+      <!-- Brand -->
+      <div class="footer-col">
+        <span class="footer-logo">Annamay</span>
+        <p class="footer-tagline">Restaurant &amp; Bakery — serving fresh, homemade food made with love. Every dish cooked daily for the best taste.</p>
+        <div class="footer-socials">
+          <a class="fsoc" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a class="fsoc" href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a class="fsoc" href="#" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <div class="footer-col-title">Contact Us</div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Your Restaurant Address,<br>Street, City, State — PIN</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <span>+91 98765 43210</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>hello@annamay.in</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Open Daily: 8:00 AM – 10:00 PM</span>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div class="footer-col">
+        <div class="footer-col-title">Opening Hours</div>
+        <div class="footer-hours-row today"><span class="day">Mon – Fri</span><span class="time">8 AM – 10 PM</span></div>
+        <div class="footer-hours-row today"><span class="day">Saturday</span><span class="time">8 AM – 11 PM</span></div>
+        <div class="footer-hours-row today"><span class="day">Sunday</span><span class="time">9 AM – 10 PM</span></div>
+        <div style="margin-top:16px;padding:10px 14px;background:rgba(43,191,155,.1);border-radius:10px;border:1px solid rgba(43,191,155,.2);">
+          <span style="font-size:11px;color:var(--a);font-weight:700;">● We're Open Now!</span>
+          <p style="font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;">Dine-in &amp; Delivery available</p>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <div class="footer-col-title">Quick Links</div>
+        <ul>
+          <li><a href="#" onclick="goHome();return false;">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Home
+          </a></li>
+          <li><a href="#" onclick="goMenu();return false;">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Full Menu
+          </a></li>
+          <li><a href="#" onclick="openCart();return false;">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            Order Now
+          </a></li>
+          <li><a href="#" onclick="scrollGal();return false;">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Our Restaurant
+          </a></li>
+          <li><a href="tel:+919876543210">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            Call to Order
+          </a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-bottom-l">© 2025 Annamay Restaurant &amp; Bakery. All rights reserved.</span>
+      <a class="footer-wa" href="https://wa.me/919876543210" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        Order on WhatsApp
+      </a>
+    </div>
   </footer>
 </div>
 
@@ -776,9 +969,48 @@ nav.raised{box-shadow:var(--sh-md);}
       </div>
     </div>
   </div>
-</div>
 
-<!-- KITCHEN PAGE -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <span class="footer-logo">Annamay</span>
+        <p class="footer-tagline">Restaurant &amp; Bakery — serving fresh, homemade food made with love. Every dish cooked daily for the best taste.</p>
+        <div class="footer-socials">
+          <a class="fsoc" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="fsoc" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a class="fsoc" href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact Us</div>
+        <div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Your Restaurant Address,<br>Street, City, State — PIN</span></div>
+        <div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span>+91 98765 43210</span></div>
+        <div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>hello@annamay.in</span></div>
+        <div class="footer-contact-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Open Daily: 8:00 AM – 10:00 PM</span></div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Opening Hours</div>
+        <div class="footer-hours-row today"><span class="day">Mon – Fri</span><span class="time">8 AM – 10 PM</span></div>
+        <div class="footer-hours-row today"><span class="day">Saturday</span><span class="time">8 AM – 11 PM</span></div>
+        <div class="footer-hours-row today"><span class="day">Sunday</span><span class="time">9 AM – 10 PM</span></div>
+        <div style="margin-top:16px;padding:10px 14px;background:rgba(43,191,155,.1);border-radius:10px;border:1px solid rgba(43,191,155,.2);"><span style="font-size:11px;color:var(--a);font-weight:700;">● We're Open Now!</span><p style="font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;">Dine-in &amp; Delivery available</p></div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Quick Links</div>
+        <ul>
+          <li><a href="#" onclick="goHome();return false;"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a></li>
+          <li><a href="#" onclick="goMenu();return false;"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Full Menu</a></li>
+          <li><a href="#" onclick="openCart();return false;"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>Order Now</a></li>
+          <li><a href="tel:+919876543210"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Call to Order</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-bottom-l">© 2025 Annamay Restaurant &amp; Bakery. All rights reserved.</span>
+      <a class="footer-wa" href="https://wa.me/919876543210" target="_blank"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Order on WhatsApp</a>
+    </div>
+  </footer>
+</div>
 <div class="page kitchen" id="kitchenPg">
   <div class="k-head">
     <div class="k-title">Kitchen Monitor</div>
@@ -993,35 +1225,110 @@ const CAT_COLORS={
 };
 
 const IMGS={
-  'dosa':'https://images.unsplash.com/photo-1589080876435-b97d6b6a3fa4?w=400&h=400&fit=crop&q=80',
-  'idli':'https://images.unsplash.com/photo-1585968550019-fc9c87c0d586?w=400&h=400&fit=crop&q=80',
-  'uthappa':'https://images.unsplash.com/photo-1567695000156-c04606e3e1d3?w=400&h=400&fit=crop&q=80',
-  'burger':'https://images.unsplash.com/photo-1568901346375-23c9450fc58e?w=400&h=400&fit=crop&q=80',
-  'sandwich':'https://images.unsplash.com/photo-1528132388455-87b90a336e4d?w=400&h=400&fit=crop&q=80',
-  'sizzler':'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&q=80',
-  'platter':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop&q=80',
-  'fries':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=400&fit=crop&q=80',
-  'garlic bread':'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=400&h=400&fit=crop&q=80',
-  'nachos':'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=400&h=400&fit=crop&q=80',
-  'bruschetta':'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=400&fit=crop&q=80',
-  'pasta':'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=400&fit=crop&q=80',
-  'alfredo':'https://images.unsplash.com/photo-1645112411341-6c4ee36b2e4d?w=400&h=400&fit=crop&q=80',
-  'shake':'https://images.unsplash.com/photo-1571805529673-0f56b922b359?w=400&h=400&fit=crop&q=80',
-  'smoothie':'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop&q=80',
-  'coffee':'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop&q=80',
-  'tea':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=400&fit=crop&q=80',
-  'chocolate':'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&h=400&fit=crop&q=80',
-  'biryani':'https://images.unsplash.com/photo-1563379091339-03b21ab4a104?w=400&h=400&fit=crop&q=80',
-  'rice':'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=400&fit=crop&q=80',
-  'pulao':'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&h=400&fit=crop&q=80',
-  'soup':'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop&q=80',
-  'dal':'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop&q=80',
-  'papad':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop&q=80'
+  /* ── South Indian ── */
+  'Classic Masala Dosa'       :'images/classic-masala-dosa.jpg',
+  'Plain Dosa'                :'images/plain-dosa.jpg',
+  'Paneer Dosa'               :'images/paneer-dosa.jpg',
+  'Onion Dosa'                :'images/onion-dosa.jpg',
+  'Paneer Cheese Dosa'        :'images/paneer-cheese-dosa.jpg',
+  'Masala Cheese Dosa'        :'images/masala-cheese-dosa.jpg',
+  'Idli (4 pcs) with Sambar'  :'images/idli-4pcs-sambar.jpg',
+  'Masala Idli with Sambar'   :'images/masala-idli-sambar.jpg',
+  'Only Sambar'               :'images/only-sambar.jpg',
+  'Idli (2 pcs)'              :'images/idli-2pcs.jpg',
+  'Double Roast Uthappa'      :'images/double-roast-uthappa.jpg',
+  /* ── Burger ── */
+  'Aloo Tikki Burger'         :'images/aloo-tikki-burger.jpg',
+  'Aloo Tikki Cheese Burger'  :'images/aloo-tikki-cheese-burger.jpg',
+  'Veg Double Cheese Burger'  :'images/veg-double-cheese-burger.jpg',
+  'Grilled Paneer Burger'     :'images/grilled-paneer-burger.jpg',
+  'Double Open Burger'        :'images/double-open-burger.jpg',
+  /* ── Sandwich ── */
+  'Corn Cheese Grilled Sandwich'      :'images/corn-cheese-grilled-sandwich.jpg',
+  'Paneer Tikka Grilled Sandwich'     :'images/paneer-tikka-grilled-sandwich.jpg',
+  'English Grilled Veg Sandwich'      :'images/english-grilled-veg-sandwich.jpg',
+  'Veg Grilled Sandwich'              :'images/veg-grilled-sandwich.jpg',
+  'Bombay Masala Grilled Sandwich'    :'images/bombay-masala-grilled-sandwich.jpg',
+  'Grilled Mushroom Sandwich'         :'images/grilled-mushroom-sandwich.jpg',
+  /* ── Sizzler ── */
+  'Cottage Cheese Sizzler'    :'images/cottage-cheese-sizzler.jpg',
+  'Chinese Sizzler'           :'images/chinese-sizzler.jpg',
+  'Mexican Sizzler'           :'images/mexican-sizzler.jpg',
+  'Kebab Sizzler'             :'images/kebab-sizzler.jpg',
+  /* ── Platter ── */
+  'Tandoori Veg Platter (15 pcs)' :'images/tandoori-veg-platter.jpg',
+  'Chinese Platter'               :'images/chinese-platter.jpg',
+  /* ── Continental Munchies ── */
+  'French Fries'                          :'images/french-fries.jpg',
+  'Peri Peri French Fries'               :'images/peri-peri-french-fries.jpg',
+  'Plain Garlic Bread (4 pcs)'           :'images/plain-garlic-bread.jpg',
+  'Cheese Garlic Bread (4 pcs)'          :'images/cheese-garlic-bread.jpg',
+  'Mexican Loaded Nachos'                :'images/mexican-loaded-nachos.jpg',
+  'Corn Cheese Bruschetta'               :'images/corn-cheese-bruschetta.jpg',
+  'Mushroom Cheese Bruschetta'           :'images/mushroom-cheese-bruschetta.jpg',
+  'Corn & Bell Peppers Bruschetta'       :'images/corn-bell-peppers-bruschetta.jpg',
+  'Mushroom & Bell Peppers Bruschetta'   :'images/mushroom-bell-peppers-bruschetta.jpg',
+  /* ── Pasta ── */
+  'Creamy Alfredo'        :'images/creamy-alfredo.jpg',
+  'Saucy Arrabiata'       :'images/saucy-arrabiata.jpg',
+  'Mac & Cheese'          :'images/mac-and-cheese.jpg',
+  'Pesto Pasta'           :'images/pesto-pasta.jpg',
+  'Pinky Penne'           :'images/pinky-penne.jpg',
+  'Aglio-e-Olio Linguine' :'images/aglio-e-olio-linguine.jpg',
+  'Primavera Pasta'       :'images/primavera-pasta.jpg',
+  /* ── Shakes ── */
+  'Strawberry Shake'      :'images/strawberry-shake.jpg',
+  'Vanilla Shake'         :'images/vanilla-shake.jpg',
+  'Cold Coffee'           :'images/cold-coffee.jpg',
+  'Oreo Shake'            :'images/oreo-shake.jpg',
+  'KitKat Shake'          :'images/kitkat-shake.jpg',
+  'Ferrero Shake'         :'images/ferrero-shake.jpg',
+  'Brownie Shake'         :'images/brownie-shake.jpg',
+  'Banana Shake'          :'images/banana-shake.jpg',
+  /* ── Smoothies ── */
+  'Banana Smoothie'       :'images/banana-smoothie.jpg',
+  'Blueberry Smoothie'    :'images/blueberry-smoothie.jpg',
+  'Strawberry Smoothie'   :'images/strawberry-smoothie.jpg',
+  'Kiwi Smoothie'         :'images/kiwi-smoothie.jpg',
+  'Pineapple Smoothie'    :'images/pineapple-smoothie.jpg',
+  /* ── Rice & Biryani ── */
+  'Steamed Rice'          :'images/steamed-rice.jpg',
+  'Jeera Rice'            :'images/jeera-rice.jpg',
+  'Onion Jeera Rice'      :'images/onion-jeera-rice.jpg',
+  'Peas Pulao'            :'images/peas-pulao.jpg',
+  'Corn Masala Pulao'     :'images/corn-masala-pulao.jpg',
+  'Paneer Pulao'          :'images/paneer-pulao.jpg',
+  'Navratan Pulao'        :'images/navratan-pulao.jpg',
+  'Veg Dum Biryani'       :'images/veg-dum-biryani.jpg',
+  'Hyderabadi Biryani'    :'images/hyderabadi-biryani.jpg',
+  'Paneer Tikka Biryani'  :'images/paneer-tikka-biryani.jpg',
+  /* ── Hot Beverages ── */
+  'Tea'                   :'images/tea.jpg',
+  'Masal Tea'             :'images/masala-tea.jpg',
+  'Hot Coffee'            :'images/hot-coffee.jpg',
+  'Black Coffee'          :'images/black-coffee.jpg',
+  'Black Tea'             :'images/black-tea.jpg',
+  'Hot Chocolate Milk'    :'images/hot-chocolate-milk.jpg',
+  /* ── Soup ── */
+  'Veg Manchow Soup'          :'images/veg-manchow-soup.jpg',
+  'Hot & Sour Soup'           :'images/hot-and-sour-soup.jpg',
+  'Sweet Corn Soup'           :'images/sweet-corn-soup.jpg',
+  'Lemon Coriander Soup'      :'images/lemon-coriander-soup.jpg',
+  'Cream of Mushroom Soup'    :'images/cream-of-mushroom-soup.jpg',
+  'Cream of Tomato Soup'      :'images/cream-of-tomato-soup.jpg',
+  /* ── Crispy Papad ── */
+  'Roasted Papad (4 pcs)'     :'images/roasted-papad.jpg',
+  'Fried Papad (4 pcs)'       :'images/fried-papad.jpg',
+  'Masala Papad (3 pcs)'      :'images/masala-papad.jpg',
+  /* ── Dal ── */
+  'Dal Fry'       :'images/dal-fry.jpg',
+  'Dal Tadka'     :'images/dal-tadka.jpg',
+  'Dal Dhaba'     :'images/dal-dhaba.jpg',
+  'Dal Makhani'   :'images/dal-makhani.jpg'
 };
 function getImg(n){
-  const l=n.toLowerCase();
-  for(const[k,v] of Object.entries(IMGS)) if(l.includes(k)) return v;
-  return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&q=80';
+  if(IMGS[n]) return IMGS[n];
+  return 'images/default.jpg';
 }
 
 /* ═══════════════════════════════════════
@@ -1714,4 +2021,4 @@ refreshCart();
 initRoute();
 </script>
 </body>
-                                                          </html>
+   </html> 
