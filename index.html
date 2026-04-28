@@ -1926,7 +1926,7 @@ function placeOrder() {
 
   const lines = cart.map(c => `${c.name} x${c.qty} = Rs.${c.price*c.qty}`).join('%0A');
   const msg = `*New Order — ${id}*%0A%0A${lines}%0A%0A*Total: Rs.${total}*%0A%0ACustomer: ${name}%0APhone: ${phone}%0AAddress: ${addr}`;
-  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+  window.open(`https://wa.me/919473582795?text=${msg}`, '_blank');
 
   cart = []; save(); refreshCart();
   ['oName','oPhone','oAddr'].forEach(i => document.getElementById(i).value = '');
