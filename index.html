@@ -236,177 +236,185 @@ nav.raised{box-shadow:var(--sh-md);}
 
 /* ═══════════════════════════════════════════
    ██████████████████████████████████████████
-   RADIAL WHEEL SYSTEM
+   RADIAL WHEEL SYSTEM — CONVEYOR BELT
    
-   FIXED 7 SLOTS:
-   slot 0 = top center (ACTIVE) — angle: -90° (270°)
-   slot 1 = upper-right        — angle: -45° (315°)
-   slot 2 = right              — angle:   0° (360°)
-   slot 3 = lower-right        — angle:  45°  (partial)
-   slot 4 = upper-left         — angle: -135° (225°)
-   slot 5 = left               — angle: 180°
-   slot 6 = lower-left         — angle: 135°  (partial)
+   The rotor physically spins like a lazy-susan / conveyor belt.
+   A FIXED green spotlight sits at 12 o'clock — it never moves.
+   Whichever dish plate travels under the spotlight is "active".
    
-   Data rotates through slots.
-   Slots never move.
+   Architecture:
+   - .whl-wrap: clip container (overflow:hidden), shows only top arc
+   - .whl-table: giant decorative teal circle (the dining table bg)
+   - .whl-rotor: spins. Nodes are children at fixed positions on its rim
+   - .whl-node: physical dish plate, counter-rotated to stay upright
+   - .whl-spotlight: fixed green glow at 12 o'clock, NOT in rotor
+   - .whl-card: info card below the arc, NOT in rotor
    ██████████████████████████████████████████
 ═══════════════════════════════════════════ */
 
 .whl-sec{
   padding:80px 0 0;
-  background:linear-gradient(180deg,var(--cream) 0%,var(--warm) 70%,#fff 100%);
-  overflow:hidden;
+  background:linear-gradient(180deg,var(--cream) 0%,var(--warm) 60%,#e8f5f1 100%);
 }
-.whl-hdr{text-align:center;padding:0 24px 52px;}
+.whl-hdr{text-align:center;padding:0 24px 48px;}
 
-/* Container — clips to top half via overflow:hidden */
-.whl-container{
+/* Outer wrapper — clips the bottom half of the rotor, shows the arc */
+.whl-wrap{
   position:relative;
+  overflow:hidden; /* clips rotor bottom */
   margin:0 auto;
-  /* width and height set by JS based on screen size */
-  overflow:hidden; /* KEY: hides bottom half of circle */
 }
 
-/* Big decorative background circle — same center as rotor */
-.whl-bg-ring{
+/* The big teal circular dining-table background */
+.whl-table{
   position:absolute;
   border-radius:50%;
-  /* Teal gradient like the diagram */
-  background:radial-gradient(circle at 50% 50%,
-    rgba(43,191,155,.22) 0%,
-    rgba(43,191,155,.10) 40%,
-    rgba(43,191,155,.03) 65%,
+  background:radial-gradient(circle at 50% 42%,
+    rgba(43,191,155,.28) 0%,
+    rgba(43,191,155,.16) 35%,
+    rgba(43,191,155,.06) 60%,
     transparent 75%
   );
   pointer-events:none;
+  /* positioned so its center = rotor center = bottom-center of .whl-wrap */
 }
 
-/* Rotor: the spinning element whose center is at the bottom-center of the container */
+/* Fixed green spotlight at 12 o'clock — sits above the rotor, doesn't spin */
+.whl-spotlight{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:15;
+  /* size and position set by JS */
+  /* pulsing green glow ring */
+  background:transparent;
+  box-shadow:
+    0 0 0 4px rgba(43,191,155,.9),
+    0 0 0 10px rgba(43,191,155,.35),
+    0 0 0 20px rgba(43,191,155,.12),
+    0 0 40px rgba(43,191,155,.25);
+  animation:spotPulse 2.4s ease-in-out infinite;
+}
+@keyframes spotPulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(43,191,155,.9),0 0 0 10px rgba(43,191,155,.35),0 0 0 20px rgba(43,191,155,.12),0 0 40px rgba(43,191,155,.25);}
+  50%{box-shadow:0 0 0 4px rgba(43,191,155,1),0 0 0 14px rgba(43,191,155,.45),0 0 0 28px rgba(43,191,155,.18),0 0 60px rgba(43,191,155,.35);}
+}
+
+/* Rotor: the spinning disc. Its center is at bottom-center of .whl-wrap */
 .whl-rotor{
   position:absolute;
   border-radius:50%;
-  /* transition drives the spin */
-  transition:transform .65s var(--ease);
-  /* size and position set by JS */
+  will-change:transform;
+  transition:transform .72s cubic-bezier(.4,0,.2,1);
 }
 
-/* Each dish slot node — position set by JS */
+/* Each dish plate node */
 .whl-node{
   position:absolute;
   border-radius:50%;
   cursor:pointer;
-  /* pointer-events controlled per node */
+  transition:opacity .35s ease;
 }
 
-/* Inner image circle */
+/* The circular image face — counter-rotated inline by JS to stay upright */
 .whl-node-face{
   width:100%;height:100%;
   border-radius:50%;overflow:hidden;
-  border:3px solid rgba(255,255,255,.75);
-  box-shadow:0 4px 18px rgba(0,0,0,.15);
+  border:3px solid rgba(255,255,255,.8);
+  box-shadow:0 4px 20px rgba(0,0,0,.18);
   background:#e8e4dc;
-  transition:border-color .4s,box-shadow .4s,transform .4s;
-  /* counter-rotation applied inline by JS */
+  transition:border-color .4s, box-shadow .4s, transform .35s cubic-bezier(.34,1.56,.64,1);
 }
 .whl-node-face img{
   width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .45s ease;
 }
 
-/* ACTIVE node — the glowing one at top center */
+/* When a node is under the spotlight — just a subtle lift, NO green border ring */
 .whl-node.active .whl-node-face{
-  border-color:var(--a);
-  box-shadow:
-    0 0 0 5px rgba(43,191,155,.3),
-    0 0 0 10px rgba(43,191,155,.1),
-    0 8px 32px rgba(31,122,99,.5);
-  transform:scale(1.18);
+  transform:scale(1.12);
+  box-shadow:0 8px 32px rgba(0,0,0,.22);
 }
-.whl-node.active .whl-node-face img{transform:scale(1.06);}
 
-/* Inactive nodes */
-.whl-node:not(.active){opacity:.6;transition:opacity .3s;}
-.whl-node:not(.active):hover{opacity:1;}
-.whl-node:not(.active):hover .whl-node-face{transform:scale(1.08);}
+/* Non-active: dimmed */
+.whl-node:not(.active){opacity:.55;}
+.whl-node:not(.active):hover{opacity:.85;}
+.whl-node:not(.active):hover .whl-node-face{transform:scale(1.06);}
 
-/* Partial nodes (edge slots 3 & 6) — clipped, less opacity */
-.whl-node.partial{opacity:.4;}
-.whl-node.partial:hover{opacity:.65;}
+/* Partial (edge) nodes — more dimmed, no pointer events */
+.whl-node.partial{opacity:.35;pointer-events:none;}
 
-/* Dish name label */
+/* Dish name label — counter-rotated, shown on active + hover */
 .whl-node-label{
   position:absolute;
-  top:calc(100% + 7px);left:50%;transform:translateX(-50%);
-  white-space:nowrap;font-size:9px;font-weight:700;
-  background:rgba(255,255,255,.95);color:var(--p);
-  padding:2px 8px;border-radius:50px;box-shadow:var(--sh-sm);
-  opacity:0;pointer-events:none;transition:opacity .2s;
-  /* counter-rotation so label stays upright */
+  top:calc(100% + 8px);left:50%;
+  white-space:nowrap;font-size:9px;font-weight:700;letter-spacing:.5px;
+  background:rgba(255,255,255,.96);color:var(--p);
+  padding:3px 10px;border-radius:50px;box-shadow:var(--sh-sm);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+  /* transform set inline by JS (counter-rotation + centering) */
 }
 .whl-node.active .whl-node-label{opacity:1;}
 .whl-node:not(.partial):hover .whl-node-label{opacity:1;}
 
-/* ── CENTER CARD ──
-   Fixed position inside container — NOT part of rotor.
-   Shows active dish: image thumbnail, name, price, add button.
-   Positioned at geometric center of the big circle.
-*/
-.whl-center{
-  position:absolute;
-  z-index:20;
-  /* center point set by JS — we place it at the circle center */
-  transform:translateX(-50%) translateY(-50%);
-  /* so top-left of this element is at the circle center */
+/* ── INFO CARD — below the arc, perfectly centered, NOT in rotor ── */
+.whl-card-wrap{
+  display:flex;justify-content:center;
+  padding:0 24px 40px;
+  position:relative;z-index:10;
+  margin-top:-72px;
 }
 
 .whl-card{
-  background:rgba(255,255,255,.97);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border:1.5px solid rgba(255,255,255,.7);
-  border-radius:22px;
-  padding:16px 20px 18px;
-  box-shadow:0 16px 48px rgba(0,0,0,.14),0 3px 12px rgba(0,0,0,.07);
-  width:200px;
+  background:rgba(255,255,255,.98);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1.5px solid rgba(255,255,255,.75);
+  border-radius:24px;
+  padding:20px 24px 22px;
+  box-shadow:0 20px 56px rgba(0,0,0,.14),0 4px 14px rgba(0,0,0,.06);
+  width:230px;
   cursor:pointer;text-align:center;
-  transition:transform .22s var(--spring),box-shadow .22s;
+  transition:transform .22s var(--spring),box-shadow .22s,opacity .3s;
 }
-.whl-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.18);}
+.whl-card.empty{
+  opacity:0;pointer-events:none;transform:translateY(8px);
+}
+.whl-card:hover{transform:translateY(-5px);box-shadow:0 28px 68px rgba(0,0,0,.18);}
 .whl-card:active{transform:scale(.97);}
 
 .whl-card-thumb{
-  width:60px;height:60px;border-radius:50%;overflow:hidden;
-  margin:0 auto 10px;
+  width:70px;height:70px;border-radius:50%;overflow:hidden;
+  margin:0 auto 12px;
   border:3px solid var(--a);
-  box-shadow:0 0 0 4px rgba(43,191,155,.16);
+  box-shadow:0 0 0 5px rgba(43,191,155,.15);
 }
-.whl-card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-.whl-card:hover .whl-card-thumb img{transform:scale(1.08);}
+.whl-card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .3s;}
+.whl-card:hover .whl-card-thumb img{transform:scale(1.1);}
 
-.whl-card-cat{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--a);margin-bottom:4px;transition:opacity .2s,transform .22s;}
-.whl-card-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:4px;transition:opacity .2s,transform .22s;}
-.whl-card-price{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--p);margin-bottom:12px;transition:opacity .2s,transform .22s;}
+.whl-card-cat{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--a);margin-bottom:5px;transition:opacity .22s,transform .22s;}
+.whl-card-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:5px;transition:opacity .22s,transform .22s;}
+.whl-card-price{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:var(--p);margin-bottom:14px;transition:opacity .22s,transform .22s;}
 
-/* text swap fade */
 .whl-card-inner.fading .whl-card-cat,
 .whl-card-inner.fading .whl-card-name,
-.whl-card-inner.fading .whl-card-price{opacity:0;transform:translateY(5px);}
+.whl-card-inner.fading .whl-card-price{opacity:0;transform:translateY(6px);}
 
 .whl-add-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:8px 16px;border-radius:50px;border:none;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 20px;border-radius:50px;border:none;
   background:linear-gradient(135deg,var(--p),var(--a));
-  color:#fff;font-size:11px;font-weight:700;
+  color:#fff;font-size:12px;font-weight:700;
   box-shadow:var(--sh-g);
   transition:transform .2s var(--spring),box-shadow .2s;
 }
 .whl-add-btn:hover{transform:translateY(-2px) scale(1.06);box-shadow:0 10px 24px rgba(31,122,99,.42);}
 .whl-add-btn:active{transform:scale(.94);}
-.whl-add-btn svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;}
+.whl-add-btn svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.5;}
 
 /* ── ARROW CONTROLS ── */
 .whl-arrows{
   display:flex;justify-content:center;gap:14px;
-  padding:24px 0 52px;position:relative;z-index:10;
+  padding:0 0 16px;position:relative;z-index:10;
 }
 .whl-arr{
   width:44px;height:44px;border-radius:50%;
@@ -1040,87 +1048,93 @@ let orders=JSON.parse(localStorage.getItem('annamay_orders')||'[]');
    ██████████████████████████████████
 ═══════════════════════════════════════ */
 
-/* 7 fixed slot angles in degrees (standard math, 0=right, CCW negative) */
-const SLOT_ANGLES = [270, 315, 360, 405, 225, 180, 135];
-/* Which slots are "partial" (half visible at edges) */
-const PARTIAL_SLOTS = new Set([3, 6]);
+/* ═══════════════════════════════════════
+   CONVEYOR BELT WHEEL ENGINE — v3 CLEAN
+   
+   GEOMETRY:
+   - Rotor center = bottom-center of .whl-wrap
+   - Active slot = slot at index activeIdx, always at angle 270° (12 o'clock)
+   - arcStart + activeIdx*arcStep = 270  →  arcStart = 270 - activeIdx*arcStep
+   - Spotlight positioned exactly over the active node: same center X/Y
+   
+   DISH TRACKING:
+   - activeDish = index of dish currently under spotlight
+   - On rotate(dir): activeDish shifts, rotor spins by arcStep*dir degrees
+   - Card always shows dishes[activeDish], updated after spin completes
+═══════════════════════════════════════ */
 
 function wheelSizes() {
   const W = window.innerWidth;
-  if (W < 480) return { R:170, ns:72,  cardW:170, padding:20 };
-  if (W < 768) return { R:230, ns:88,  cardW:185, padding:24 };
-  return              { R:320, ns:110, cardW:210, padding:32 };
+  if (W < 480) return { R:190, ns:92,  SLOTS:5 };
+  if (W < 768) return { R:255, ns:114, SLOTS:7 };
+  return              { R:335, ns:138, SLOTS:7 };
 }
 
-/**
- * Build a self-contained wheel.
- * @param {Element} host - container element
- * @param {Array}   dishes - [{id,name,price,cat?}]
- * @param {string}  catLabel
- * @param {string}  accentColor
- * @param {string}  uid - unique id prefix
- */
 function buildWheel(host, dishes, catLabel, accentColor, uid) {
   const N = dishes.length;
   if (!N) return;
 
-  const { R, ns, cardW, padding } = wheelSizes();
-  const nodeR = ns / 2;
+  const { R, ns, SLOTS: rawSlots } = wheelSizes();
+  const SLOTS     = Math.min(rawSlots, N);
+  const nr        = ns / 2;
+  const activeIdx = Math.floor(SLOTS / 2); // middle index = spotlight position
 
-  /* Container height: from the top of the highest visible node to the rotor center.
-     Highest node is at slot 0 (270° = top), so its top edge = circleCenter.y - R - nodeR.
-     Container height = R + nodeR + padding (some breathing room above top node). */
-  const containerH = R + nodeR + padding;
+  /* Arc geometry: spread SLOTS nodes evenly, middle one lands at 270° */
+  const arcStep  = SLOTS > 1 ? 180 / (SLOTS - 1) : 0;
+  const arcStart = 270 - activeIdx * arcStep; // ensures middle = 270°
 
-  /* The rotor center will be at (containerW/2, containerH) — bottom center of container.
-     Container width = 2*R + 2*nodeR + a little horizontal padding. */
-  const containerW = '100%';
+  /* Wrap clips bottom half. Rotor center = (50%, wrapH).
+     Active node center = rotor_center + (R·cos270°, R·sin270°)
+                        = (50%, wrapH) + (0, -R)
+                        = (50%, wrapH - R)
+     Active node top    = wrapH - R - nr
+     We want a small topPad above that → wrapH - R - nr = topPad
+     → wrapH = topPad + R + nr                                         */
+  const topPad = 14;
+  const wrapH  = topPad + R + nr;
 
-  /* dataOffset: which dish index is currently in slot 0 (active) */
-  let dataOffset = 0;
-  /* Current accumulated rotor CSS rotation (for smooth transition) */
-  let rotorDeg = 0;
+  /* Spotlight: same center as active node → left:50%, top: topPad */
+  const spotSize = ns + 18;
+  const spotTop  = topPad - 9; // centers spotlight ring on node center
 
-  /* Build DOM */
+  /* State */
+  let activeDish = 0; // index of dish currently under the spotlight
+  let spinning   = false;
+
+  /* ── DOM ──────────────────────────────────────────────────────── */
   host.innerHTML = `
-    <div style="position:relative;width:${containerW};height:${containerH}px;overflow:hidden;margin:0 auto;max-width:${R*2+ns*2+padding*2}px;" id="${uid}_stage">
-      <!-- decorative teal gradient blob behind the wheel (same center as rotor) -->
-      <div style="
-        position:absolute;
-        width:${R*2+ns*2}px;height:${R*2+ns*2}px;
-        left:50%;margin-left:${-(R+ns)}px;
-        bottom:${-(R+ns)+containerH}px;
-        border-radius:50%;
-        background:radial-gradient(circle at 50% 50%,rgba(43,191,155,.22) 0%,rgba(43,191,155,.09) 45%,transparent 68%);
-        pointer-events:none;z-index:0;
+    <div class="whl-wrap" id="${uid}_wrap" style="height:${wrapH}px;overflow:hidden;position:relative;">
+      <div class="whl-table" style="
+        width:${(R+nr)*2+80}px;height:${(R+nr)*2+80}px;
+        position:absolute;left:50%;bottom:0;transform:translateX(-50%);
       "></div>
-      <!-- rotor: invisible spinning circle, center at bottom-center of stage -->
-      <div id="${uid}_rotor" style="
+      <!-- Spotlight: fixed at 12 o'clock, center = (50%, topPad+nr) -->
+      <div class="whl-spotlight" style="
+        width:${spotSize}px;height:${spotSize}px;
         position:absolute;
+        left:50%;top:${spotTop}px;
+        transform:translateX(-50%);
+        z-index:15;pointer-events:none;
+      "></div>
+      <!-- Rotor: center at (50%, wrapH) -->
+      <div class="whl-rotor" id="${uid}_rotor" style="
         width:${R*2}px;height:${R*2}px;
-        left:50%;margin-left:${-R}px;
-        top:${containerH - R}px;
-        border-radius:50%;
-        z-index:1;
-      "></div>
-      <!-- center info card: fixed, centered at the rotor center point -->
-      <div id="${uid}_center" style="
         position:absolute;
-        left:50%;top:${containerH}px;
-        transform:translateX(-50%) translateY(-50%);
-        z-index:30;
-      ">
-        <div class="whl-card" onclick="${uid}_doAdd()">
-          <div class="whl-card-inner" id="${uid}_ci">
-            <div class="whl-card-thumb"><img id="${uid}_cimg" src="" alt="" loading="lazy"></div>
-            <div class="whl-card-cat"  id="${uid}_ccat"></div>
-            <div class="whl-card-name" id="${uid}_cname"></div>
-            <div class="whl-card-price" id="${uid}_cprice"></div>
-            <button class="whl-add-btn" onclick="event.stopPropagation();${uid}_doAdd()">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Add to Cart
-            </button>
-          </div>
+        left:50%;top:${wrapH-R}px;
+        transform:translateX(-50%);
+      "></div>
+    </div>
+    <div class="whl-card-wrap">
+      <div class="whl-card empty" id="${uid}_card" onclick="${uid}_doAdd()">
+        <div class="whl-card-inner" id="${uid}_ci">
+          <div class="whl-card-thumb"><img id="${uid}_cimg" src="" alt="" loading="lazy"></div>
+          <div class="whl-card-cat"  id="${uid}_ccat"></div>
+          <div class="whl-card-name" id="${uid}_cname"></div>
+          <div class="whl-card-price" id="${uid}_cprice"></div>
+          <button class="whl-add-btn" onclick="event.stopPropagation();${uid}_doAdd()">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
@@ -1131,91 +1145,76 @@ function buildWheel(host, dishes, catLabel, accentColor, uid) {
 
   const rotor = document.getElementById(`${uid}_rotor`);
 
-  /* Build exactly 7 node elements (or fewer if dish count < 7) */
-  const VISIBLE_SLOTS = Math.min(7, N);
-  const slotAngles = SLOT_ANGLES.slice(0, VISIBLE_SLOTS);
+  /* ── Build nodes ──────────────────────────────────────────────── */
+  for (let i = 0; i < SLOTS; i++) {
+    const deg = arcStart + i * arcStep;
+    const rad = deg * Math.PI / 180;
+    /* Position within rotor div (rotor top-left = 0,0; center = R,R) */
+    const x = R + R * Math.cos(rad) - nr;
+    const y = R + R * Math.sin(rad) - nr;
 
-  /* For each slot, compute its fixed (x,y) position on the rotor circle.
-     The rotor circle has its center at (R, R) within the rotor div.
-     x = R + R*cos(angle_rad) - nodeR
-     y = R + R*sin(angle_rad) - nodeR    (sin is positive downward in CSS) */
-  slotAngles.forEach((angleDeg, slotIdx) => {
-    const rad = angleDeg * Math.PI / 180;
-    const x = R + R * Math.cos(rad) - nodeR;
-    const y = R + R * Math.sin(rad) - nodeR;
-
-    const isPartial = PARTIAL_SLOTS.has(slotIdx) && slotIdx < VISIBLE_SLOTS;
+    const isActive  = (i === activeIdx);
+    const isPartial = (i === 0 || i === SLOTS - 1);
 
     const node = document.createElement('div');
-    node.className = 'whl-node' + (slotIdx === 0 ? ' active' : '') + (isPartial ? ' partial' : '');
-    node.id = `${uid}_slot${slotIdx}`;
-    node.style.cssText = `
-      width:${ns}px;height:${ns}px;
-      left:${x}px;top:${y}px;
-      ${isPartial ? 'pointer-events:none;' : ''}
-    `;
+    node.className = 'whl-node' + (isActive ? ' active' : '') + (isPartial ? ' partial' : '');
+    node.id = `${uid}_node${i}`;
+    node.style.cssText = `width:${ns}px;height:${ns}px;left:${x}px;top:${y}px;position:absolute;${isPartial ? 'pointer-events:none;' : ''}`;
     node.innerHTML = `
-      <div class="whl-node-face" id="${uid}_face${slotIdx}">
-        <img id="${uid}_img${slotIdx}" src="" alt="" loading="lazy">
+      <div class="whl-node-face" id="${uid}_face${i}">
+        <img id="${uid}_img${i}" src="" alt="" loading="lazy">
       </div>
-      <div class="whl-node-label" id="${uid}_lbl${slotIdx}"></div>`;
+      <div class="whl-node-label" id="${uid}_lbl${i}"></div>`;
 
-    /* Clicking a non-partial, non-active slot rotates to bring it to center */
-    if (!isPartial && slotIdx !== 0) {
-      node.addEventListener('click', () => rotateToSlot(slotIdx));
+    if (!isPartial && !isActive) {
+      /* steps = activeIdx - i:
+         node to the RIGHT (i > activeIdx) → steps < 0 → rotorDeg decreases
+         → rotor spins counter-clockwise → that right node travels LEFT to 270° ✓
+         node to the LEFT  (i < activeIdx) → steps > 0 → rotorDeg increases
+         → rotor spins clockwise → that left node travels RIGHT to 270° ✓        */
+      const steps = activeIdx - i;
+      node.addEventListener('click', () => doRotate(steps));
     }
-    /* Clicking active slot triggers add to cart */
-    if (slotIdx === 0) {
+    if (isActive) {
       node.addEventListener('click', () => window[`${uid}_doAdd`]());
     }
-
     rotor.appendChild(node);
-  });
-
-  /* Render all nodes with correct dish data and counter-rotation */
-  function render(animated) {
-    rotor.style.transition = animated ? 'transform .65s cubic-bezier(.4,0,.2,1)' : 'none';
-    rotor.style.transform = `rotate(${rotorDeg}deg)`;
-
-    slotAngles.forEach((_, slotIdx) => {
-      /* Which dish goes in this slot? */
-      const dishIdx = (dataOffset + slotIdx) % N;
-      const dish = dishes[dishIdx];
-
-      /* Update image and label */
-      const img = document.getElementById(`${uid}_img${slotIdx}`);
-      const lbl = document.getElementById(`${uid}_lbl${slotIdx}`);
-      if (img) { img.src = getImg(dish.name); img.alt = dish.name; }
-      if (lbl) lbl.textContent = dish.name.split(' ').slice(0,2).join(' ');
-
-      /* Counter-rotate the face so it stays upright */
-      const face = document.getElementById(`${uid}_face${slotIdx}`);
-      if (face) {
-        face.style.transition = animated
-          ? 'transform .65s cubic-bezier(.4,0,.2,1), border-color .4s, box-shadow .4s'
-          : 'none';
-        face.style.transform = `rotate(${-rotorDeg}deg)`;
-      }
-    });
-
-    /* Update center card */
-    updateCard(animated);
   }
 
-  function updateCard(animated) {
-    const dish = dishes[dataOffset % N];
-    const inner = document.getElementById(`${uid}_ci`);
-    if (!inner) return;
-
-    if (animated) {
-      inner.classList.add('fading');
-      setTimeout(() => {
-        setCardData(dish);
-        inner.classList.remove('fading');
-      }, 200);
-    } else {
-      setCardData(dish);
+  /* ── Assign images to slots based on current activeDish ─────── */
+  function renderImages() {
+    for (let i = 0; i < SLOTS; i++) {
+      /* activeDish sits at slot activeIdx (always at 270° when rotorDeg=0).
+         Slots to the left (lower i) show next dishes; right shows previous. */
+      const di   = ((activeDish + (activeIdx - i)) % N + N) % N;
+      const dish = dishes[di];
+      const img  = document.getElementById(`${uid}_img${i}`);
+      const lbl  = document.getElementById(`${uid}_lbl${i}`);
+      if (img) { img.src = getImg(dish.name); img.alt = dish.name; }
+      if (lbl)   lbl.textContent = dish.name.split(' ').slice(0, 3).join(' ');
     }
+  }
+
+  /* ── Initial render (no animation, rotor always at 0°) ───────── */
+  function render() {
+    rotor.style.transition = 'none';
+    rotor.style.transform  = `translateX(-50%) rotate(0deg)`;
+    for (let i = 0; i < SLOTS; i++) {
+      const face = document.getElementById(`${uid}_face${i}`);
+      const lbl  = document.getElementById(`${uid}_lbl${i}`);
+      if (face) { face.style.transition = 'none'; face.style.transform = 'rotate(0deg)'; }
+      if (lbl)    lbl.style.transform = 'translateX(-50%) rotate(0deg)';
+    }
+    renderImages();
+    updateCard();
+  }
+
+  /* ── Card update: always shows the current spotlight dish ────── */
+  function updateCard() {
+    const card = document.getElementById(`${uid}_card`);
+    if (!card) return;
+    setCardData(dishes[((activeDish % N) + N) % N]);
+    card.classList.remove('empty');
   }
 
   function setCardData(dish) {
@@ -1223,63 +1222,93 @@ function buildWheel(host, dishes, catLabel, accentColor, uid) {
     const cc = document.getElementById(`${uid}_ccat`);
     const cn = document.getElementById(`${uid}_cname`);
     const cp = document.getElementById(`${uid}_cprice`);
-    if (ci) ci.src = getImg(dish.name);
-    if (cc) cc.textContent = catLabel;
-    if (cn) cn.textContent = dish.name;
-    if (cp) cp.textContent = '₹' + dish.price;
+    if (ci) { ci.src = getImg(dish.name); ci.alt = dish.name; }
+    if (cc)   cc.textContent = catLabel;
+    if (cn)   cn.textContent = dish.name;
+    if (cp)   cp.textContent = '₹' + dish.price;
   }
 
-  /* Rotate wheel: dir = 1 (clockwise, next) or -1 (counter-clockwise, prev)
-     Clockwise rotation visually moves dishes to the left across the arc.
-     To bring the NEXT dish into the active slot, we rotate rotor clockwise (+deg).
-     dataOffset decreases by 1 so slot 0 points to previous array index. */
-  function doRotate(dir) {
-    /* Step angle = 360 / N so exactly one dish index advances per step */
-    const step = 360 / N;
-    rotorDeg += dir * step;
-    /* Moving clockwise (dir=1): next dish comes into view.
-       dataOffset adjustment: slot 0 = dataOffset, after clockwise rotation
-       the dish that WAS in slot 1 is now in slot 0, so dataOffset += 1 */
-    dataOffset = ((dataOffset - dir) % N + N) % N;
-    render(true);
-  }
-  window[`${uid}_rotate`] = doRotate;
+  /* ── Rotate ───────────────────────────────────────────────────── */
+  /*
+     GEOMETRY (rotor always resets to 0° after each spin):
+     - Slot activeIdx is always at 270° when rotorDeg=0.
+     - CW spin by steps*arcStep brings slot (activeIdx - steps) to 270°.
+     - Before rotation that slot showed dishes[(activeDish + steps) % N].
+     - So after CW spin, activeDish += steps.
+     
+     Pattern: animate → wait → reset rotor to 0° → reassign images → show card.
+     This guarantees the card always matches the spotlight dish.
+  */
+  function doRotate(steps) {
+    if (spinning) return;
+    spinning = true;
 
-  /* Click on slot slotIdx to rotate it into slot 0 (active) */
-  function rotateToSlot(slotIdx) {
-    /* slotIdx tells us how many steps to rotate.
-       Slots to the right (1,2,3) = clockwise = positive step.
-       Slots to the left (4,5,6) = counter-clockwise = negative step. */
-    const stepsRight = slotIdx <= 3 ? slotIdx : -(VISIBLE_SLOTS - slotIdx);
-    const step = 360 / N;
-    rotorDeg += stepsRight * step;
-    dataOffset = ((dataOffset - stepsRight) % N + N) % N;
-    render(true);
-  }
+    /* Hide card during spin */
+    const card = document.getElementById(`${uid}_card`);
+    if (card) card.classList.add('empty');
 
-  /* Add active dish to cart */
+    const animDeg = steps * arcStep;
+
+    /* Spin the rotor */
+    rotor.style.transition = 'transform .34s cubic-bezier(.4,0,.2,1)';
+    rotor.style.transform  = `translateX(-50%) rotate(${animDeg}deg)`;
+
+    /* Counter-rotate faces & labels so images stay upright during spin */
+    for (let i = 0; i < SLOTS; i++) {
+      const face = document.getElementById(`${uid}_face${i}`);
+      const lbl  = document.getElementById(`${uid}_lbl${i}`);
+      if (face) {
+        face.style.transition = 'transform .34s cubic-bezier(.4,0,.2,1)';
+        face.style.transform  = `rotate(${-animDeg}deg)`;
+      }
+      if (lbl) lbl.style.transform = `translateX(-50%) rotate(${-animDeg}deg)`;
+    }
+
+    /* After animation: update state, reset transforms, refresh UI */
+    setTimeout(() => {
+      /* The dish that just arrived at 270° */
+      activeDish = ((activeDish + steps) % N + N) % N;
+
+      /* Reset rotor silently — slot activeIdx is back at 270° */
+      rotor.style.transition = 'none';
+      rotor.style.transform  = `translateX(-50%) rotate(0deg)`;
+      for (let i = 0; i < SLOTS; i++) {
+        const face = document.getElementById(`${uid}_face${i}`);
+        const lbl  = document.getElementById(`${uid}_lbl${i}`);
+        if (face) { face.style.transition = 'none'; face.style.transform = 'rotate(0deg)'; }
+        if (lbl)    lbl.style.transform = 'translateX(-50%) rotate(0deg)';
+      }
+
+      /* Reassign images for new activeDish and reveal card */
+      renderImages();
+      updateCard();
+      spinning = false;
+    }, 350);
+  }
+  window[`${uid}_rotate`] = (dir) => doRotate(dir);
+
+  /* ── Add active dish to cart ──────────────────────────────────── */
   window[`${uid}_doAdd`] = function() {
-    const dish = dishes[dataOffset % N];
-    const ex = cart.find(c => c.id === dish.id);
+    const dish = dishes[((activeDish % N) + N) % N];
+    const ex   = cart.find(c => c.id === dish.id);
     if (ex) ex.qty++;
     else cart.push({ id: dish.id, name: dish.name, price: dish.price, cat: catLabel, qty: 1 });
     save(); refreshCart();
-    toast('Added to cart');
+    toast('Added — ' + dish.name.split(' ').slice(0, 2).join(' '));
   };
 
-  /* Touch swipe */
+  /* ── Touch swipe ──────────────────────────────────────────────── */
   let tx0 = 0;
-  const stage = document.getElementById(`${uid}_stage`);
-  if (stage) {
-    stage.addEventListener('touchstart', e => { tx0 = e.touches[0].clientX; }, { passive: true });
-    stage.addEventListener('touchend', e => {
+  const wrap = document.getElementById(`${uid}_wrap`);
+  if (wrap) {
+    wrap.addEventListener('touchstart', e => { tx0 = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend',   e => {
       const dx = e.changedTouches[0].clientX - tx0;
       if (Math.abs(dx) > 40) doRotate(dx < 0 ? 1 : -1);
     }, { passive: true });
   }
 
-  /* Init — render without animation */
-  render(false);
+  render();
 }
 
 /* ═══════════════════════════════════════
@@ -1648,4 +1677,4 @@ refreshCart();
 initRoute();
 </script>
 </body>
-                                                          </html>
+</html>
